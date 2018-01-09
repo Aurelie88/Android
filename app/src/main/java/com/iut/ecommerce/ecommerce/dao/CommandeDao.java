@@ -4,23 +4,25 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.modele.Commande;
+
 
 /**
  * Created by Miljold on 09/01/2018.
  */
 
-public class CategorieDao {
-    private static final String TABLE_CATEGORIE = "table_categorie";
-    private static final String COL_ID_CATEGORIE = "id_categorie";
-    private static final String COL_NOM_CATEGORIE ="nom_categorie";
-    private static final String COL_VISUEL_CATEGORIE = "visuel_categorie";
+public class CommandeDao {
+
+    private static final String TABLE_COMMANDE = "table_commande";
+    private static final String COL_ID_COMMANDE = "id_commande";
+    private static final String COL_DATE = "date";
+    private static final String COL_ID_CLIENT= "id_client";
 
     private BaseDeDonnees maBaseDeDonnees;
 
     private SQLiteDatabase bdd;
 
-    public CategorieDao(Context context){
+    public CommandeDao(Context context){
         //On crée la BDD et sa table
         maBaseDeDonnees = new BaseDeDonnees(context, "eCommerce.db", null, 1);
     }
@@ -39,28 +41,28 @@ public class CategorieDao {
         return bdd;
     }
 
-    public long insertCategorie(Categorie categorie){
-        //Insertion Categorie
+    public long insertCommande(Commande commande){
+        //Insertion Commande
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
 
-        values.put(COL_NOM_CATEGORIE, categorie.getNomCateg());
-        values.put(COL_VISUEL_CATEGORIE,categorie.getVisuelCateg());
+        values.put(COL_DATE, String.valueOf(commande.getDate()));
+        values.put(COL_ID_CLIENT, commande.getIdClient());
         //on insère l'objet dans la BDD via le ContentValues
-        return bdd.insert(TABLE_CATEGORIE, null, values);
+        return bdd.insert(TABLE_COMMANDE, null, values);
     }
 
-    public int updateCategorie(int id, Categorie categorie){
-        //La mise à jour d'un article dans la BDD
+    public int updateCommande(int id, Commande commande){
+        //La mise à jour d'une Commande dans la BDD
         //il faut simplement préciser quel article on doit mettre à jour grâce à l'ID
         ContentValues values = new ContentValues();
-        values.put(COL_NOM_CATEGORIE, categorie.getNomCateg());
-        values.put(COL_VISUEL_CATEGORIE,categorie.getVisuelCateg());
-        return bdd.update(TABLE_CATEGORIE, values, COL_ID_CATEGORIE + " = " +id, null);
+        values.put(COL_DATE, String.valueOf(commande.getDate()));
+        values.put(COL_ID_CLIENT, commande.getIdClient());
+        return bdd.update(TABLE_COMMANDE, values, COL_ID_COMMANDE + " = " +id, null);
     }
 
-    public int removeCategorieWithID(int id){
+    public int removeCommandeWithID(int id){
         //Suppression d'un livre de la BDD grâce à l'ID
-        return bdd.delete(TABLE_CATEGORIE, COL_ID_CATEGORIE + " = " +id, null);
+        return bdd.delete(TABLE_COMMANDE, COL_ID_COMMANDE + " = " +id, null);
     }
 }

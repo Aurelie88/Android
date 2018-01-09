@@ -8,11 +8,13 @@ public class LigneCommande {
     private int idCommande;
     private int idLigne;
     private int idArticle;
+    private int quantite;
 
-    public LigneCommande(int idCommande, int idLigne, int idArticle) {
+    public LigneCommande(int idCommande, int idLigne, int idArticle, int quantite) {
         this.setIdCommande(idCommande);
         this.setIdLigne(idLigne);
         this.setIdArticle(idArticle);
+        this.setQuantite(quantite);
     }
 
     public int getIdCommande() {
@@ -37,5 +39,13 @@ public class LigneCommande {
 
     public void setIdArticle(int idArticle) {
         this.idArticle = idArticle;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
     }
 }

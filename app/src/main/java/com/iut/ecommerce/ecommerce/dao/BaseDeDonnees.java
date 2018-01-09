@@ -16,6 +16,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
     private static final String COL_ID_ARTICLE = "id_article";
     private static final String COL_REFERENCE = "reference";
     private static final String COL_TARIF = "tarif";
+    private static final String COL_NOM_ARTICLE="nom_article";
     private static final String COL_VISUEL_ARTICLE = "visuel_article";
 
     //TABLE CATEGORIE
@@ -54,9 +55,10 @@ public class BaseDeDonnees extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_ARTICLE=String.format("CREATE TABLE %s " +
                     "(%s INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                     "%s INTEGER NOT NULL, " +
+                    "%s VARCHAR(255)NOT NULL," +
                     "%s FLOAT NOT NULL, " +
                     "%s VARCHAR(255)NOT NULL)",
-            TABLE_ARTICLE,COL_ID_ARTICLE, COL_REFERENCE, COL_TARIF, COL_VISUEL_ARTICLE);
+            TABLE_ARTICLE,COL_ID_ARTICLE, COL_REFERENCE, COL_NOM_ARTICLE, COL_TARIF, COL_VISUEL_ARTICLE);
 
     private static final String CREATE_TABLE_CATEGORIE=String.format("CREATE TABLE %s " +
                     "(%s INTEGER PRIMARY KEY AUTO_INCREMENT, " +
