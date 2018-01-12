@@ -1,5 +1,6 @@
 package com.iut.ecommerce.ecommerce;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity
     private ListView maListe;
     private int currentScreen;
 
+    private static final int AJOUT_ARTICLE=0;
+    private static final int MODIFICATION_ARTICLE=1;
 
     public void setCurrentScreen(int currentScreen) {
         this.currentScreen = currentScreen;
@@ -44,14 +47,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Ecran actif n°"+ getCurrentScreen(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -143,5 +139,13 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void ajouter(View view) {
+        Snackbar.make(view, "Ajouter", Snackbar.LENGTH_LONG)
+                       .setAction("Action", null).show();
+        Intent appelActivite = new Intent(this, AddArticleActivity.class);
+        //appelActivite.putExtra("devise", this.devise);
+        startActivityForResult(appelActivite, AJOUT_ARTICLE);
     }
 }

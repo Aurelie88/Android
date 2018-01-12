@@ -32,19 +32,7 @@ public class ArticleView extends Fragment {
 
         getActivity().setTitle("Article");
 
-
-        // ListView
-            this.maListe = maListe.findViewById(R.id.maListView);
-            // Définition des écouteurs sur la liste
-            this.maListe.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-            this.maListe.setOnItemLongClickListener((AdapterView.OnItemLongClickListener) this);
-
-            // Adaptateur Portfeuille<Devise> -> ListView
-            //this.adaptateur = new ArrayAdapter<>(
-            //        this, android.R.layout.simple_list_item_1, this.monPorteFeuille.getValeurs());
     }
-            //this.maListe.setAdapter(this.adaptateur);
-    //}
 
     @Nullable
     @Override

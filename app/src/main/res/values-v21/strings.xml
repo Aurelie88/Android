@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="designation">Désignation</string>
+    <string name="reference">Référence</string>
+    <string name="prix">Prix</string>
+    <string name="valider">Valider</string>
+</resources>
