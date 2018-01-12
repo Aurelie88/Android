@@ -3,6 +3,8 @@ package com.iut.ecommerce.ecommerce;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +14,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.iut.ecommerce.ecommerce.vue.ArticleView;
+import com.iut.ecommerce.ecommerce.vue.CategorieView;
+import com.iut.ecommerce.ecommerce.vue.ClientView;
+import com.iut.ecommerce.ecommerce.vue.CommandeView;
+import com.iut.ecommerce.ecommerce.vue.PromotionView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ListView maListe;
+    private int currentScreen;
+
+
+    public void setCurrentScreen(int currentScreen) {
+        this.currentScreen = currentScreen;
+    }
+
+    public int getCurrentScreen(){
+        return this.currentScreen;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Ecran actif n°"+ getCurrentScreen(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -40,6 +61,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
     }
 
     @Override
@@ -80,20 +107,41 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_categ) {
-            // Handle the camera action
-        } else if (id == R.id.nav_article) {
+        displaySelectedScreen(id);
 
-        } else if (id == R.id.nav_promo) {
+        return true;
+    }
 
-        } else if (id == R.id.nav_client) {
+    public void displaySelectedScreen(int id) {
+        Fragment fragment = null;
 
-        } else if (id == R.id.nav_commmande) {
+        switch (id){
+            case R.id.nav_categ:
+                fragment = new CategorieView();
+                break;
+            case R.id.nav_article:
+                fragment = new ArticleView();
+                break;
+            case R.id.nav_promo:
+                fragment = new PromotionView();
+                break;
+            case R.id.nav_client:
+                fragment = new ClientView();
+                break;
+            case R.id.nav_commmande:
+                fragment = new CommandeView();
+                break;
 
+        }
+
+        if (fragment!=null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, fragment);
+            ft.commit();
+            setCurrentScreen(id);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
