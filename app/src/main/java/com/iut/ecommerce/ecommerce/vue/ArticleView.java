@@ -12,6 +12,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.dao.CategorieAdaptateur;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
+
+import java.util.ArrayList;
 
 /**
  * Created by Damien on 09/01/2018.
@@ -26,9 +30,10 @@ public class ArticleView extends Fragment {
         super();
     }
 
+
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         getActivity().setTitle("Article");
 

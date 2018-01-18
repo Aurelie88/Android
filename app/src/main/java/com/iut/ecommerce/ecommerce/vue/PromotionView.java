@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.iut.ecommerce.ecommerce.R;
 
-/**
- * Created by Damien on 09/01/2018.
- */
 
 public class PromotionView extends Fragment {
 
@@ -19,12 +16,15 @@ public class PromotionView extends Fragment {
         super();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Promotions");
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getActivity().setTitle("Promotion");
+
     }
+
 
     @Nullable
     @Override

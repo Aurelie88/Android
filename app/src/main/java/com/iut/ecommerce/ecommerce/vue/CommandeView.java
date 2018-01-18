@@ -19,12 +19,7 @@ public class CommandeView extends Fragment {
         super();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Commande");
-    }
 
     @Nullable
     @Override
