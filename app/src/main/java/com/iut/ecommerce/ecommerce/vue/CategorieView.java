@@ -25,10 +25,11 @@ public class CategorieView extends Fragment {
     private CategorieAdaptateur adaptateur;
 
     public CategorieView() {
-        super();
+
+
     }
 
-    @Override
+   /* @Override
     public void onStart() {
         super.onStart();
 
@@ -43,7 +44,7 @@ public class CategorieView extends Fragment {
         ListView listView = getActivity().findViewById(R.id.maListView);
         listView.setAdapter(adaptateur);
 
-    }
+    }*/
 
     @Nullable
     @Override
@@ -52,4 +53,19 @@ public class CategorieView extends Fragment {
         return inflater.inflate(R.layout.categorie_main, container, false);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        liste= new ArrayList<Categorie>();
+
+        liste.add(new Categorie(1,"Casquette", "casquette.png"));
+        liste.add(new Categorie(2,"Pantalon", "pantalon.png"));
+        liste.add(new Categorie(3,"Tee-shirt", "teeshirt.png"));
+
+        this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
+        ListView listView = getActivity().findViewById(R.id.maListView);
+        listView.setAdapter(adaptateur);
+
+    }
 }

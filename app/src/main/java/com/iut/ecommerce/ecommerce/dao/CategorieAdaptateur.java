@@ -32,7 +32,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
     public CategorieAdaptateur(Context context, ArrayList<Categorie> liste){
         super(context, 0, liste);
 
-        this.data = data;
+        this.data = liste;
         this.context = context;
     }
 
@@ -41,7 +41,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        Categorie uneCategorie = getItem(position);
+        Categorie uneCategorie = this.data.get(position);
 
         if (convertView==null){
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
