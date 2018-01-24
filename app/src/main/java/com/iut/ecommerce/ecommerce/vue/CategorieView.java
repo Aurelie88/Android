@@ -32,15 +32,14 @@ public class CategorieView extends Fragment {
     public void onStart() {
         super.onStart();
 
-       getActivity().setTitle("Test1");
+       getActivity().setTitle("Boutique");
 
         liste = new ArrayList<Categorie>();
-        liste.add(new Categorie(1,"Casquette", "casquette.png"));
-        liste.add(new Categorie(2,"Pantalon", "pantalon.png"));
-        liste.add(new Categorie(3,"Tee-shirt", "teeshirt.png"));
+        liste.add(new Categorie(1,"Habillement", "casquette.png"));
+        liste.add(new Categorie(2,"Informatique", "pantalon.png"));
 
         this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
-        ListView listView = getActivity().findViewById(R.id.maListView);
+        ListView listView = getActivity().findViewById(R.id.categListView);
         listView.setAdapter(adaptateur);
 
     }

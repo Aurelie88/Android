@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.iut.ecommerce.ecommerce.dao.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.vue.ArticleView;
 import com.iut.ecommerce.ecommerce.vue.CategorieView;
 import com.iut.ecommerce.ecommerce.vue.ClientView;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity
 
     private ListView maListe;
     private int currentScreen;
+    private ViewPagerAdapter adapter;
+    private ViewPager viewPager;
 
     private static final int AJOUT_ARTICLE=0;
     private static final int MODIFICATION_ARTICLE=1;
@@ -75,11 +79,13 @@ public class MainActivity extends AppCompatActivity
 
     private  void  setupViewPager (ViewPager viewPager){
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CategorieView(), "Catégorie");
         adapter.addFragment(new ArticleView(), "Articles");
         adapter.addFragment(new PromotionView(), "Promotions");
-        viewPager.setAdapter(adapter);
+        this.viewPager = viewPager;
+        this.viewPager.setAdapter(adapter);
+
     }
 
     @Override
@@ -128,12 +134,15 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_categ){
-            fragment = new CategorieView();
+            this.viewPager.setCurrentItem(0);
+            this.viewPager.getCurrentItem();
         } else if (id == R.id.nav_article) {
-            fragment = new ArticleView();
+            this.viewPager.setCurrentItem(1);
+            this.viewPager.getCurrentItem();
 
         } else if (id == R.id.nav_promo) {
-            fragment = new PromotionView();
+            this.viewPager.setCurrentItem(2);
+            this.viewPager.getCurrentItem();
 
         } else if (id == R.id.nav_client) {
             fragment = new ClientView();
@@ -159,33 +168,4 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(appelActivite, AJOUT_ARTICLE);
     }
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        List<Fragment> fragmentList = new ArrayList<>();
-        List<String> fragmentTitles = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return fragmentTitles.get(position);
-        }
-
-        public void addFragment(Fragment fragment, String name) {
-            fragmentList.add(fragment);
-            fragmentTitles.add(name);
-        }
-    }
 }
