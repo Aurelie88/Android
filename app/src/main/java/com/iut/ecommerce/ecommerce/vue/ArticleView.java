@@ -35,7 +35,7 @@ public class ArticleView extends Fragment {
     public void onStart() {
         super.onStart();
 
-        getActivity().setTitle("Article");
+        getActivity().setTitle("Boutique");
 
     }
 

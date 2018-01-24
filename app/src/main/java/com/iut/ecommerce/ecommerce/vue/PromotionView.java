@@ -21,7 +21,7 @@ public class PromotionView extends Fragment {
     public void onStart() {
         super.onStart();
 
-        getActivity().setTitle("Promotion");
+        getActivity().setTitle("Boutique");
 
     }
 

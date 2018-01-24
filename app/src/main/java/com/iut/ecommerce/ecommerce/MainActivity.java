@@ -125,44 +125,31 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
-        displaySelectedScreen(id);
+        if (id == R.id.nav_categ){
+            fragment = new CategorieView();
+        } else if (id == R.id.nav_article) {
+            fragment = new ArticleView();
+
+        } else if (id == R.id.nav_promo) {
+            fragment = new PromotionView();
+
+        } else if (id == R.id.nav_client) {
+            fragment = new ClientView();
+
+        } else if (id == R.id.nav_commmande) {
+            fragment = new CommandeView();
+
+        }
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
 
-    public void displaySelectedScreen(int id) {
-        Fragment fragment = null;
-
-        switch (id){
-            case R.id.nav_categ:
-                fragment = new CategorieView();
-                break;
-            case R.id.nav_article:
-                fragment = new ArticleView();
-                break;
-            case R.id.nav_promo:
-                fragment = new PromotionView();
-                break;
-            case R.id.nav_client:
-                fragment = new ClientView();
-                break;
-            case R.id.nav_commmande:
-                fragment = new CommandeView();
-                break;
-
-        }
-
-        if (fragment!=null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container, fragment);
-            ft.commit();
-            setCurrentScreen(id);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-    }
 
     public void ajouter(View view) {
         Snackbar.make(view, "Ajouter", Snackbar.LENGTH_LONG)
