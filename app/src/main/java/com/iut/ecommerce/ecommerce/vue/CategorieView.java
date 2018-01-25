@@ -35,8 +35,9 @@ public class CategorieView extends Fragment {
        getActivity().setTitle("Boutique");
 
         liste = new ArrayList<Categorie>();
-        liste.add(new Categorie(1,"Habillement", "casquette.png"));
-        liste.add(new Categorie(2,"Informatique", "pantalon.png"));
+        liste.add(new Categorie(1,"Casquettes", "casquettes.png"));
+        liste.add(new Categorie(2,"Chemises", "chemises.png"));
+        liste.add(new Categorie(3,"Bonnets", "bonnets.png"));
 
         this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
         ListView listView = getActivity().findViewById(R.id.categListView);

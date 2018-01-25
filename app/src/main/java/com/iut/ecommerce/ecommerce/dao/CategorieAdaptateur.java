@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iut.ecommerce.ecommerce.ImageFromURL;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
@@ -43,20 +44,19 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
         }
 
-        Log.e("categorieview", uneCategorie.getNomCateg());
-
+        // Mise à jour du nom sur la liste
         TextView tvNom = convertView.findViewById(R.id.cl_nom);
         tvNom.setText(uneCategorie.getNomCateg());
+
 
         ImageView icone = (ImageView) convertView.findViewById(R.id.cl_visuel);
         if (icone.getDrawable() == null) {
 
-            try {
-                    icone.setImageDrawable(Drawable.createFromStream(context.getAssets().open(uneCategorie.getVisuelCateg()), uneCategorie.getNomCateg()));
+            ImageFromURL ifu = new ImageFromURL(getContext(), icone);
+            //ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/cintre.png");
+            ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/" + uneCategorie.getVisuelCateg());
 
-            } catch (IOException e) {
-                Log.i("imageview", e.getMessage());
-            }
+
 
         }
 
