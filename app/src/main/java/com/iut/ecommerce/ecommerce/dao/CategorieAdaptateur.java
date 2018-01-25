@@ -53,8 +53,8 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
         if (icone.getDrawable() == null) {
 
             ImageFromURL ifu = new ImageFromURL(getContext(), icone);
-            //ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/cintre.png");
-            ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/" + uneCategorie.getVisuelCateg());
+            ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/chaussures.png");
+            //ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/" + uneCategorie.getVisuelCateg());
 
 
 

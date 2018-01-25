@@ -1,15 +1,100 @@
 package com.iut.ecommerce.ecommerce.dao;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
 import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.vue.CategorieView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by Miljold on 09/01/2018.
  */
 
+public class CategorieDao implements Dao<Categorie> {
+    private static final String URL =
+            "https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/php/categorie/";
+
+    private ActiviteEnAttenteAvecResultat activite;
+
+    private CategorieDao(ActiviteEnAttenteAvecResultat activite) {
+        this.activite = activite;
+    }
+
+
+    @Override
+    public void findAll() {
+        RequeteSQL req = new RequeteSQL(activite, this);
+        req.execute(URL + "findall.php");
+    }
+
+    @Override
+    public void create() {
+
+        //RequeteSQL req = new RequeteSQL(activite, this);
+        //String url = URL + "updateCategorie.php";
+        //String params = "?nom="+objet.getNom()+"&visuel="+objet.getVisuel();
+        //req.execute(url+params);
+
+
+    }
+
+    @Override
+    public void update() {
+
+
+    }
+
+    @Override
+    public void delete() {
+
+    }
+
+
+    @Override
+    public void traiteFindAll(String result){
+
+        ArrayList<Categorie> liste = new ArrayList<Categorie>();
+        try{
+            JSONArray array = new JSONArray(result);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject row = array.getJSONObject(i);
+                Categorie c = new Categorie(row.getInt("id_categorie"),
+                        row.getString("nom"),
+                        row.getString("visuel"));
+                liste.add(c);
+
+            }
+            this.activite.notifyRetourRequeteFindAll(liste);
+        } catch (JSONException je) {
+            System.out.println("Pb json : " + je);
+        }
+
+    }
+
+    // Singleton instance
+    private static CategorieDao mInstance = null;
+
+    public static CategorieDao getInstance(CategorieView categorieView) {
+        if(mInstance == null)
+        {
+            mInstance = new CategorieDao(categorieView);
+        }
+        return getMyObject();
+    }
+
+    // Getter to access Singleton instance
+    public static CategorieDao getMyObject() {
+        return mInstance ;
+    }
+}
+
+
+
+// VERSION SQLite
+/*
 public class CategorieDao {
     private static final String TABLE_CATEGORIE = "table_categorie";
     private static final String COL_ID_CATEGORIE = "id_categorie";
@@ -63,4 +148,4 @@ public class CategorieDao {
         //Suppression d'un livre de la BDD grâce à l'ID
         return bdd.delete(TABLE_CATEGORIE, COL_ID_CATEGORIE + " = " +id, null);
     }
-}
+}*/
