@@ -53,7 +53,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         CategorieDao.getInstance(this).findAll();
 
-       notifyRetourRequeteFindAll(liste);
+        notifyRetourRequeteFindAll(liste);
 
         this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
         this.listView = getActivity().findViewById(R.id.categListView);
