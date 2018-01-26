@@ -8,16 +8,24 @@
     <ImageView
 
         android:id="@+id/cl_visuel"
-        android:layout_weight="20"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_weight="25"
+        android:layout_height="64dp"
+        android:layout_width="wrap_content"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:contentDescription="TODO" />
 
     <TextView
 
         android:id="@+id/cl_nom"
-        android:layout_weight="50"
-        android:layout_height="wrap_content"
+        android:layout_weight="45"
+        android:layout_height="64dp"
         android:layout_width="wrap_content"
+        android:text="test"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:gravity="center"
+
          />
 
     <ImageView
@@ -25,18 +33,18 @@
         android:id="@+id/cl_modifier"
         android:onClick="modifier"
         android:layout_weight="15"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_menu_camera"
-        />
+        android:src="@drawable/ic_menu_gallery"
+        android:contentDescription="TODO" />
 
     <ImageView
         android:id="@+id/cl_supprimer"
         android:onClick="supprimer"
         android:layout_weight="15"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_menu_camera"
-        />
+        android:contentDescription="TODO" />
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.iut.ecommerce.ecommerce.ImageFromURL;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
@@ -23,16 +24,12 @@ import java.util.List;
  * Created by Damien on 12/01/2018.
  */
 
-public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
+public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
 
-    private List<Categorie> data;
-    private int listItemResLayout;
     private Context context;
 
-    public CategorieAdaptateur(Context context, ArrayList<Categorie> liste) {
+    public CategorieAdaptateur(Context context, ArrayList<Categorie> liste){
         super(context, 0, liste);
-
-        this.data = liste;
         this.context = context;
     }
 
@@ -41,53 +38,28 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        Categorie uneCategorie = this.data.get(position);
+        Categorie uneCategorie = getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
+        if (convertView==null){
+            convertView= LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
         }
 
+        // Mise à jour du nom sur la liste
         TextView tvNom = convertView.findViewById(R.id.cl_nom);
         tvNom.setText(uneCategorie.getNomCateg());
+
 
         ImageView icone = (ImageView) convertView.findViewById(R.id.cl_visuel);
         if (icone.getDrawable() == null) {
 
-            try {
-                icone.setImageDrawable(Drawable.createFromStream(context.getAssets().open(uneCategorie.getVisuelCateg()), uneCategorie.getNomCateg()));
-
-            } catch (IOException e) {
-                Log.i("imageview", e.getMessage());
-            }
-
-        }
+            ImageFromURL ifu = new ImageFromURL(getContext(), icone);
+            ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/chaussures.png");
+            //ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/" + uneCategorie.getVisuelCateg());
 
 
-        ImageView icone2 = (ImageView) convertView.findViewById(R.id.cl_modifier);
-        if (icone.getDrawable() == null) {
-
-            try {
-
-                icone.setImageDrawable(Drawable.createFromStream(context.getAssets().open("crayon.png"), "Modifier"));
-
-            } catch (IOException e) {
-                Log.i("imageview", e.getMessage());
-            }
 
         }
 
-        ImageView icone3 = (ImageView) convertView.findViewById(R.id.cl_supprimer);
-        if (icone.getDrawable() == null) {
-
-            try {
-
-                icone.setImageDrawable(Drawable.createFromStream(context.getAssets().open("corbeille.png"), "Effacer"));
-
-            } catch (IOException e) {
-                Log.i("imageview", e.getMessage());
-            }
-
-        }
         return convertView;
         //return super.getView(position, convertView, parent);
     }
