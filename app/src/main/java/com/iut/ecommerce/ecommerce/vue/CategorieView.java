@@ -1,12 +1,17 @@
 package com.iut.ecommerce.ecommerce.vue;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
@@ -21,11 +26,12 @@ import java.util.ArrayList;
  * Created by Damien on 09/01/2018.
  */
 
-public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat {
+public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener {
 
     private ArrayList<Categorie> liste;
     private CategorieAdaptateur adaptateur;
     private ListView listView;
+
 
     public CategorieView() {
 
@@ -42,9 +48,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
        liste = new ArrayList<Categorie>();
 
-
-/*
-        liste.add(new Categorie(1,"Casquettes", "casquettes.png"));
+/*liste.add(new Categorie(1,"Casquettes", "casquettes.png"));
         liste.add(new Categorie(2,"Chemises", "chemises.png"));
         liste.add(new Categorie(3,"Bonnets", "bonnets.png"));*/
 
@@ -53,11 +57,15 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         CategorieDao.getInstance(this).findAll();
 
-        notifyRetourRequeteFindAll(liste);
+
 
         this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
         this.listView = getActivity().findViewById(R.id.categListView);
+        this.listView.setOnItemClickListener(this);
         listView.setAdapter(adaptateur);
+        notifyRetourRequeteFindAll(liste);
+
+
 
     }
 
@@ -82,4 +90,15 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         //this.terminePatience();
 
     }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("adapter", String.valueOf(id));
+    }
+
 }

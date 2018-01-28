@@ -1,5 +1,7 @@
 package com.iut.ecommerce.ecommerce;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.dao.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.vue.ArticleView;
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity
 
     private static final int AJOUT_ARTICLE=0;
     private static final int MODIFICATION_ARTICLE=1;
+    private static final int AJOUT_CATEGORIE=2;
+    private static final int MODIFICATION_CATEGORIE=3;
 
     public void setCurrentScreen(int currentScreen) {
         this.currentScreen = currentScreen;
@@ -160,7 +168,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void ajouter(View view) {
+    public void ajouterArticle(View view) {
         Snackbar.make(view, "Ajouter", Snackbar.LENGTH_LONG)
                        .setAction("Action", null).show();
         Intent appelActivite = new Intent(this, AddArticleActivity.class);
@@ -168,4 +176,11 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(appelActivite, AJOUT_ARTICLE);
     }
 
+    public void ajouterCategorie(View v){
+        Intent appelActivite = new Intent(this, AjouterCategorieActivity.class);
+        startActivityForResult(appelActivite, AJOUT_CATEGORIE);
+
+    }
+
 }
+

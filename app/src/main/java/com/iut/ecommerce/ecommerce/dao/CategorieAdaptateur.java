@@ -1,6 +1,8 @@
 package com.iut.ecommerce.ecommerce.dao;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +29,8 @@ import java.util.List;
 public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
 
     private Context context;
+    private ImageView supprimer;
+    private ImageView modifier;
 
     public CategorieAdaptateur(Context context, ArrayList<Categorie> liste){
         super(context, 0, liste);
@@ -55,12 +59,17 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie>{
             ImageFromURL ifu = new ImageFromURL(getContext(), icone);
             ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/chaussures.png");
             //ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/" + uneCategorie.getVisuelCateg());
-
-
-
         }
+
+        this.modifier=(ImageView) convertView.findViewById(R.id.cl_modifier);
+        this.modifier.setOnClickListener(new imageModifierClickListener(position));
+
+        this.supprimer=(ImageView) convertView.findViewById(R.id.cl_supprimer);
+        this.supprimer.setOnClickListener(new imageSupprimerClickListener(position));
 
         return convertView;
         //return super.getView(position, convertView, parent);
     }
+
+
 }
