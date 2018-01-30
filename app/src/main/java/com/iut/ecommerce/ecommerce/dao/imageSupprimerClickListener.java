@@ -8,7 +8,7 @@ import android.view.View;
  * Created by Miljold on 28/01/2018.
  */
 
-class imageSupprimerClickListener implements View.OnClickListener {
+public class imageSupprimerClickListener implements View.OnClickListener {
     int position;
     public imageSupprimerClickListener(int pos) {
         this.position=pos;

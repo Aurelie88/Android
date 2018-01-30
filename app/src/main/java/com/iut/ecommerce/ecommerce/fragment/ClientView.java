@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.vue;
+package com.iut.ecommerce.ecommerce.fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import com.iut.ecommerce.ecommerce.R;
  * Created by Damien on 09/01/2018.
  */
 
-public class CommandeView extends Fragment {
+public class ClientView extends Fragment {
 
-    public CommandeView() {
+    public ClientView() {
         super();
     }
 
@@ -25,6 +25,6 @@ public class CommandeView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.commande_main, container, false);
+        return inflater.inflate(R.layout.client_main, container, false);
     }
 }

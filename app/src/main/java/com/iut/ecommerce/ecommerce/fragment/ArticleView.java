@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.vue;
+package com.iut.ecommerce.ecommerce.fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -6,13 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.CategorieAdaptateur;
+import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 import java.util.ArrayList;

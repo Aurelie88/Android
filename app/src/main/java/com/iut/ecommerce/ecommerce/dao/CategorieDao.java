@@ -1,7 +1,10 @@
 package com.iut.ecommerce.ecommerce.dao;
 
+import android.util.Log;
+
 import com.iut.ecommerce.ecommerce.modele.Categorie;
-import com.iut.ecommerce.ecommerce.vue.CategorieView;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
+import com.iut.ecommerce.ecommerce.utils.RequeteSQL;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,40 +18,53 @@ import java.util.ArrayList;
 
 public class CategorieDao implements Dao<Categorie> {
     private static final String URL =
-            "https://infodb.iutmetz.univ-lorraine.fr/~laroche5/ppo/ecommerce/php/categorie/";
+            "https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/";
 
     private ActiviteEnAttenteAvecResultat activite;
+
+    // Singleton instance
+    private static CategorieDao mInstance = null;
+
+    public static CategorieDao getInstance(ActiviteEnAttenteAvecResultat activite) {
+        if(mInstance == null)
+        {
+            mInstance = new CategorieDao(activite);
+        }
+        return mInstance;
+    }
+
 
     private CategorieDao(ActiviteEnAttenteAvecResultat activite) {
         this.activite = activite;
     }
 
-
     @Override
     public void findAll() {
         RequeteSQL req = new RequeteSQL(activite, this);
-        req.execute(URL + "findall.php");
+        req.execute(URL + "getCategorie.php");
     }
 
-    @Override
-    public void create() {
-
-        //RequeteSQL req = new RequeteSQL(activite, this);
-        //String url = URL + "updateCategorie.php";
-        //String params = "?nom="+objet.getNom()+"&visuel="+objet.getVisuel();
-        //req.execute(url+params);
-
-
-    }
 
     @Override
-    public void update() {
+    public void create(Categorie categorie) {
+
+        RequeteSQL req = new RequeteSQL(activite, this);
+        Log.i("create", "Création d'une nouvelle entrée en base");
+        String url = URL + "updateCategorie.php";
+        String params = "?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
+        req.execute(url+params);
 
 
     }
 
     @Override
-    public void delete() {
+    public void update(Categorie categorie) {
+
+
+    }
+
+    @Override
+    public void delete(Categorie categorie) {
 
     }
 
@@ -73,79 +89,5 @@ public class CategorieDao implements Dao<Categorie> {
         }
 
     }
-
-    // Singleton instance
-    private static CategorieDao mInstance = null;
-
-    public static CategorieDao getInstance(CategorieView categorieView) {
-        if(mInstance == null)
-        {
-            mInstance = new CategorieDao(categorieView);
-        }
-        return getMyObject();
-    }
-
-    // Getter to access Singleton instance
-    public static CategorieDao getMyObject() {
-        return mInstance ;
-    }
+    
 }
-
-
-
-// VERSION SQLite
-/*
-public class CategorieDao {
-    private static final String TABLE_CATEGORIE = "table_categorie";
-    private static final String COL_ID_CATEGORIE = "id_categorie";
-    private static final String COL_NOM_CATEGORIE ="nom_categorie";
-    private static final String COL_VISUEL_CATEGORIE = "visuel_categorie";
-
-    private BaseDeDonnees maBaseDeDonnees;
-
-    private SQLiteDatabase bdd;
-
-    public CategorieDao(Context context){
-        //On crée la BDD et sa table
-        maBaseDeDonnees = new BaseDeDonnees(context, "eCommerce.db", null, 1);
-    }
-
-    public void open(){
-        //on ouvre la BDD en écriture
-        bdd = maBaseDeDonnees.getWritableDatabase();
-    }
-
-    public void close(){
-        //on ferme l'accès à la BDD
-        bdd.close();
-    }
-
-    public SQLiteDatabase getBDD(){
-        return bdd;
-    }
-
-    public long insertCategorie(Categorie categorie){
-        //Insertion Categorie
-        ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-
-        values.put(COL_NOM_CATEGORIE, categorie.getNomCateg());
-        values.put(COL_VISUEL_CATEGORIE,categorie.getVisuelCateg());
-        //on insère l'objet dans la BDD via le ContentValues
-        return bdd.insert(TABLE_CATEGORIE, null, values);
-    }
-
-    public int updateCategorie(int id, Categorie categorie){
-        //La mise à jour d'un article dans la BDD
-        //il faut simplement préciser quel article on doit mettre à jour grâce à l'ID
-        ContentValues values = new ContentValues();
-        values.put(COL_NOM_CATEGORIE, categorie.getNomCateg());
-        values.put(COL_VISUEL_CATEGORIE,categorie.getVisuelCateg());
-        return bdd.update(TABLE_CATEGORIE, values, COL_ID_CATEGORIE + " = " +id, null);
-    }
-
-    public int removeCategorieWithID(int id){
-        //Suppression d'un livre de la BDD grâce à l'ID
-        return bdd.delete(TABLE_CATEGORIE, COL_ID_CATEGORIE + " = " +id, null);
-    }
-}*/

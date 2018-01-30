@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.dao;
+package com.iut.ecommerce.ecommerce.adaptateur;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,9 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iut.ecommerce.ecommerce.ImageFromURL;
+import com.iut.ecommerce.ecommerce.utils.ImageFromURL;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.dao.imageModifierClickListener;
+import com.iut.ecommerce.ecommerce.dao.imageSupprimerClickListener;
 
 import java.io.IOException;
 import java.util.ArrayList;

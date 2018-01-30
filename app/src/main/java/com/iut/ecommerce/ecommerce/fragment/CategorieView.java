@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.vue;
+package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.ActiviteEnAttenteAvecResultat;
-import com.iut.ecommerce.ecommerce.dao.CategorieAdaptateur;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
+import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
@@ -36,9 +36,6 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     public CategorieView() {
 
     }
-
-
-
 
    @Override
     public void onStart() {

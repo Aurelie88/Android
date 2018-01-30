@@ -1,20 +1,15 @@
-package com.iut.ecommerce.ecommerce.dao;
+package com.iut.ecommerce.ecommerce.utils;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.iut.ecommerce.ecommerce.dao.Dao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -67,7 +62,6 @@ public class RequeteSQL extends AsyncTask<String, Void, String>{
 
         if (result.startsWith("[")) {
             // Si on vient de faire une requete retournant un résultat au format JSON
-            // this.dao.traiteFindAll(result);
             this.dao.traiteFindAll(result);
         } else {
             // Si on vient de faire une Create/Update/Remove

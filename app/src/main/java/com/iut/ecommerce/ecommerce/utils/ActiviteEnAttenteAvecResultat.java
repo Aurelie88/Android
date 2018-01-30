@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.dao;
+package com.iut.ecommerce.ecommerce.utils;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public interface ActiviteEnAttenteAvecResultat extends ActiviteEnAttente {
 
-    public void notifyRetourRequete(String resultat);
     public void notifyRetourRequeteFindAll(ArrayList liste);
 
 }

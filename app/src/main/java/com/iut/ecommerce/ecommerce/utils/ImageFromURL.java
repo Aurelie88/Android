@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce;
+package com.iut.ecommerce.ecommerce.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -59,19 +59,5 @@ public class ImageFromURL extends AsyncTask<String, Void, Bitmap> {
             bmImage.setImageBitmap(result);
         }
         //this.activite.terminePatience();
-    }
-
-    // From assets
-    public static Bitmap getBitmapFromAsset(Context context, String strName) {
-        AssetManager assetManager = context.getAssets();
-        InputStream istr;
-        Bitmap bitmap = null;
-        try {
-            istr = assetManager.open(strName);
-            bitmap = BitmapFactory.decodeStream(istr);
-        } catch (IOException e) {
-            return null;
-        }
-        return bitmap;
     }
 }

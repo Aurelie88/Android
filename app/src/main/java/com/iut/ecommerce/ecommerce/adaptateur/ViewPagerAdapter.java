@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce.dao;
+package com.iut.ecommerce.ecommerce.adaptateur;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

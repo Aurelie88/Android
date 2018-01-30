@@ -15,6 +15,11 @@ public class Categorie {
        this.setVisuelCateg(visuelCateg);
    }
 
+    public Categorie(String nomCateg, String visuelCateg){
+        this.setNomCateg(nomCateg);
+        this.setVisuelCateg(visuelCateg);
+    }
+
     public int getIdCateg() {
         return idCateg;
     }

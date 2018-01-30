@@ -1,17 +1,11 @@
 package com.iut.ecommerce.ecommerce;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,20 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.iut.ecommerce.ecommerce.dao.ViewPagerAdapter;
-import com.iut.ecommerce.ecommerce.vue.ArticleView;
-import com.iut.ecommerce.ecommerce.vue.CategorieView;
-import com.iut.ecommerce.ecommerce.vue.ClientView;
-import com.iut.ecommerce.ecommerce.vue.CommandeView;
-import com.iut.ecommerce.ecommerce.vue.PromotionView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
+import com.iut.ecommerce.ecommerce.fragment.ArticleView;
+import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.fragment.ClientView;
+import com.iut.ecommerce.ecommerce.fragment.CommandeView;
+import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -168,19 +156,26 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void ajouterArticle(View view) {
-        Snackbar.make(view, "Ajouter", Snackbar.LENGTH_LONG)
-                       .setAction("Action", null).show();
-        Intent appelActivite = new Intent(this, AddArticleActivity.class);
-        //appelActivite.putExtra("devise", this.devise);
-        startActivityForResult(appelActivite, AJOUT_ARTICLE);
+    public void ajouter(View view) {
+        int id = this.viewPager.getCurrentItem();
+
+        if (id==0){
+            // Ajouter catégorie
+            Intent appelActivite = new Intent(this, AjouterCategorieActivity.class);
+            startActivityForResult(appelActivite, AJOUT_CATEGORIE);
+
+        } else if (id==1) {
+            // Ajouter article
+            Snackbar.make(view, "Ajouter", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            Intent appelActivite = new Intent(this, AjouterArticleActivity.class);
+            //appelActivite.putExtra("devise", this.devise);
+            startActivityForResult(appelActivite, AJOUT_ARTICLE);
+
+        } else if (id==2) {
+            // Ajouter promotion
+
+        }
     }
-
-    public void ajouterCategorie(View v){
-        Intent appelActivite = new Intent(this, AjouterCategorieActivity.class);
-        startActivityForResult(appelActivite, AJOUT_CATEGORIE);
-
-    }
-
 }
 
