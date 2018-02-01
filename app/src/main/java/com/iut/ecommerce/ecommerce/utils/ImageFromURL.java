@@ -49,7 +49,7 @@ public class ImageFromURL extends AsyncTask<String, Void, Bitmap> {
               // Afficher une image par défaut si echec du chargement
             try {
                 InputStream inputstream=context.getAssets().open("croix.png");
-                Drawable drawable = Drawable.createFromStream(inputstream, null);
+                Drawable drawable = Drawable.createFromStream(inputstream, "croix.png");
                 bmImage.setImageDrawable(drawable);
             } catch (IOException e) {
                 Log.i("imageview", e.getMessage());
