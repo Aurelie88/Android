@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class CategorieDao implements Dao<Categorie> {
     private static final String URL =
-            "https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/";
+            "https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/categorie/";
 
     private ActiviteEnAttenteAvecResultat activite;
 
@@ -41,37 +41,39 @@ public class CategorieDao implements Dao<Categorie> {
     @Override
     public void findAll() {
         RequeteSQL req = new RequeteSQL(activite, this);
-        req.execute(URL + "getCategorie.php");
+        req.execute(URL + "find.php");
     }
 
 
     @Override
     public void create(Categorie categorie) {
-
         RequeteSQL req = new RequeteSQL(activite, this);
         Log.i("create", "Création d'une nouvelle entrée en base");
-        String url = URL + "updateCategorie.php";
+        String url = URL + "update.php";
         String params = "?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
         req.execute(url+params);
-
-
     }
 
     @Override
     public void update(Categorie categorie) {
-
-
+        RequeteSQL req = new RequeteSQL(activite, this);
+        Log.i("update", "Modification d'une entrée en base");
+        String url = URL + "update.php";
+        String params = "?nom="+categorie.getNomCateg();
+        req.execute(url+params);
     }
 
     @Override
     public void delete(Categorie categorie) {
-
+        RequeteSQL req = new RequeteSQL(activite, this);
+        Log.i("delete", "Suppression d'une entrée en base");
+        String url = URL + "delete.php";
+        String params = "?nom="+categorie.getNomCateg();
+        req.execute(url+params);
     }
-
 
     @Override
     public void traiteFindAll(String result){
-
         ArrayList<Categorie> liste = new ArrayList<Categorie>();
         try{
             JSONArray array = new JSONArray(result);
@@ -87,7 +89,5 @@ public class CategorieDao implements Dao<Categorie> {
         } catch (JSONException je) {
             System.out.println("Pb json : " + je);
         }
-
     }
-    
 }

@@ -1,7 +1,5 @@
 package com.iut.ecommerce.ecommerce.dao;
 
-import com.iut.ecommerce.ecommerce.modele.Categorie;
-
 /**
  * Created by Damien on 25/01/2018.
  */

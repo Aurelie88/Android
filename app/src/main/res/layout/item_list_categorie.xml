@@ -21,30 +21,30 @@
         android:layout_weight="45"
         android:layout_height="64dp"
         android:layout_width="wrap_content"
-        android:text="test"
+        android:text="Label"
         android:textSize="20dp"
+        android:textColor="#000"
         android:textAlignment="center"
         android:gravity="center"
-
          />
 
     <ImageView
 
         android:id="@+id/cl_modifier"
-        android:onClick="modifier"
+        android:layout_width="15dp"
+        android:layout_height="match_parent"
         android:layout_weight="15"
-        android:layout_height="64dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_menu_gallery"
-        android:contentDescription="TODO" />
+        android:padding="10dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_edit" />
 
     <ImageView
         android:id="@+id/cl_supprimer"
-        android:onClick="supprimer"
+        android:layout_width="15dp"
+        android:layout_height="match_parent"
         android:layout_weight="15"
-        android:layout_height="64dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_menu_camera"
-        android:contentDescription="TODO" />
+        android:padding="10dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_delete_forever" />
 
 </LinearLayout>

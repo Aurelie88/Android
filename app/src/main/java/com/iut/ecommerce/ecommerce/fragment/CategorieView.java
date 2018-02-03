@@ -1,6 +1,7 @@
 package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
@@ -32,38 +32,49 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     private CategorieAdaptateur adaptateur;
     private ListView listView;
 
+    private static CategorieView categorieView = null;
+
+
+    public static CategorieView getInstance(){
+        if (categorieView==null){
+            categorieView = new CategorieView();
+        }
+
+        return categorieView;
+    }
 
     public CategorieView() {
 
     }
 
-   @Override
+    @Override
     public void onStart() {
         super.onStart();
 
-       getActivity().setTitle("Boutique");
+        // Définition du nom de l'activité
+        getActivity().setTitle("Boutique");
 
-       liste = new ArrayList<Categorie>();
+        liste = new ArrayList<Categorie>();
 
-/*liste.add(new Categorie(1,"Casquettes", "casquettes.png"));
-        liste.add(new Categorie(2,"Chemises", "chemises.png"));
-        liste.add(new Categorie(3,"Bonnets", "bonnets.png"));*/
+        // Définition de la listView
+        this.listView = getActivity().findViewById(R.id.categListView);
 
-        //this.progressBar = getActivity().findViewById(R.id.cf_patience);
-        //this.listView = getActivity().findViewById(R.id.categListView);
+        // Définition de l'adaptateur
+        this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
+        // Lien entre adaptateur et listview (remplissage de la liste
+        listView.setAdapter(adaptateur);
+        // Définition de l'action sur click sur un élément de la liste (texte ou image catégorie)
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO : Action à réaliser lors d'un clique sur la liste ?
+            }
+        });
 
+        // Récupération des éléments de la liste
         CategorieDao.getInstance(this).findAll();
 
-
-
-        this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
-        this.listView = getActivity().findViewById(R.id.categListView);
-        this.listView.setOnItemClickListener(this);
-        listView.setAdapter(adaptateur);
         notifyRetourRequeteFindAll(liste);
-
-
-
     }
 
     @Nullable
@@ -75,6 +86,9 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
     @Override
     public void notifyRetourRequete(String resultat) {
+        // Après création/modification/suppression, on remet la liste à jour
+        // en effectuant un findAll()
+        CategorieDao.getInstance(this).findAll();
 
     }
 
@@ -97,5 +111,4 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i("adapter", String.valueOf(id));
     }
-
 }

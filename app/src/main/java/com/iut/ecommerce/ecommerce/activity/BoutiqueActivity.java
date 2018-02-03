@@ -1,4 +1,4 @@
-package com.iut.ecommerce.ecommerce;
+package com.iut.ecommerce.ecommerce.activity;
 
 import android.support.v4.view.ViewPager;
 

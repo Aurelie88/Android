@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity">
+    tools:context="com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity">
     <TextView
         android:id="@+id/tv_nomCategorie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="nom catégorie :"
+        android:text="nouveau nom catégorie :"
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -33,7 +33,7 @@
         android:id="@+id/tv_visuelCategorie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="visuel catégorie :"
+        android:text="nouveau visuel catégorie :"
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
