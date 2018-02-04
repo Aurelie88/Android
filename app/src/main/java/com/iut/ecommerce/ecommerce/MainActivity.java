@@ -17,10 +17,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
+import com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -166,22 +168,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id==1) {
             // Ajouter article
-            afficheMessageSnack(view, "Ajouter article", Snackbar.LENGTH_LONG);
+            Message.afficheMessageSnack(view, "Ajouter article", Snackbar.LENGTH_LONG);
 
         } else if (id==2) {
             // Ajouter promotion
-            afficheMessageSnack(view, "Ajouter promotion", Snackbar.LENGTH_LONG);
+            Message.afficheMessageSnack(view, "Ajouter promotion", Snackbar.LENGTH_LONG);
         }
     }
 
-    private void afficheMessageToast(String text, int duration){
-        Toast toast = Toast.makeText(this, text, duration);
-        toast.show();
-    }
-
-    private void afficheMessageSnack(View view, String text, int duration){
-        Snackbar.make(view, text, duration)
-                .setAction("Action", null).show();
-    }
 }
 

@@ -1,7 +1,6 @@
 package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -31,6 +30,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     private ArrayList<Categorie> liste;
     private CategorieAdaptateur adaptateur;
     private ListView listView;
+    private Categorie categorie;
 
     private static CategorieView categorieView = null;
 
@@ -110,5 +110,14 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.i("adapter", String.valueOf(id));
+        setCategorie(this.liste.get(position));
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 }
