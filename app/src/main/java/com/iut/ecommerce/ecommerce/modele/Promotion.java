@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Promotion {
+public class Promotion extends Generique{
     private int idArticle;
     private Date dateDebut;
     private Date dateFin;

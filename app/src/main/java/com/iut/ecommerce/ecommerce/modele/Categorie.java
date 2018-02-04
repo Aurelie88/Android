@@ -4,7 +4,7 @@ package com.iut.ecommerce.ecommerce.modele;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Categorie {
+public class Categorie extends Generique {
     private int idCateg;
     private String nomCateg;
     private String visuelCateg;

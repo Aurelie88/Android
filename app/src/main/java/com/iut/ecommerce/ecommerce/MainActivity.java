@@ -14,15 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
-import com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
