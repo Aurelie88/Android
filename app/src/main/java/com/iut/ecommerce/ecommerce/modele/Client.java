@@ -4,7 +4,7 @@ package com.iut.ecommerce.ecommerce.modele;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Client {
+public class Client extends Generique {
     private int idClient;
     private String nom;
     private String prenom;

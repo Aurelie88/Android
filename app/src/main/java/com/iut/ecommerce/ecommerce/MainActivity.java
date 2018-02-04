@@ -14,15 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
-import com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +59,11 @@ public class MainActivity extends AppCompatActivity
 
         // Mise en place du ViewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        // setOffscreenPageLimit permet de conserver l'état des différents fragements
+        // durant le swipe. On peut ici swiper entre trois écrans sans risque d'effacer le fragment
+        viewPager.setOffscreenPageLimit(2);
         this.setupViewPager(viewPager);
+
 
         // Mise en place des onglets
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);

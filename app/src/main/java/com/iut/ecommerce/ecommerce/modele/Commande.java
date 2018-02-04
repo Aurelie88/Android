@@ -6,7 +6,7 @@ import java.sql.Date;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Commande {
+public class Commande extends Generique {
     private int idCommande;
     private Date date;
     private int idClient;

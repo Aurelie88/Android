@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.listener.DeleteCategorieListener;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
@@ -34,6 +33,7 @@ public class Message {
                 dialog.dismiss();
             }
         });
+        // On crée et on affiche la boîte de dialogue
         AlertDialog dialog = builder.create();
         dialog.show();
     }

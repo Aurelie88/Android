@@ -39,7 +39,6 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         if (categorieView==null){
             categorieView = new CategorieView();
         }
-
         return categorieView;
     }
 
@@ -80,8 +79,13 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.categorie_main, container, false);
+
+        if (getView() != null) {
+            return getView();
+        }else{
+            return inflater.inflate(R.layout.categorie_main, container, false);
+        }
+
     }
 
     @Override

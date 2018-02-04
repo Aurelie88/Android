@@ -6,6 +6,7 @@ import android.view.View;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.modele.Generique;
 
 import static com.iut.ecommerce.ecommerce.Message.SupprimerAlertDialog;
 
@@ -39,7 +40,6 @@ public class DeleteCategorieListener implements View.OnClickListener{
             CategorieDao.getInstance(categorieView).delete(this.categorie);
             // On mets à jour la liste
             CategorieView.getInstance().notifyRetourRequete(this.categorie.getNomCateg()+" a été effacé");
-
         }
 
         // Pour être sur de ne pas effacer des éléments de manière répétitive, on remet

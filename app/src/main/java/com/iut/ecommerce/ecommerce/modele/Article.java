@@ -4,7 +4,7 @@ package com.iut.ecommerce.ecommerce.modele;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Article {
+public class Article extends Generique {
     private int idArticle;
     private int reference;
     private String nomArticle;
