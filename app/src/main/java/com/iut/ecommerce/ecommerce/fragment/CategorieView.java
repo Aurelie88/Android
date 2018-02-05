@@ -59,7 +59,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         this.listView = getActivity().findViewById(R.id.categListView);
 
         // Définition de l'adaptateur
-        this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
+        this.adaptateur = new CategorieAdaptateur(getActivity(), liste);
         // Lien entre adaptateur et listview (remplissage de la liste
         listView.setAdapter(adaptateur);
         // Définition de l'action sur click sur un élément de la liste (texte ou image catégorie)

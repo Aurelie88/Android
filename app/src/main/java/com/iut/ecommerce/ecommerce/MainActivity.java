@@ -11,6 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     private static final int AJOUT_CATEGORIE=2;
     private static final int MODIFICATION_CATEGORIE=3;
 
-    @Override
+  /*  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
+*/
     // Ajout des fragments dans le viewPager
     // Lors du swipe, on bascule d'un fragment à l'autre
     private void setupViewPager (ViewPager viewPager){
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new ArticleView(), "Articles");
         adapter.addFragment(new PromotionView(), "Promotions");
         this.viewPager = viewPager;
+        this.viewPager.setOffscreenPageLimit(2);
         this.viewPager.setAdapter(adapter);
 
     }
@@ -88,6 +91,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart(){
         super.onStart();
+        this.viewPager = (ViewPager) findViewById(R.id.viewPager);
+        this.viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i=0; i<3; i++){
+            tabLayout.getTabAt(i).select();
+        }
+        tabLayout.getTabAt(0).select();
+
 
     }
 
@@ -176,6 +189,117 @@ public class MainActivity extends AppCompatActivity
             Message.afficheMessageSnack(view, "Ajouter promotion", Snackbar.LENGTH_LONG);
         }
     }
+
+ /*   private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter adapter;*/
+
+    private CategorieView tabCategories;
+    private ArticleView tabArticles;
+    private PromotionView tabPromotions;
+
+    private Bundle savedInstanceState;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Affichage de la fenêtre principale et de la toolbar
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        // Mise en place du tiroir latéral qui contient le menu
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        this.savedInstanceState = savedInstanceState;
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        if (savedInstanceState == null) {
+            this.tabCategories = new CategorieView();
+            this.tabArticles = new ArticleView();
+            this.tabPromotions = new PromotionView();
+            adapter.addFragment(this.tabCategories, "Catégories");
+            adapter.addFragment(this.tabArticles, "Articles");
+            adapter.addFragment(this.tabPromotions, "Promotions");
+            Log.e("oC", getFragmentTag(2));
+        } else {
+            Integer count = savedInstanceState.getInt("tabsCount");
+            String[] titles = savedInstanceState.getStringArray("titles");
+            for (int i = 0; i < count; i++) {
+                adapter.addFragment(getFragment(i), titles[i]);
+            }
+        }
+        // Mise en place du menu dans le tiroir latéral
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Mise en place des onglets
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+    }
+
+  /*  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_boutique);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.savedInstanceState = savedInstanceState;
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        if (savedInstanceState == null) {
+            this.tabCategories = new CategorieFragment();
+            this.tabArticles = new ArticleFragment();
+            this.tabPromotions = new PromotionFragment();
+            adapter.addFragment(this.tabCategories, "Catégories");
+            adapter.addFragment(this.tabArticles, "Articles");
+            adapter.addFragment(this.tabPromotions, "Promotions");
+            Log.e("oC", getFragmentTag(2));
+        } else {
+            Integer count = savedInstanceState.getInt("tabsCount");
+            String[] titles = savedInstanceState.getStringArray("titles");
+            for (int i = 0; i < count; i++) {
+                adapter.addFragment(getFragment(i), titles[i]);
+            }
+        }
+    }
+*/
+    private Fragment getFragment(int position){
+
+        if (this.savedInstanceState == null) {
+            Log.e("gF null " , adapter.getItem(position)+"");
+            return adapter.getItem(position);
+        } else {
+            Log.e("gF not null " , getSupportFragmentManager().findFragmentByTag(getFragmentTag(position))+"");
+            if (getSupportFragmentManager().findFragmentByTag(getFragmentTag(position))==null) {
+                Log.e("gF sf null " , adapter.getItem(position)+"");
+                return adapter.getItem(position);
+            } else
+                return getSupportFragmentManager().findFragmentByTag(getFragmentTag(position));
+        }
+    }
+
+    private String getFragmentTag(int position) {
+        return "android:switcher:" + R.id.viewPager + ":" + position;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tabsCount",      adapter.getCount());
+        outState.putStringArray("titles", adapter.getPageTitles().toArray(new String[0]));
+    }
+
 
 }
 

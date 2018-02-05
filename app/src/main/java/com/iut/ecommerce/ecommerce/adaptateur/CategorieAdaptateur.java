@@ -1,6 +1,7 @@
 package com.iut.ecommerce.ecommerce.adaptateur;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -62,6 +63,10 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         return super.getItem(position);
     }
 
+    @Override
+    public int getCount() {
+        return super.getCount();
+    }
 
     @NonNull
     @Override
@@ -103,5 +108,4 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         }
         return convertView;
     }
-
 }
