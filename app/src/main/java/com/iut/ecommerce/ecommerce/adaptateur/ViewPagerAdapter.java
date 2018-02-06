@@ -24,6 +24,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
+        if (mFragmentList.size()==2 && position <3){
+            mFragmentList.add(new PromotionView());
+            mFragmentTitleList.add("Promotions");
+        }
         return mFragmentList.get(position);
     }
 

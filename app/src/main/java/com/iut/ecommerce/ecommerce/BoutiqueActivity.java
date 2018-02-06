@@ -1,5 +1,6 @@
 package com.iut.ecommerce.ecommerce;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -23,7 +24,7 @@ import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 
-public class MainActivity extends AppCompatActivity
+public class BoutiqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Sauvegarde du numéro de l'écran actuel du ViewPager
@@ -38,42 +39,44 @@ public class MainActivity extends AppCompatActivity
     private static final int AJOUT_CATEGORIE=2;
     private static final int MODIFICATION_CATEGORIE=3;
 
-  /*  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private static Context appContext;
 
-        // Affichage de la fenêtre principale et de la toolbar
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    /*  @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
 
-
-        // Mise en place du tiroir latéral qui contient le menu
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // Mise en place du menu dans le tiroir latéral
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // Mise en place du ViewPager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        // setOffscreenPageLimit permet de conserver l'état des différents fragements
-        // durant le swipe. On peut ici swiper entre trois écrans sans risque d'effacer le fragment
-        viewPager.setOffscreenPageLimit(2);
-        this.setupViewPager(viewPager);
+          // Affichage de la fenêtre principale et de la toolbar
+          setContentView(R.layout.activity_main);
+          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+          setSupportActionBar(toolbar);
 
 
-        // Mise en place des onglets
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+          // Mise en place du tiroir latéral qui contient le menu
+          DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+          ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                  this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+          drawer.addDrawerListener(toggle);
+          toggle.syncState();
+
+          // Mise en place du menu dans le tiroir latéral
+          NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+          navigationView.setNavigationItemSelectedListener(this);
+
+          // Mise en place du ViewPager
+          ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+          // setOffscreenPageLimit permet de conserver l'état des différents fragements
+          // durant le swipe. On peut ici swiper entre trois écrans sans risque d'effacer le fragment
+          viewPager.setOffscreenPageLimit(2);
+          this.setupViewPager(viewPager);
 
 
-    }
-*/
+          // Mise en place des onglets
+          TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+          tabLayout.setupWithViewPager(viewPager);
+
+
+      }
+  */
     // Ajout des fragments dans le viewPager
     // Lors du swipe, on bascule d'un fragment à l'autre
     private void setupViewPager (ViewPager viewPager){
@@ -88,10 +91,16 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+    public static Context getAppContext(){
+        return appContext;
+    }
+
     @Override
     public void onStart(){
         super.onStart();
         this.viewPager = (ViewPager) findViewById(R.id.viewPager);
+        this.viewPager.setOffscreenPageLimit(2);
         this.viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         }
         tabLayout.getTabAt(0).select();
 
-
+        appContext = getApplicationContext();
     }
 
     @Override
@@ -204,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Affichage de la fenêtre principale et de la toolbar
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_boutique);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

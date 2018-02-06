@@ -1,14 +1,14 @@
 package com.iut.ecommerce.ecommerce.utils;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.iut.ecommerce.ecommerce.BoutiqueActivity;
+import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,23 +18,18 @@ import java.util.ArrayList;
  * Created by Damien on 24/01/2018.
  */
 
-public class ImageFromURL extends AsyncTask<String, Void, Drawable> {
+public class ImageFromURL extends AsyncTask<String, Void, Bitmap> {
 
     private ImageView bmImage;
     private Context context;
-    private ArrayList<Drawable> imageList = new ArrayList<>();
+    private ArrayList<Bitmap> imageList = new ArrayList<>();
 
-    public ImageFromURL(Context context, ImageView bmImage) {
-        this.bmImage = bmImage;
-        this.context = context;
-    }
-
-    public ImageFromURL(ArrayList<Drawable> bmImage) {
+    public ImageFromURL(ArrayList<Bitmap> bmImage) {
         this.imageList = bmImage;
     }
 
     @Override
-    protected Drawable doInBackground(String... urls) {
+    protected Bitmap doInBackground(String... urls) {
 
         String urlIcone = urls[0];
         Bitmap icone = null;
@@ -43,31 +38,33 @@ public class ImageFromURL extends AsyncTask<String, Void, Drawable> {
             InputStream in = new java.net.URL(urlIcone).openStream();
             icone = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
-            Log.i("Pas d'icone", "Aucune icone trouvée sur le serveur");
+            Log.i("iLc", "Thread - (Clause catch) Aucune icone trouvée sur le serveur");
         }
-        return new BitmapDrawable(context.getResources(),icone);
+        return icone;
     }
 
     @Override
-    protected void onPostExecute(Drawable result) {
+    protected void onPostExecute(Bitmap result) {
         if (result==null) {
-              Log.i("Pas d'icone", "Echec chargement");
+            Log.i("iLd", "onPostExecute - Aucune icone trouvée sur le serveur");
 
-              // Afficher une image par défaut si echec du chargement
+              // Afficher une bitmapArrayList par défaut si echec du chargement
             try {
-                InputStream inputstream=context.getAssets().open("croix.png");
-                Drawable drawable = Drawable.createFromStream(inputstream, "croix.png");
-                //bmImage.setImageDrawable(drawable);
-                imageList.add(drawable);
+                Log.i("iLe", "On tente de récupérer l'image par défaut");
+                InputStream inputstream= BoutiqueActivity.getAppContext().getAssets().open("croix.png");
+                Bitmap icone = BitmapFactory.decodeStream(inputstream);
+                CategorieAdaptateur.bitmapArrayList.add(icone);
+                Log.i("iLf", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
             } catch (IOException e) {
-                Log.i("imageview", e.getMessage());
+                Log.i("iLg", e.getMessage());
             }
-
-        } else {
-            //bmImage.setImageBitmap(result);
-            imageList.add(result);
         }
+        CategorieAdaptateur.bitmapArrayList.add(result);
+        Log.i("iLh", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
+
+
         //this.activite.terminePatience();
     }
+
 
 }

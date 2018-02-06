@@ -27,7 +27,6 @@ public class RequeteSQL extends AsyncTask<String, Void, String>{
         this.dao = dao;
     }
 
-
     @Override
     protected String doInBackground(String... urls) {
 

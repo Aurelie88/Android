@@ -1,13 +1,8 @@
 package com.iut.ecommerce.ecommerce.dao;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.ImageView;
-
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
-import com.iut.ecommerce.ecommerce.utils.ImageFromURL;
 import com.iut.ecommerce.ecommerce.utils.RequeteSQL;
 
 import org.json.JSONArray;
@@ -83,7 +78,7 @@ public class CategorieDao implements Dao<Categorie> {
     @Override
     public void traiteFindAll(String result){
         ArrayList<Categorie> liste = new ArrayList<Categorie>();
-        ArrayList<Drawable> image = new ArrayList<>();
+
         try{
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -93,21 +88,17 @@ public class CategorieDao implements Dao<Categorie> {
                         row.getString("visuel"));
                 liste.add(c);
 
-                setImage(c.getVisuelCateg(), image);
-
             }
             this.activite.notifyRetourRequeteFindAll(liste);
+
         } catch (JSONException je) {
             System.out.println("Pb json : " + je);
         }
+
+
     }
 
-
-    protected void setImage(String nomVisuel, ArrayList<Drawable> image) {
-
-        ImageFromURL ifu = new ImageFromURL(image);
-            ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/" + nomVisuel);
-    }
+}
 
 /*    @Override
     public void traiteFindAll(String result){
@@ -127,4 +118,4 @@ public class CategorieDao implements Dao<Categorie> {
             System.out.println("Pb json : " + je);
         }
     }*/
-}
+

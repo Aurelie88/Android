@@ -18,6 +18,7 @@ import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.squareup.picasso.*;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         this.adaptateur = new CategorieAdaptateur(getActivity(), liste);
         // Lien entre adaptateur et listview (remplissage de la liste
         listView.setAdapter(adaptateur);
-        // Définition de l'action sur click sur un élément de la liste (texte ou image catégorie)
+        // Définition de l'action sur click sur un élément de la liste (texte ou bitmapArrayList catégorie)
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
