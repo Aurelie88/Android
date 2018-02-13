@@ -6,6 +6,6 @@ package com.iut.ecommerce.ecommerce.utils;
 
 public interface ActiviteEnAttente {
 
-    public void notifyRetourRequete(String resultat);
+    void notifyRetourRequete(String resultat);
 
 }

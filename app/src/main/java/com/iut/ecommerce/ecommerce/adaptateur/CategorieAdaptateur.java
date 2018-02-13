@@ -31,12 +31,17 @@ import java.util.ArrayList;
 
 public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
 
+    public static ArrayList<Bitmap> bitmapArrayList;
     private Context context;
     private Categorie categorie;
+
+    public ArrayList<Categorie> getcListe() {
+        return cListe;
+    }
+
+    private ArrayList<Categorie> cListe;
     public Categorie currentCategorie;
-    public Bitmap currentBitmap;
     private static CategorieAdaptateur categorieAdaptateur;
-    public static ArrayList<Bitmap> bitmapArrayList = new ArrayList<>();
 
     private ImageView icone;
     private TextView tvNom;
@@ -47,6 +52,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         // Context = l'activité parente
         super(context, R.layout.item_list_categorie, liste);
         this.context = context;
+        this.cListe = liste;
 
     }
 
@@ -72,7 +78,6 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         return super.getItem(position);
     }
 
-
     @Override
     public int getCount() {
         return super.getCount();
@@ -91,16 +96,16 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
 
             // On enregitre les éléments dans le ViewHolder pour un accès ultérieur
-            modifier = (ImageView) convertView.findViewById(R.id.cl_modifier);
-            tvNom = (TextView) convertView.findViewById(R.id.cl_nom);
-            icone = (ImageView) convertView.findViewById(R.id.cl_visuel);
-            supprimer = (ImageView) convertView.findViewById(R.id.cl_supprimer);
+            modifier = convertView.findViewById(R.id.cl_modifier);
+            tvNom = convertView.findViewById(R.id.cl_nom);
+            icone = convertView.findViewById(R.id.cl_visuel);
+            supprimer = convertView.findViewById(R.id.cl_supprimer);
             //mViewHolder.modifier = (ImageView) convertView.findViewById(R.id.cl_modifier);
 
             // Définition d'un écouteur sur l'bitmapArrayList de suppression
             // On appelle le DeleteCategorieListener qui appellera la boite de dialogue pour la suppression
             // IMPORTANT : On obtient le bon context grâce à la vue view.getContext()
-            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext()));
+            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext(), categorieAdaptateur));
 
             // Définition d'un écouteur sur l'bitmapArrayList de modification
             // On appelle le ModifyCategorieListener qui appellera l'activité pour la modification
@@ -119,7 +124,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
                 .error(R.drawable.ic_close) // will be displayed if the image cannot be loaded
                 .into(icone);
 
-        // Utilisation d'un thread
+        // Utilisation d'une fonction utilisatant un Thread
         /*        if (icone.getDrawable() == null) {
             ImageFromURL ifu = new ImageFromURL(getContext(), icone);
             ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/" + this.categorie.getVisuelCateg());

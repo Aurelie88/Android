@@ -52,10 +52,10 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajouter_categorie);
-        this.tv_nomCategorie=(TextView) this.findViewById(R.id.tv_nomCategorie);
-        this.et_nomCategorie=(EditText) this.findViewById(R.id.et_nomCategorie);
-        this.tv_visuelCategorie=(TextView) this.findViewById(R.id.tv_visuelCategorie);
-        this.et_visuelCategorie = (EditText) this.findViewById(R.id.et_visuelCategorie);
+        this.tv_nomCategorie= this.findViewById(R.id.tv_nomCategorie);
+        this.et_nomCategorie= this.findViewById(R.id.et_nomCategorie);
+        this.tv_visuelCategorie= this.findViewById(R.id.tv_visuelCategorie);
+        this.et_visuelCategorie = this.findViewById(R.id.et_visuelCategorie);
     }
 
     @Override

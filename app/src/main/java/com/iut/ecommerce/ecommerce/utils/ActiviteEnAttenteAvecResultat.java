@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public interface ActiviteEnAttenteAvecResultat extends ActiviteEnAttente {
 
-    public void notifyRetourRequeteFindAll(ArrayList liste);
+    void notifyRetourRequeteFindAll(ArrayList liste);
 
 }

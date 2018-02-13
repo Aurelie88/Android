@@ -6,10 +6,10 @@ package com.iut.ecommerce.ecommerce.dao;
 
 public interface Dao<C> {
 
-    public void findAll();
-    public void create(C objet);
-    public void update(C objet);
-    public void delete(C objet);
+    void findAll();
+    void create(C objet);
+    void update(C objet);
+    void delete(C objet);
 
-    public void traiteFindAll(String result);
+    void traiteFindAll(String result);
 }

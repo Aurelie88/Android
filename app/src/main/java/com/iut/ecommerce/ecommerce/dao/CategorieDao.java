@@ -97,25 +97,5 @@ public class CategorieDao implements Dao<Categorie> {
 
 
     }
-
 }
-
-/*    @Override
-    public void traiteFindAll(String result){
-        ArrayList<Categorie> liste = new ArrayList<Categorie>();
-        try{
-            JSONArray array = new JSONArray(result);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject row = array.getJSONObject(i);
-                Categorie c = new Categorie(row.getInt("id_categorie"),
-                        row.getString("nom"),
-                        row.getString("visuel"));
-                liste.add(c);
-
-            }
-            this.activite.notifyRetourRequeteFindAll(liste);
-        } catch (JSONException je) {
-            System.out.println("Pb json : " + je);
-        }
-    }*/
 

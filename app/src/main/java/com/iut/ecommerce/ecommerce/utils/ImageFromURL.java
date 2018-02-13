@@ -17,6 +17,9 @@ import java.util.ArrayList;
 /**
  * Created by Damien on 24/01/2018.
  */
+//*****************************************************//
+// Pas utile si utilisation de la librairie Picasso
+//*****************************************************//
 
 public class ImageFromURL extends AsyncTask<String, Void, Bitmap> {
 
