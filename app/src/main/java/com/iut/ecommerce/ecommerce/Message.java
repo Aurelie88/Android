@@ -15,21 +15,23 @@ import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 public class Message {
 
+    static int NO = 0;
+    static int YES = 1;
+
     // Boîte de dialogue d'alerte pour la suppression
     // Si implémentation dans une autre classe, penser à ajouter le context en paramètre
-    public static void SupprimerAlertDialog(Context context, String title, String message, Categorie currentCategorie) {
+    public static void SupprimerAlertDialog(final Context context, String title, String message, final Categorie currentCategorie) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setMessage(message + currentCategorie.getNomCateg());
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                DeleteCategorieListener.delete = true;
+                DeleteCategorieListener.choix(YES, currentCategorie, context);
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // On ne fait rien
-                DeleteCategorieListener.delete = false;
                 dialog.dismiss();
             }
         });

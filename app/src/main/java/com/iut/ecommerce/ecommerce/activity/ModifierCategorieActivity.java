@@ -27,10 +27,10 @@ public class ModifierCategorieActivity extends AppCompatActivity {
         super.onStart();
 
         // NOTA : Le cast n'est plus nécessaire
-        this.tv_nomCategorie=(TextView) this.findViewById(R.id.tv_nomCategorie);
-        this.et_nomCategorie=(EditText) this.findViewById(R.id.et_nomCategorie);
-        this.tv_visuelCategorie=(TextView) this.findViewById(R.id.tv_visuelCategorie);
-        this.et_visuelCategorie = (EditText) this.findViewById(R.id.et_visuelCategorie);
+        this.tv_nomCategorie= this.findViewById(R.id.tv_nomCategorie);
+        this.et_nomCategorie= this.findViewById(R.id.et_nomCategorie);
+        this.tv_visuelCategorie= this.findViewById(R.id.tv_visuelCategorie);
+        this.et_visuelCategorie = this.findViewById(R.id.et_visuelCategorie);
 
         // On configure les textView pour afficher les bons messages
         this.et_nomCategorie.setText(this.getIntent().getStringExtra("nom"));

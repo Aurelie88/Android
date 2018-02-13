@@ -21,7 +21,7 @@ public class SlashActivity extends AppCompatActivity {
                 try {
                     Log.i("fA", "Attente");
 
-                    sleep(5000);
+                    sleep(3000);
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 } finally {

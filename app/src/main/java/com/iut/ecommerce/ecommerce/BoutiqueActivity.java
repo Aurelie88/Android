@@ -27,12 +27,19 @@ import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 public class BoutiqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Bundle savedInstanceState;
+
     // Sauvegarde du numéro de l'écran actuel du ViewPager
     private int currentScreen;
 
     // ViewPager
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
+
+    // Onglets
+    private CategorieView tabCategories;
+    private ArticleView tabArticles;
+    private PromotionView tabPromotions;
 
     private static final int AJOUT_ARTICLE=0;
     private static final int MODIFICATION_ARTICLE=1;
@@ -41,69 +48,20 @@ public class BoutiqueActivity extends AppCompatActivity
 
     private static Context appContext;
 
-    /*  @Override
-      protected void onCreate(Bundle savedInstanceState) {
-          super.onCreate(savedInstanceState);
-
-          // Affichage de la fenêtre principale et de la toolbar
-          setContentView(R.layout.activity_main);
-          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-          setSupportActionBar(toolbar);
-
-
-          // Mise en place du tiroir latéral qui contient le menu
-          DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-          ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                  this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-          drawer.addDrawerListener(toggle);
-          toggle.syncState();
-
-          // Mise en place du menu dans le tiroir latéral
-          NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-          navigationView.setNavigationItemSelectedListener(this);
-
-          // Mise en place du ViewPager
-          ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-          // setOffscreenPageLimit permet de conserver l'état des différents fragements
-          // durant le swipe. On peut ici swiper entre trois écrans sans risque d'effacer le fragment
-          viewPager.setOffscreenPageLimit(2);
-          this.setupViewPager(viewPager);
-
-
-          // Mise en place des onglets
-          TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-          tabLayout.setupWithViewPager(viewPager);
-
-
-      }
-  */
-    // Ajout des fragments dans le viewPager
-    // Lors du swipe, on bascule d'un fragment à l'autre
-    private void setupViewPager (ViewPager viewPager){
-
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CategorieView(), "Catégorie");
-        adapter.addFragment(new ArticleView(), "Articles");
-        adapter.addFragment(new PromotionView(), "Promotions");
-        this.viewPager = viewPager;
-        this.viewPager.setOffscreenPageLimit(2);
-        this.viewPager.setAdapter(adapter);
-
-    }
-
-
+    // Fonction statique pour obtenir le context d'une application
     public static Context getAppContext(){
         return appContext;
     }
 
+
     @Override
     public void onStart(){
         super.onStart();
-        this.viewPager = (ViewPager) findViewById(R.id.viewPager);
+        this.viewPager = findViewById(R.id.viewPager);
         this.viewPager.setOffscreenPageLimit(2);
         this.viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         for (int i=0; i<3; i++){
             tabLayout.getTabAt(i).select();
@@ -111,12 +69,13 @@ public class BoutiqueActivity extends AppCompatActivity
         tabLayout.getTabAt(0).select();
 
         appContext = getApplicationContext();
+
     }
 
     @Override
     public void onBackPressed() {
         // Gestion du bouton pour gérer k'ouverture et la ferneture du tiroir
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -172,7 +131,7 @@ public class BoutiqueActivity extends AppCompatActivity
             this.viewPager.setCurrentItem(2);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
@@ -199,27 +158,18 @@ public class BoutiqueActivity extends AppCompatActivity
         }
     }
 
- /*   private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter adapter;*/
-
-    private CategorieView tabCategories;
-    private ArticleView tabArticles;
-    private PromotionView tabPromotions;
-
-    private Bundle savedInstanceState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Affichage de la fenêtre principale et de la toolbar
         setContentView(R.layout.activity_boutique);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         // Mise en place du tiroir latéral qui contient le menu
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -228,6 +178,8 @@ public class BoutiqueActivity extends AppCompatActivity
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+        // Ajout des fragments dans le viewPager
+        // Lors du swipe, on bascule d'un fragment à l'autre
         if (savedInstanceState == null) {
             this.tabCategories = new CategorieView();
             this.tabArticles = new ArticleView();
@@ -244,45 +196,17 @@ public class BoutiqueActivity extends AppCompatActivity
             }
         }
         // Mise en place du menu dans le tiroir latéral
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         // Mise en place des onglets
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
 
     }
 
-  /*  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_boutique);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        this.savedInstanceState = savedInstanceState;
-
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        if (savedInstanceState == null) {
-            this.tabCategories = new CategorieFragment();
-            this.tabArticles = new ArticleFragment();
-            this.tabPromotions = new PromotionFragment();
-            adapter.addFragment(this.tabCategories, "Catégories");
-            adapter.addFragment(this.tabArticles, "Articles");
-            adapter.addFragment(this.tabPromotions, "Promotions");
-            Log.e("oC", getFragmentTag(2));
-        } else {
-            Integer count = savedInstanceState.getInt("tabsCount");
-            String[] titles = savedInstanceState.getStringArray("titles");
-            for (int i = 0; i < count; i++) {
-                adapter.addFragment(getFragment(i), titles[i]);
-            }
-        }
-    }
-*/
     private Fragment getFragment(int position){
 
         if (this.savedInstanceState == null) {

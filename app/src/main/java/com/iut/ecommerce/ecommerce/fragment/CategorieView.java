@@ -2,6 +2,8 @@ package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -21,6 +24,7 @@ import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.squareup.picasso.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Damien on 09/01/2018.
@@ -28,10 +32,16 @@ import java.util.ArrayList;
 
 public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener {
 
-    private ArrayList<Categorie> liste;
+    public ArrayList<Categorie> liste;
     private CategorieAdaptateur adaptateur;
+
+    public ListView getListView() {
+        return listView;
+    }
+
     private ListView listView;
     private Categorie categorie;
+    private ArrayList temp;
 
     private static CategorieView categorieView = null;
 
@@ -58,7 +68,6 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.categListView);
-
         // Définition de l'adaptateur
         this.adaptateur = new CategorieAdaptateur(getActivity(), liste);
         // Lien entre adaptateur et listview (remplissage de la liste
@@ -80,32 +89,38 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
-        if (getView() != null) {
-            return getView();
-        }else{
             return inflater.inflate(R.layout.categorie_main, container, false);
-        }
 
     }
 
     @Override
     public void notifyRetourRequete(String resultat) {
         // Après création/modification/suppression, on remet la liste à jour
-        // en effectuant un findAll()
-        CategorieDao.getInstance(this).findAll();
-
+        //((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+       //((ArrayAdapter<Categorie>) CategorieView.getInstance().getListView().getAdapter()).notifyDataSetChanged();
+        //CategorieAdaptateur.getInstance(CategorieView.getInstance().getContext()).getListView().notifyDataSetChanged();
+        Log.i("nRR", "Tentative de mise à jour");
     }
+
+
 
     @Override
-    public void notifyRetourRequeteFindAll(ArrayList liste) {
-        this.liste.clear();
-        this.liste.addAll(liste);
+    public void notifyRetourRequeteFindAll(final ArrayList liste) {
 
-        ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
-        //this.terminePatience();
-
+        this.temp = liste;
+        try {
+            if (this.liste != null) {
+                this.liste.clear();
+            } else {
+                this.liste = new ArrayList<>();
+            }
+            this.liste.addAll(liste);
+            ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
+     //this.terminePatience();
 
     @Override
     public void onClick(DialogInterface dialog, int which) {

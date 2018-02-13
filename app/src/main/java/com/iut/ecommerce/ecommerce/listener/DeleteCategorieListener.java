@@ -1,8 +1,11 @@
 package com.iut.ecommerce.ecommerce.listener;
 
+import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
+import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
@@ -20,7 +23,7 @@ public class DeleteCategorieListener implements View.OnClickListener{
     private Context context;
     public static boolean delete = false;
 
-    public DeleteCategorieListener(Categorie categorie, Context context) {
+    public DeleteCategorieListener(Categorie categorie, Context context, CategorieAdaptateur categorieAdaptateur) {
         this.categorie = categorie;
         this.context = context;
     }
@@ -30,20 +33,24 @@ public class DeleteCategorieListener implements View.OnClickListener{
 
         // On affiche la noite de dialogue pour la suppression du message
         SupprimerAlertDialog(this.context,"Supprimer", "Voulez-vous réellement supprimer l'élément sélectionné : ", this.categorie);
+    }
 
-        // Si l'utilisateur valide la suppression, on efface dans la base de données
-        if (delete){
+    public static void choix(int choix, Categorie categorie, Context context) {
+
+        if (choix == 1)
+            Log.i("iS", "Branche pour suppression");
             // On passe à l'unique instance de CategorieDao l'unique instance de CategorieView
             // Il n'existe pour chaque qu'un objet DAO et View!!!
             CategorieView categorieView = CategorieView.getInstance();
             // On passe en paramètre la catégorie à supprimer pour la categorieView
-            CategorieDao.getInstance(categorieView).delete(this.categorie);
-            // On mets à jour la liste
-            CategorieView.getInstance().notifyRetourRequete(this.categorie.getNomCateg()+" a été effacé");
-        }
+            // On fait ici une suppression dans l'adpateur;
+            CategorieAdaptateur.getInstance(context).remove(categorie);
+            // On fait ici un appel à la base de données pour supprimer la catégorie
+            CategorieDao.getInstance(categorieView).delete(categorie);
+            // On mets à jour l'adapteur contenant la liste
+            CategorieView.getInstance().notifyRetourRequete("Supprimer");
+            Log.i("iS", "Fin de suppression");
 
-        // Pour être sur de ne pas effacer des éléments de manière répétitive, on remet
-        // le flag delete à false
-        delete = false;
     }
+
 }
