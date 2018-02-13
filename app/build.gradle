@@ -29,4 +29,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.squareup.picasso:picasso:2.5.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0' // https://github.com/hdodenhof/CircleImageView
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'  //https://github.com/lzyzsd/CircleProgress
+
 }

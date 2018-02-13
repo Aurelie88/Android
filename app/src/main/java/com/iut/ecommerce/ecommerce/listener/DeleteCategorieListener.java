@@ -6,7 +6,6 @@ import android.view.View;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
-import com.iut.ecommerce.ecommerce.modele.Generique;
 
 import static com.iut.ecommerce.ecommerce.Message.SupprimerAlertDialog;
 
