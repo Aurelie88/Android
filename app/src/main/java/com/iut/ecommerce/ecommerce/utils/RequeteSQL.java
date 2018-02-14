@@ -3,6 +3,7 @@ package com.iut.ecommerce.ecommerce.utils;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.Dao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
@@ -58,6 +59,8 @@ public class RequeteSQL extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String result) {
+
+        Log.i("_R", result);
 
         if (result.startsWith("[")) {
             // Si on vient de faire une requete retournant un résultat au format JSON

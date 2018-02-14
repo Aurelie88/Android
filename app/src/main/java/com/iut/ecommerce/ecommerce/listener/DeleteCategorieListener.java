@@ -20,7 +20,6 @@ public class DeleteCategorieListener implements View.OnClickListener{
 
     private Categorie categorie;
     private Context context;
-    public static boolean delete = false;
 
     public DeleteCategorieListener(Categorie categorie, Context context, CategorieAdaptateur categorieAdaptateur) {
         this.categorie = categorie;
@@ -36,8 +35,8 @@ public class DeleteCategorieListener implements View.OnClickListener{
 
     public static void choix(int choix, Categorie categorie, Context context) {
 
-        if (choix == 1)
-            Log.i("iS", "Branche pour suppression");
+        if (choix == 1) {
+
             // On passe à l'unique instance de CategorieDao l'unique instance de CategorieView
             // Il n'existe pour chaque qu'un objet DAO et View!!!
             CategorieView categorieView = CategorieView.getInstance();
@@ -47,9 +46,10 @@ public class DeleteCategorieListener implements View.OnClickListener{
             // On fait ici un appel à la base de données pour supprimer la catégorie
             CategorieDao.getInstance(categorieView).delete(categorie);
             // On mets à jour l'adapteur contenant la liste
+            CategorieView.getInstance().liste.remove(categorie);
+            // On renvoie l'information que la suppression est terminée
             CategorieView.getInstance().notifyRetourRequete("Supprimer");
-            Log.i("iS", "Fin de suppression");
 
+        }
     }
-
 }

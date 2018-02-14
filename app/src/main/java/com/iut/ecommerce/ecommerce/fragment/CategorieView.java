@@ -2,29 +2,25 @@ package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
-import com.squareup.picasso.*;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Damien on 09/01/2018.
@@ -32,19 +28,12 @@ import java.util.List;
 
 public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener {
 
-    public ArrayList<Categorie> liste;
+    public ArrayList<Categorie> liste = new ArrayList<Categorie>();
     private CategorieAdaptateur adaptateur;
-
-    public ListView getListView() {
-        return listView;
-    }
-
     private ListView listView;
     private Categorie categorie;
-    private ArrayList temp;
 
-    private static CategorieView categorieView = null;
-
+    private static CategorieView categorieView;
 
     public static CategorieView getInstance(){
         if (categorieView==null){
@@ -64,8 +53,6 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
 
-        liste = new ArrayList<Categorie>();
-
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.categListView);
         // Définition de l'adaptateur
@@ -82,8 +69,8 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         // Récupération des éléments de la liste
         CategorieDao.getInstance(this).findAll();
-
-        notifyRetourRequeteFindAll(liste);
+        notifyRetourRequeteFindAll(this.liste);
+        Log.i("_L", this.liste.toString());
     }
 
     @Nullable
@@ -94,31 +81,31 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public void notifyRetourRequete(String resultat) {
         // Après création/modification/suppression, on remet la liste à jour
-        //((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
-       //((ArrayAdapter<Categorie>) CategorieView.getInstance().getListView().getAdapter()).notifyDataSetChanged();
-        //CategorieAdaptateur.getInstance(CategorieView.getInstance().getContext()).getListView().notifyDataSetChanged();
-        Log.i("nRR", "Tentative de mise à jour");
+        if ("supprimer".equals(resultat)) {
+            Log.i("_S", "Supprimer");
+            ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+        } else if ("modifier".equals(resultat)) {
+            Log.i("_M", "Modifier");
+        } else {
+            Log.i("_C", "Création");
+        }
     }
 
 
-
     @Override
-    public void notifyRetourRequeteFindAll(final ArrayList liste) {
+    public void notifyRetourRequeteFindAll(ArrayList liste) {
 
-        this.temp = liste;
-        try {
-            if (this.liste != null) {
-                this.liste.clear();
-            } else {
-                this.liste = new ArrayList<>();
-            }
-            this.liste.addAll(liste);
-            ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        this.liste.clear();
+        this.liste.addAll(liste);
+        ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+
     }
      //this.terminePatience();
 

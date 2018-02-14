@@ -56,14 +56,14 @@ public class ImageFromURL extends AsyncTask<String, Void, Bitmap> {
                 Log.i("iLe", "On tente de récupérer l'image par défaut");
                 InputStream inputstream= BoutiqueActivity.getAppContext().getAssets().open("croix.png");
                 Bitmap icone = BitmapFactory.decodeStream(inputstream);
-                CategorieAdaptateur.bitmapArrayList.add(icone);
-                Log.i("iLf", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
+                //CategorieAdaptateur.bitmapArrayList.add(icone);
+                //Log.i("iLf", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
             } catch (IOException e) {
                 Log.i("iLg", e.getMessage());
             }
         }
-        CategorieAdaptateur.bitmapArrayList.add(result);
-        Log.i("iLh", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
+        //CategorieAdaptateur.bitmapArrayList.add(result);
+        //Log.i("iLh", "ImageFromURL => longueur liste Bitmap : "+ CategorieAdaptateur.bitmapArrayList.size());
 
 
         //this.activite.terminePatience();

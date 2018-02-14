@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,16 +32,10 @@ import java.util.ArrayList;
 
 public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
 
-    public static ArrayList<Bitmap> bitmapArrayList;
     private Context context;
     private Categorie categorie;
-
-    public ArrayList<Categorie> getcListe() {
-        return cListe;
-    }
-
-    private ArrayList<Categorie> cListe;
     public Categorie currentCategorie;
+    public ArrayList<Categorie> liste;
     private static CategorieAdaptateur categorieAdaptateur;
 
     private ImageView icone;
@@ -52,8 +47,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         // Context = l'activité parente
         super(context, R.layout.item_list_categorie, liste);
         this.context = context;
-        this.cListe = liste;
-
+        this.liste = liste;
     }
 
     public Categorie getCategorie() {
@@ -130,5 +124,11 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
             ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/" + this.categorie.getVisuelCateg());
         }*/
         return convertView;
+    }
+
+    public void update(ArrayList<Categorie> liste) {
+        this.liste.clear();
+        this.liste.addAll(liste);
+        notifyDataSetChanged();
     }
 }
