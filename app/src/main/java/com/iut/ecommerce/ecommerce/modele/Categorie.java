@@ -4,7 +4,7 @@ package com.iut.ecommerce.ecommerce.modele;
  * Created by Miljold on 09/01/2018.
  */
 
-public class Categorie extends Generique {
+public class Categorie extends Generique implements Comparable<Categorie> {
     private int idCateg;
     private String nomCateg;
     private String visuelCateg;
@@ -42,5 +42,37 @@ public class Categorie extends Generique {
 
     public void setVisuelCateg(String visuelCateg) {
         this.visuelCateg = visuelCateg;
+    }
+
+    /**
+     * Méthode nécessaire pour que contains et indexOf de ArrayList fonctionnent
+     * Attention : equals(Object) et non equals(Devise)
+     */
+    @Override
+    public boolean equals(Object d) {
+
+        if (d instanceof Categorie) {
+            return ((Categorie)d).getNomCateg().equals(this.getNomCateg());
+        }
+
+        return false;
+    }
+
+    /**
+     * Méthode de l'interface Comparable à implementer pour
+     * pouvoir utiliser Collections.sort(liste)
+     *
+     * @param o la devise à comparer
+     * @return un entier permettant de trier
+     */
+    @Override
+    public int compareTo(Categorie o) {
+
+        return this.getNomCateg().compareTo(o.getNomCateg());
+    }
+
+    @Override
+    public String toString() {
+        return this.getNomCateg();
     }
 }

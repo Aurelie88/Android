@@ -52,7 +52,7 @@ public class CategorieDao implements Dao<Categorie> {
     public void create(Categorie categorie) {
         RequeteSQL req = new RequeteSQL(activite, this);
         Log.i("create", "Création d'une nouvelle entrée en base");
-        String url = URL + "update.php";
+        String url = URL + "create.php";
         String params = "?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
         req.execute(url+params);
     }
@@ -62,7 +62,7 @@ public class CategorieDao implements Dao<Categorie> {
         RequeteSQL req = new RequeteSQL(activite, this);
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
-        String params = "?nom="+categorie.getNomCateg();
+        String params = "?id_categorie="+categorie.getNomCateg()+"?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
         req.execute(url+params);
     }
 
@@ -71,7 +71,8 @@ public class CategorieDao implements Dao<Categorie> {
         RequeteSQL req = new RequeteSQL(activite, this);
         Log.i("delete", "Suppression d'une entrée en base");
         String url = URL + "delete.php";
-        String params = "?nom="+categorie.getNomCateg();
+        Log.i("iD", String.valueOf(categorie.getIdCateg()));
+        String params = "?id_categorie="+categorie.getIdCateg();
         req.execute(url+params);
     }
 

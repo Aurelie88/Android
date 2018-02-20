@@ -23,6 +23,9 @@ import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
+
+import java.util.ArrayList;
 
 public class BoutiqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,13 +36,14 @@ public class BoutiqueActivity extends AppCompatActivity
     private int currentScreen;
 
     // ViewPager
-    private ViewPagerAdapter adapter;
+    public ViewPagerAdapter adapter;
     private ViewPager viewPager;
 
     // Onglets
     private CategorieView tabCategories;
     private ArticleView tabArticles;
     private PromotionView tabPromotions;
+    public static BoutiqueActivity boutiqueActivity;
 
     private static final int AJOUT_ARTICLE=0;
     private static final int MODIFICATION_ARTICLE=1;
@@ -69,6 +73,7 @@ public class BoutiqueActivity extends AppCompatActivity
         tabLayout.getTabAt(0).select();
 
         appContext = getApplicationContext();
+        boutiqueActivity = this;
 
     }
 
@@ -181,7 +186,7 @@ public class BoutiqueActivity extends AppCompatActivity
         // Ajout des fragments dans le viewPager
         // Lors du swipe, on bascule d'un fragment à l'autre
         if (savedInstanceState == null) {
-            this.tabCategories = new CategorieView();
+            this.tabCategories = CategorieView.getInstance();
             this.tabArticles = new ArticleView();
             this.tabPromotions = new PromotionView();
             adapter.addFragment(this.tabCategories, "Catégories");
@@ -207,7 +212,7 @@ public class BoutiqueActivity extends AppCompatActivity
 
     }
 
-    private Fragment getFragment(int position){
+    public Fragment getFragment(int position){
 
         if (this.savedInstanceState == null) {
             Log.e("gF null " , adapter.getItem(position)+"");

@@ -22,6 +22,8 @@ import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
 
+import static com.iut.ecommerce.ecommerce.BoutiqueActivity.getAppContext;
+
 /**
  * Created by Damien on 09/01/2018.
  */
@@ -55,21 +57,11 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.categListView);
-        // Définition de l'adaptateur
-        this.adaptateur = new CategorieAdaptateur(getActivity(), liste);
-        // Lien entre adaptateur et listview (remplissage de la liste
-        listView.setAdapter(adaptateur);
-        // Définition de l'action sur click sur un élément de la liste (texte ou bitmapArrayList catégorie)
-        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // TODO : Action à réaliser lors d'un clique sur la liste ?
-            }
-        });
+
 
         // Récupération des éléments de la liste
         CategorieDao.getInstance(this).findAll();
-        notifyRetourRequeteFindAll(this.liste);
+        //notifyRetourRequeteFindAll(this.liste);
         Log.i("_L", this.liste.toString());
     }
 
@@ -90,7 +82,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         // Après création/modification/suppression, on remet la liste à jour
         if ("supprimer".equals(resultat)) {
             Log.i("_S", "Supprimer");
-            ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+            //((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
         } else if ("modifier".equals(resultat)) {
             Log.i("_M", "Modifier");
         } else {
@@ -104,6 +96,19 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         this.liste.clear();
         this.liste.addAll(liste);
+
+        // Définition de l'adaptateur
+        this.adaptateur = new CategorieAdaptateur(getContext(), liste);
+        // Lien entre adaptateur et listview (remplissage de la liste
+        listView.setAdapter(adaptateur);
+        // Définition de l'action sur click sur un élément de la liste (texte ou bitmapArrayList catégorie)
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO : Action à réaliser lors d'un clique sur la liste ?
+            }
+        });
+
         ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
 
     }

@@ -20,15 +20,11 @@ public class Message {
 
     // Boîte de dialogue d'alerte pour la suppression
     // Si implémentation dans une autre classe, penser à ajouter le context en paramètre
-    public static void SupprimerAlertDialog(final Context context, String title, String message, final Categorie currentCategorie) {
+    public static void supprimerAlertDialog(final Context context, String title, String message, final Categorie currentCategorie, DialogInterface.OnClickListener ecouteur) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setMessage(message + currentCategorie.getNomCateg());
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                DeleteCategorieListener.choix(YES, currentCategorie, context);
-            }
-        });
+        builder.setPositiveButton(android.R.string.yes, ecouteur);
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // On ne fait rien

@@ -34,9 +34,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
 
     private Context context;
     private Categorie categorie;
-    public Categorie currentCategorie;
     public ArrayList<Categorie> liste;
-    private static CategorieAdaptateur categorieAdaptateur;
 
     private ImageView icone;
     private TextView tvNom;
@@ -48,6 +46,8 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         super(context, R.layout.item_list_categorie, liste);
         this.context = context;
         this.liste = liste;
+        Log.i("liste", liste + "");
+        Log.i("adap", this+"");
     }
 
     public Categorie getCategorie() {
@@ -58,24 +58,6 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         this.categorie = categorie;
     }
 
-    public static CategorieAdaptateur getInstance(Context context){
-        if (categorieAdaptateur == null ){
-            categorieAdaptateur = new CategorieAdaptateur(context, new ArrayList<Categorie>());
-        }
-        return categorieAdaptateur;
-    }
-
-    @Nullable
-    @Override
-    public Categorie getItem(int position) {
-        this.currentCategorie = super.getItem(position);
-        return super.getItem(position);
-    }
-
-    @Override
-    public int getCount() {
-        return super.getCount();
-    }
 
     @NonNull
     @Override
@@ -85,7 +67,6 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
         setCategorie(getItem(position));
 
         // Si la convertView est null, on la crée
-        if (convertView==null) {
             // On commence par crée une ligne de la listView avec inflate
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_list_categorie, parent, false);
 
@@ -94,18 +75,19 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
             tvNom = convertView.findViewById(R.id.cl_nom);
             icone = convertView.findViewById(R.id.cl_visuel);
             supprimer = convertView.findViewById(R.id.cl_supprimer);
+            supprimer.setTag(position);
+            Log.i("postion", position + " " + this.getItem(position));
             //mViewHolder.modifier = (ImageView) convertView.findViewById(R.id.cl_modifier);
 
             // Définition d'un écouteur sur l'bitmapArrayList de suppression
             // On appelle le DeleteCategorieListener qui appellera la boite de dialogue pour la suppression
             // IMPORTANT : On obtient le bon context grâce à la vue view.getContext()
-            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext(), categorieAdaptateur));
+            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext(), this));
 
             // Définition d'un écouteur sur l'bitmapArrayList de modification
             // On appelle le ModifyCategorieListener qui appellera l'activité pour la modification
             // IMPORTANT : On obtient le bon context grâce à la vue view.getContext()
             modifier.setOnClickListener(new ModifyCategorieListener(getCategorie(), modifier.getContext()));
-        }
 
         // On set le texte
         tvNom.setText(categorie.getNomCateg());
@@ -124,11 +106,5 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
             ifu.execute("https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/" + this.categorie.getVisuelCateg());
         }*/
         return convertView;
-    }
-
-    public void update(ArrayList<Categorie> liste) {
-        this.liste.clear();
-        this.liste.addAll(liste);
-        notifyDataSetChanged();
     }
 }
