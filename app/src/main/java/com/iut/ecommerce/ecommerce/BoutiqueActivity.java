@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.iut.ecommerce.ecommerce.activity.AjouterArticleActivity;
 import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
@@ -45,10 +46,11 @@ public class BoutiqueActivity extends AppCompatActivity
     private PromotionView tabPromotions;
     public static BoutiqueActivity boutiqueActivity;
 
-    private static final int AJOUT_ARTICLE=0;
+
     private static final int MODIFICATION_ARTICLE=1;
     private static final int AJOUT_CATEGORIE=2;
     private static final int MODIFICATION_CATEGORIE=3;
+    private static final int AJOUT_ARTICLE=4;
 
     private static Context appContext;
 
@@ -155,8 +157,8 @@ public class BoutiqueActivity extends AppCompatActivity
 
         } else if (id==1) {
             // Ajouter article
-            Message.afficheMessageSnack(view, "Ajouter article", Snackbar.LENGTH_LONG);
-
+            Intent appelActivite = new Intent(this, AjouterArticleActivity.class);
+            startActivityForResult(appelActivite, AJOUT_ARTICLE);
         } else if (id==2) {
             // Ajouter promotion
             Message.afficheMessageSnack(view, "Ajouter promotion", Snackbar.LENGTH_LONG);

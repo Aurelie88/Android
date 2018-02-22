@@ -27,8 +27,8 @@ import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.CategorieDao;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttente;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
@@ -313,6 +313,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
         protected void onPostExecute(String result) {
             Log.e("Response", "Response from server: " + result);
             super.onPostExecute(result);
+            finish();
         }
 
     }

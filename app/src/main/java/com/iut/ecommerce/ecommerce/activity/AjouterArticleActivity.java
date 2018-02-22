@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,19 +17,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.CategorieDao;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
-import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttente;
-import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -38,6 +37,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AjouterArticleActivity extends AppCompatActivity /*implements ActiviteEnAttente*/{
 /*
@@ -90,11 +92,12 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
 
     }
 */
-    ImageView imageview;
+    private Spinner spinner;
+ImageView imageview;
     String imagepath;
     File sourceFile;
     int totalSize = 0;
-    String FILE_UPLOAD_URL = "http://www.example.com/upload/UploadToServer.php";
+    String FILE_UPLOAD_URL = "https://infodb.iutmetz.univ-lorraine.fr/~cuny117u/upload/UploadToServer.php";
     LinearLayout uploader_area;
     LinearLayout progress_area;
     public DonutProgress donut_progress;
@@ -103,7 +106,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_ajouter_categorie);
+        setContentView(R.layout.activity_ajouter_article);
 
         uploader_area = (LinearLayout) findViewById(R.id.uploader_area);
         progress_area = (LinearLayout) findViewById(R.id.progress_area);
@@ -111,7 +114,17 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         Button upload_button = (Button) findViewById(R.id.button_upload);
         donut_progress = (DonutProgress) findViewById(R.id.donut_progress);
         imageview = (ImageView) findViewById(R.id.imageview);
+        spinner = (Spinner) findViewById(R.id.list_Categorie);
+        //Initialization du spinner
+        List <String> list = new ArrayList<String>();
+        list.add("chaussette");
+        list.add("t-shirt");
 
+
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,list);
+
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
 
         Boolean hasPermission = (ContextCompat.checkSelfPermission(AjouterArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -138,7 +151,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             @Override
             public void onClick(View view) {
                 if (imagepath != null) {
-                    new UploadFileToServer().execute();
+                    new AjouterArticleActivity.UploadFileToServer().execute();
                 }else{
                     Toast.makeText(getApplicationContext(), "Please select a file to upload.", Toast.LENGTH_SHORT).show();
                 }
@@ -174,7 +187,9 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
             Uri selectedImageUri = data.getData();
+            Log.i("data.getData", String.valueOf(selectedImageUri));
             imagepath = getPath(selectedImageUri);
+            Log.i("imagepath", String.valueOf(imagepath));
             BitmapFactory.Options options = new BitmapFactory.Options();
             // down sizing image as it throws OutOfMemory Exception for larger images
             // options.inSampleSize = 10;
@@ -184,15 +199,34 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         }
     }
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+       /* String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        return cursor.getString(column_index);*/
+        String filePath = "";
+        // Image pick from recent
+        String wholeID = DocumentsContract.getDocumentId(uri);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = {MediaStore.Images.Media.DATA};
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{id}, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
     }
-
-
-
 
     private class UploadFileToServer extends AsyncTask<String, String, String> {
         @Override
@@ -220,7 +254,14 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
 
             try {
                 connection = (HttpURLConnection) new URL(FILE_UPLOAD_URL).openConnection();
+
                 connection.setRequestMethod("POST");
+                /*connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("ENCTYPE", "multipart/form-date");
+                connection.setRequestProperty("Content-type", "multipart/form-data;boundary="+boundary);
+                connection.setRequestProperty("fileToUpload", imagepath );
+                dos = new DataOutputStream(connection)*/
+
                 String boundary = "---------------------------boundary";
                 String tail = "\r\n--" + boundary + "--\r\n";
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
@@ -275,11 +316,12 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                 while((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
-
+                return String.valueOf(builder);
             } catch (Exception e) {
                 // Exception
             } finally {
                 if (connection != null) connection.disconnect();
+
             }
             return null;
         }

@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AjouterCategorieActivity" />
+        <activity android:name=".activity.AjouterArticleActivity" />
         <activity android:name=".activity.ModifierCategorieActivity"></activity>
     </application>
 
