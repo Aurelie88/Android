@@ -7,7 +7,9 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.iut.ecommerce.ecommerce.listener.DeleteCategorieListener;
+import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.modele.Promotion;
 
 /**
  * Created by Damien on 04/02/2018.
@@ -20,10 +22,21 @@ public class Message {
 
     // Boîte de dialogue d'alerte pour la suppression
     // Si implémentation dans une autre classe, penser à ajouter le context en paramètre
-    public static void supprimerAlertDialog(final Context context, String title, String message, final Categorie currentCategorie, DialogInterface.OnClickListener ecouteur) {
+    public static void supprimerAlertDialog(final Context context, String title, String message, final Object object, DialogInterface.OnClickListener ecouteur) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
-        builder.setMessage(message + currentCategorie.getNomCateg());
+
+        if (object instanceof Categorie){
+            Categorie o = (Categorie) object;
+            builder.setMessage(message + o.getNomCateg());
+        } else if (object instanceof Article) {
+            Article o = (Article) object;
+            builder.setMessage(message + o.getNomArticle());
+        } else {
+            Promotion o = (Promotion) object;
+            builder.setMessage(message + o.getPourcentage());
+        }
+
         builder.setPositiveButton(android.R.string.yes, ecouteur);
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

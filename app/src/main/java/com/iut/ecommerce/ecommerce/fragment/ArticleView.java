@@ -1,17 +1,23 @@
 package com.iut.ecommerce.ecommerce.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.adaptateur.ArticleAdaptateur;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.modele.Article;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
 
@@ -19,38 +25,108 @@ import java.util.ArrayList;
  * Created by Damien on 09/01/2018.
  */
 
-public class ArticleView extends Fragment {
+public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener{
 
-    private ListView maListe;
-    private ListAdapter adaptateur;
+    public ArrayList<Article> liste = new ArrayList<Article>();
+    private ArticleAdaptateur adaptateur;
+    private ListView listView;
+    private Article article;
 
-    public ArticleView() {
-        super();
+    private static ArticleView articleView;
+
+    public static ArticleView getInstance(){
+        if (articleView==null){
+            articleView = new ArticleView();
+        }
+        return articleView;
     }
 
+    public ArticleView() {
 
-    private ArrayList liste;
+    }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
 
-        liste = new ArrayList<Categorie>();
-        liste.add(new Categorie(1, "Casquette", "casquette.png"));
-        liste.add(new Categorie(2, "Pantalon", "pantalon.png"));
-        liste.add(new Categorie(3, "Tee-shirt", "teeshirt.png"));
+        // Définition de la listView
+        this.listView = getActivity().findViewById(R.id.articleListView);
 
-        this.adaptateur = new CategorieAdaptateur(this.getContext(), liste);
-        ListView listView = getActivity().findViewById(R.id.articleListView);
-        listView.setAdapter(adaptateur);
+
+        // Récupération des éléments de la liste
+        ArticleDao.getInstance(this).findAll();
+        //notifyRetourRequeteFindAll(this.liste);
+        Log.i("_L", this.liste.toString());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.article_main, container, false);
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void notifyRetourRequete(String resultat) {
+        // Après création/modification/suppression, on remet la liste à jour
+        if ("supprimer".equals(resultat)) {
+            Log.i("_S", "Supprimer");
+
+        } else if ("modifier".equals(resultat)) {
+            Log.i("_M", "Modifier");
+        } else {
+            Log.i("_C", "Création");
+        }
+    }
+
+
+    @Override
+    public void notifyRetourRequeteFindAll(ArrayList liste) {
+
+        this.liste.clear();
+        this.liste.addAll(liste);
+
+        // Définition de l'adaptateur
+        this.adaptateur = new ArticleAdaptateur(getContext(), liste);
+        // Lien entre adaptateur et listview (remplissage de la liste
+        listView.setAdapter(adaptateur);
+        // Définition de l'action sur click sur un élément de la liste (texte ou bitmapArrayList catégorie)
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO : Action à réaliser lors d'un clique sur la liste ?
+            }
+        });
+
+        ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+
+    }
+    //this.terminePatience();
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("adapter", String.valueOf(id));
+        setArticle(this.liste.get(position));
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

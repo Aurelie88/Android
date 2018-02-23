@@ -3,7 +3,7 @@ package com.iut.ecommerce.ecommerce.dao;
 import android.util.Log;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
-import com.iut.ecommerce.ecommerce.utils.RequeteSQL;
+import com.iut.ecommerce.ecommerce.utils.RequeteSQLCategorie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,14 +43,14 @@ public class CategorieDao implements Dao<Categorie> {
 
     @Override
     public void findAll() {
-        RequeteSQL req = new RequeteSQL(activite, this);
+        RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
         req.execute(URL + "find.php");
     }
 
 
     @Override
     public void create(Categorie categorie) {
-        RequeteSQL req = new RequeteSQL(activite, this);
+        RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
         Log.i("create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
         String params = "?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
@@ -59,7 +59,7 @@ public class CategorieDao implements Dao<Categorie> {
 
     @Override
     public void update(Categorie categorie) {
-        RequeteSQL req = new RequeteSQL(activite, this);
+        RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
         String params = "?id_categorie="+categorie.getNomCateg()+"?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
@@ -68,7 +68,7 @@ public class CategorieDao implements Dao<Categorie> {
 
     @Override
     public void delete(Categorie categorie) {
-        RequeteSQL req = new RequeteSQL(activite, this);
+        RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
         Log.i("delete", "Suppression d'une entrée en base");
         String url = URL + "delete.php";
         Log.i("iD", String.valueOf(categorie.getIdCateg()));

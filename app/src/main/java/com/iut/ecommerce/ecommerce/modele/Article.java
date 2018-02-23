@@ -6,17 +6,20 @@ package com.iut.ecommerce.ecommerce.modele;
 
 public class Article extends Generique {
     private int idArticle;
-    private int reference;
+    private String reference;
     private String nomArticle;
     private float tarif;
     private String visuelArticle;
+    private int idCategorie;
 
-    public Article(int idArticle, int reference, String nomArticle, float tarif, String visuelArticle) {
+    // Article(id_article, reference, nom, tarif, visuel, id_categorie)
+    public Article(int idArticle, String reference, String nomArticle, float tarif, String visuelArticle, int idCategorie) {
         this.setIdArticle(idArticle);
         this.setReference(reference);
         this.setNomArticle(nomArticle);
         this.setTarif(tarif);
         this.setVisuelArticle(visuelArticle);
+        this.setIdCategorie(idCategorie);
     }
 
     public int getIdArticle() {
@@ -27,11 +30,11 @@ public class Article extends Generique {
         this.idArticle = idArticle;
     }
 
-    public int getReference() {
+    public String getReference() {
         return reference;
     }
 
-    public void setReference(int reference) {
+    public void setReference(String reference) {
         this.reference = reference;
     }
 
@@ -57,5 +60,13 @@ public class Article extends Generique {
 
     public void setVisuelArticle(String visuelArticle) {
         this.visuelArticle = visuelArticle;
+    }
+
+    public int getIdCategorie() {
+        return idCategorie;
+    }
+
+    public void setIdCategorie(int idCategorie) {
+        this.idCategorie = idCategorie;
     }
 }
