@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -20,13 +19,11 @@ import android.view.View;
 
 import com.iut.ecommerce.ecommerce.activity.AjouterArticleActivity;
 import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
+import com.iut.ecommerce.ecommerce.activity.AjouterPromotionActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
-
-import java.util.ArrayList;
 
 public class BoutiqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +48,7 @@ public class BoutiqueActivity extends AppCompatActivity
     private static final int AJOUT_CATEGORIE=2;
     private static final int MODIFICATION_CATEGORIE=3;
     private static final int AJOUT_ARTICLE=4;
+    private static final int AJOUT_PROMOTION=5;
 
     private static Context appContext;
 
@@ -161,7 +159,8 @@ public class BoutiqueActivity extends AppCompatActivity
             startActivityForResult(appelActivite, AJOUT_ARTICLE);
         } else if (id==2) {
             // Ajouter promotion
-            Message.afficheMessageSnack(view, "Ajouter promotion", Snackbar.LENGTH_LONG);
+            Intent appelActivite = new Intent(this, AjouterPromotionActivity.class);
+            startActivityForResult(appelActivite, AJOUT_PROMOTION);
         }
     }
 

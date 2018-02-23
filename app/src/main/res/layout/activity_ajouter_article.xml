@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.iut.ecommerce.ecommerce.activity.AjouterArticleActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <LinearLayout
         android:id="@+id/uploader_area"
         android:layout_width="match_parent"
@@ -42,7 +46,7 @@
             android:id="@+id/tv_prixArticle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nom article :"
+            android:text="prix de l'article"
             android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -66,7 +70,7 @@
             android:id="@+id/tv_CategorieArticle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nom article :"
+            android:text="Chossir la catégorie"
             android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -106,7 +110,7 @@
             android:textSize="19dp"
             android:textStyle="bold"/>
     </LinearLayout>
-
+    </ScrollView>
     <LinearLayout
         android:id="@+id/progress_area"
         android:layout_width="match_parent"

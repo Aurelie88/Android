@@ -93,7 +93,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
     }
 */
     private Spinner spinner;
-ImageView imageview;
+    ImageView imageview;
     String imagepath;
     File sourceFile;
     int totalSize = 0;
