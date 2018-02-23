@@ -12,6 +12,7 @@ public class Promotion extends Generique{
     private Date dateFin;
     private float pourcentage;
 
+    // Promotion(id_article, date_debut, date_fin, pourcentage)
     public Promotion(int idArticle, Date dateDebut, Date dateFin, float pourcentage) {
         this.setIdArticle(idArticle);
         this.setDateDebut(dateDebut);

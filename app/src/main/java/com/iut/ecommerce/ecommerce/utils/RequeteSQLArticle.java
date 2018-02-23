@@ -3,9 +3,9 @@ package com.iut.ecommerce.ecommerce.utils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
-import com.iut.ecommerce.ecommerce.dao.Dao;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.dao.CategorieDao;
+import com.iut.ecommerce.ecommerce.modele.Article;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,12 +18,12 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Damien on 25/01/2018.
  */
 
-public class RequeteSQL extends AsyncTask<String, Void, String>{
+public class RequeteSQLArticle extends AsyncTask<String, Void, String>{
 
     private ActiviteEnAttenteAvecResultat activite;
-    private Dao<Categorie> dao;
+    private ArticleDao dao;
 
-    public RequeteSQL(ActiviteEnAttenteAvecResultat activite, Dao<Categorie> dao){
+    public RequeteSQLArticle(ActiviteEnAttenteAvecResultat activite, ArticleDao dao){
         this.activite = activite;
         this.dao = dao;
     }
