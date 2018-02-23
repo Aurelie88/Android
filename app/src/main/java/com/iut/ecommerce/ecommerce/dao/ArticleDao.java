@@ -66,7 +66,7 @@ public class ArticleDao implements Dao<Article> {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
-        String params = "?id_categorie="+article.getNomArticle()+"?nom="+article.getNomArticle()+"&visuel="+article.getVisuelArticle();
+        String params = "?id_article="+article.getNomArticle()+"?nom="+article.getNomArticle()+"&visuel="+article.getVisuelArticle();
         req.execute(url+params);
     }
 
@@ -76,7 +76,7 @@ public class ArticleDao implements Dao<Article> {
         Log.i("delete", "Suppression d'une entrée en base");
         String url = URL + "delete.php";
         Log.i("iD", String.valueOf(article.getIdArticle()));
-        String params = "?id_categorie="+article.getIdArticle();
+        String params = "?id_article="+article.getIdArticle();
         req.execute(url+params);
     }
 
