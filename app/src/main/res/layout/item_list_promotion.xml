@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <TextView
+
+        android:id="@+id/cl_nom"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="80"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:text="Label"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20dp" />
+
+    <ImageView
+
+        android:id="@+id/cl_modifier"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:contentDescription="TODO"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit" />
+
+    <ImageView
+        android:id="@+id/cl_supprimer"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:contentDescription="TODO"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_delete_forever" />
+
+</LinearLayout>

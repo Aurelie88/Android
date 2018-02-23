@@ -21,9 +21,6 @@ import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
 
-/**
- * Created by Damien on 09/01/2018.
- */
 
 public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener{
 
@@ -58,7 +55,6 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
         // Récupération des éléments de la liste
         ArticleDao.getInstance(this).findAll();
-        //notifyRetourRequeteFindAll(this.liste);
         Log.i("_L", this.liste.toString());
     }
 

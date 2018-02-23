@@ -20,6 +20,11 @@ public class Promotion extends Generique{
         this.setPourcentage(pourcentage);
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(pourcentage)+"%";
+    }
+
     public int getIdArticle() {
         return idArticle;
     }

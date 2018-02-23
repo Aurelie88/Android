@@ -188,8 +188,8 @@ public class BoutiqueActivity extends AppCompatActivity
         // Lors du swipe, on bascule d'un fragment à l'autre
         if (savedInstanceState == null) {
             this.tabCategories = CategorieView.getInstance();
-            this.tabArticles = new ArticleView();
-            this.tabPromotions = new PromotionView();
+            this.tabArticles = ArticleView.getInstance();
+            this.tabPromotions = PromotionView.getInstance();
             adapter.addFragment(this.tabCategories, "Catégories");
             adapter.addFragment(this.tabArticles, "Articles");
             adapter.addFragment(this.tabPromotions, "Promotions");
