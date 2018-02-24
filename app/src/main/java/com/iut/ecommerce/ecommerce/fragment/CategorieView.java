@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
+import com.iut.ecommerce.ecommerce.Message;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
@@ -79,15 +81,25 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
     @Override
     public void notifyRetourRequete(String resultat) {
-        // Après création/modification/suppression, on remet la liste à jour
+        // Après création/modification/suppression, ajout d'éventuel message
         if ("supprimer".equals(resultat)) {
-            Log.i("_S", "Supprimer");
-            //((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
+            Log.i("_S", "supprimer");
+
         } else if ("modifier".equals(resultat)) {
-            Log.i("_M", "Modifier");
+            Log.i("_M", "modifier");
+            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+
+        } else if ("creer".equals(resultat)){
+            Log.i("_C", "creer");
+            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+
+        } else if ("nok".equals("nok")) {
+            Log.i("_S", "erreur surpression");
+
         } else {
-            Log.i("_C", "Création");
+            Log.i("_S", "autre erreur");
         }
+
     }
 
 

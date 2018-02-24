@@ -39,8 +39,8 @@
         </activity>
         <activity android:name=".activity.AjouterCategorieActivity" />
         <activity android:name=".activity.AjouterArticleActivity" />
+        <activity android:name=".activity.AjouterPromotionActivity"/>
         <activity android:name=".activity.ModifierCategorieActivity" />
-        <activity android:name=".activity.AjouterPromotionActivity"></activity>
     </application>
 
 </manifest>

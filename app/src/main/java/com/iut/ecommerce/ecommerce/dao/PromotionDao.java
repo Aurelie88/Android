@@ -32,7 +32,7 @@ public class PromotionDao implements Dao<Promotion> {
     // Singleton instance
     private static com.iut.ecommerce.ecommerce.dao.PromotionDao mInstance = null;
 
-    public static com.iut.ecommerce.ecommerce.dao.PromotionDao getInstance(PromotionView activite) {
+    public static com.iut.ecommerce.ecommerce.dao.PromotionDao getInstance(ActiviteEnAttenteAvecResultat activite) {
         if (mInstance == null) {
             mInstance = new com.iut.ecommerce.ecommerce.dao.PromotionDao(activite);
         } else {

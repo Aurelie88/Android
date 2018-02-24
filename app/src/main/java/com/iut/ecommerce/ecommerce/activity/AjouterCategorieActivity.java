@@ -8,28 +8,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.renderscript.Sampler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.ArticleDao;
-import com.iut.ecommerce.ecommerce.modele.Article;
-import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttente;
+import com.iut.ecommerce.ecommerce.dao.CategorieDao;
+import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.io.BufferedInputStream;
@@ -42,61 +39,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class AjouterCategorieActivity extends AppCompatActivity /*implements View.OnClickListener */{
-   /* private TextView tv_nomCategorie;
-    private EditText et_nomCategorie;
-    private TextView tv_visuelCategorie;
-    private EditText et_visuelCategorie;
-    private ActiviteEnAttente activite;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajouter_categorie);
-        this.tv_nomCategorie= this.findViewById(R.id.tv_nomCategorie);
-        this.et_nomCategorie= this.findViewById(R.id.et_nomCategorie);
-        this.tv_visuelCategorie= this.findViewById(R.id.tv_visuelCategorie);
-        this.et_visuelCategorie = this.findViewById(R.id.et_visuelCategorie);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id==android.R.id.home){
-            this.finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    public void action(View view) {
-        Log.i("Valider", "Appui sur le bouton de validation");
-
-        Categorie categorie = new Categorie(et_nomCategorie.getText().toString(), et_visuelCategorie.getText().toString());
-
-        CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(categorie);
-    }
-
-    @Override
-    public void onClick(View view) {
-
-    }*/
+    EditText et_nomCategorie;
     ImageView imageview;
     String imagepath;
     File sourceFile;
     int totalSize = 0;
-    String FILE_UPLOAD_URL = "https://infodb.iutmetz.univ-lorraine.fr/~cuny117u/upload/UploadToServer.php";
+    String FILE_UPLOAD_URL = "https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/upload/UploadToServer.php";
     LinearLayout uploader_area;
     LinearLayout progress_area;
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
+
+    private ActiviteEnAttenteAvecResultat activite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_ajouter_categorie);
 
+        et_nomCategorie = (EditText) findViewById(R.id.et_nomCategorie);
         uploader_area = (LinearLayout) findViewById(R.id.uploader_area);
         progress_area = (LinearLayout) findViewById(R.id.progress_area);
         Button select_button = (Button) findViewById(R.id.button_selectpic);
@@ -104,6 +67,9 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
         donut_progress = (DonutProgress) findViewById(R.id.donut_progress);
         imageview = (ImageView) findViewById(R.id.imageview);
 
+
+        // Modifier suivant l'activité appelante
+        activite = (ActiviteEnAttenteAvecResultat) CategorieView.getInstance();
 
         Boolean hasPermission = (ContextCompat.checkSelfPermission(AjouterCategorieActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -121,7 +87,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                 Intent intent = new Intent();
                 intent.setType("image/*"); // intent.setType("video/*"); to select videos to upload
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                startActivityForResult(Intent.createChooser(intent, "Choisir une image"), 1);
             }
         });
 
@@ -130,13 +96,18 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
             @Override
             public void onClick(View view) {
                 if (imagepath != null) {
-                    new UploadFileToServer().execute();
+                        // On upload le fichier image sur le serveur
+                        new UploadFileToServer().execute();
+
+                        // On crée la référence dans la base de données
+                        Categorie categorie = new Categorie(et_nomCategorie.getText().toString(), sourceFile.getName());
+                        //TODO A changer suivant type (Categorie/Article/Promotion)
+                        CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(categorie);
                 }else{
-                    Toast.makeText(getApplicationContext(), "Please select a file to upload.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
 
@@ -158,8 +129,6 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
 
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -178,11 +147,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
         }
     }
     public String getPath(Uri uri) {
-       /* String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);*/
+
         String filePath = "";
             // Image pick from recent
             String wholeID = DocumentsContract.getDocumentId(uri);
@@ -206,9 +171,6 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
             cursor.close();
             return filePath;
         }
-
-
-
 
 
     private class UploadFileToServer extends AsyncTask<String, String, String> {
@@ -239,11 +201,6 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                 connection = (HttpURLConnection) new URL(FILE_UPLOAD_URL).openConnection();
 
                 connection.setRequestMethod("POST");
-                /*connection.setRequestProperty("Connection", "Keep-Alive");
-                connection.setRequestProperty("ENCTYPE", "multipart/form-date");
-                connection.setRequestProperty("Content-type", "multipart/form-data;boundary="+boundary);
-                connection.setRequestProperty("fileToUpload", imagepath );
-                dos = new DataOutputStream(connection)*/
 
                 String boundary = "---------------------------boundary";
                 String tail = "\r\n--" + boundary + "--\r\n";

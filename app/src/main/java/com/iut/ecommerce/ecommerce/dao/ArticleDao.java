@@ -28,7 +28,7 @@ public class ArticleDao implements Dao<Article> {
     // Singleton instance
     private static ArticleDao mInstance = null;
 
-    public static ArticleDao getInstance(ArticleView activite) {
+    public static ArticleDao getInstance(ActiviteEnAttenteAvecResultat activite) {
         if(mInstance == null)
         {
             mInstance = new ArticleDao(activite);
@@ -41,7 +41,7 @@ public class ArticleDao implements Dao<Article> {
     }
 
 
-    private ArticleDao(ArticleView activite) {
+    private ArticleDao(ActiviteEnAttenteAvecResultat activite) {
         this.activite = activite;
     }
 
@@ -57,7 +57,12 @@ public class ArticleDao implements Dao<Article> {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
         Log.i("create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
-        String params = "?nom="+article.getNomArticle()+"&visuel="+article.getVisuelArticle();
+
+        String params = "?reference="+article.getReference()
+                +"&nom="+article.getNomArticle()
+                +"&tarif="+article.getTarif()
+                +"&visuel="+article.getVisuelArticle()
+                +"&id_categorie="+article.getIdCategorie();
         req.execute(url+params);
     }
 
@@ -66,7 +71,12 @@ public class ArticleDao implements Dao<Article> {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
-        String params = "?id_article="+article.getNomArticle()+"?nom="+article.getNomArticle()+"&visuel="+article.getVisuelArticle();
+        String params = "?reference="+article.getReference()
+                +"&nom="+article.getNomArticle()
+                +"&tarif="+article.getTarif()
+                +"&visuel="+article.getVisuelArticle()
+                +"&id_categorie="+article.getIdCategorie();
+        Log.i("_artDao", url+params);
         req.execute(url+params);
     }
 

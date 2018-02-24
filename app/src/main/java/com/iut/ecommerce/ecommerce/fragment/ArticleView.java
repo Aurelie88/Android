@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.adaptateur.ArticleAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
@@ -72,14 +73,23 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
     @Override
     public void notifyRetourRequete(String resultat) {
-        // Après création/modification/suppression, on remet la liste à jour
+        // Après création/modification/suppression, ajout d'éventuel message
         if ("supprimer".equals(resultat)) {
-            Log.i("_S", "Supprimer");
+            Log.i("_S", "supprimer");
 
         } else if ("modifier".equals(resultat)) {
-            Log.i("_M", "Modifier");
+            Log.i("_M", "modifier");
+            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+
+        } else if ("creer".equals(resultat)){
+            Log.i("_C", "creer");
+            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+
+        } else if ("nok".equals("nok")) {
+            Log.i("_S", "erreur surpression");
+
         } else {
-            Log.i("_C", "Création");
+            Log.i("_S", "autre erreur");
         }
     }
 

@@ -8,14 +8,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,11 +22,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.fragment.ArticleView;
+import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.modele.Article;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -38,76 +42,37 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AjouterArticleActivity extends AppCompatActivity /*implements ActiviteEnAttente*/{
-/*
-    private TextView designation;
-    private TextView reference;
-    private TextView tarif;
-    private EditText editDesignation;
-    private EditText editReference;
-    private EditText editTarif;
-
-    private ActiviteEnAttente activite;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajouter_categorie);
-
-        EditText editDesignation = findViewById(R.id.et_nomCategorie);
-        EditText editTarif = findViewById(R.id.et_visuelCategorie);
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id==android.R.id.home){
-            this.finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void action(View view) {
-
-        Log.i("Valider", "Appui sur le bouton de validation");
-
-        Categorie categorie = new Categorie(editDesignation.getText().toString(), editTarif.getText().toString());
-
-        CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(categorie);
-
-
-    }
-
-    @Override
-    public void notifyRetourRequete(String resultat) {
-
-    }
-*/
+    EditText et_nomArticle;
+    EditText et_reference;
+    EditText et_prixArticle;
     private Spinner spinner;
     ImageView imageview;
     String imagepath;
     File sourceFile;
     int totalSize = 0;
-    String FILE_UPLOAD_URL = "https://infodb.iutmetz.univ-lorraine.fr/~cuny117u/upload/UploadToServer.php";
+    String FILE_UPLOAD_URL = "https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/upload/UploadToServer.php";
     LinearLayout uploader_area;
     LinearLayout progress_area;
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
+
+    private ActiviteEnAttenteAvecResultat activite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_ajouter_article);
 
+
+        et_nomArticle = (EditText) findViewById(R.id.et_nomArticle);
+        et_reference = (EditText) findViewById(R.id.et_reference);
+        et_prixArticle = (EditText) findViewById(R.id.et_prixArticle);
         uploader_area = (LinearLayout) findViewById(R.id.uploader_area);
         progress_area = (LinearLayout) findViewById(R.id.progress_area);
         Button select_button = (Button) findViewById(R.id.button_selectpic);
@@ -115,16 +80,23 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         donut_progress = (DonutProgress) findViewById(R.id.donut_progress);
         imageview = (ImageView) findViewById(R.id.imageview);
         spinner = (Spinner) findViewById(R.id.list_Categorie);
+
+        // Récupération de la liste de catégorie
+        ArrayList<Categorie> temp = CategorieView.getInstance().liste;
         //Initialization du spinner
-        List <String> list = new ArrayList<String>();
-        list.add("chaussette");
-        list.add("t-shirt");
+        // On remplie la liste avec les différentes catégories
+        List <Categorie> list = new ArrayList<Categorie>();
+        for (Categorie i : temp) {
+            list.add(i);
+        }
 
-
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,list);
-
+        // Definition de l'arrayAdapter pour le spinner
+        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,list);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
+
+        // Modifier suivant l'activité appelante
+        activite = (ActiviteEnAttenteAvecResultat) ArticleView.getInstance();
 
         Boolean hasPermission = (ContextCompat.checkSelfPermission(AjouterArticleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -142,7 +114,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                 Intent intent = new Intent();
                 intent.setType("image/*"); // intent.setType("video/*"); to select videos to upload
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                startActivityForResult(Intent.createChooser(intent, "Choisir une image"), 1);
             }
         });
 
@@ -151,9 +123,24 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             @Override
             public void onClick(View view) {
                 if (imagepath != null) {
-                    new AjouterArticleActivity.UploadFileToServer().execute();
+                        // On upload le fichier image sur le serveur
+                        new UploadFileToServer().execute();
+
+                        Categorie temp = (Categorie) spinner.getSelectedItem();
+
+                        Article article = new Article(
+                                -1,
+                                et_nomArticle.getText().toString(),
+                                et_reference.getText().toString(),
+                                Float.parseFloat(et_prixArticle.getText().toString()),
+                                sourceFile.getName(),
+                                temp.getIdCateg()
+                                );
+                        //TODO A changer suivant type (Categorie/Article/Promotion)
+                        Log.i("_artAjout", article.toString());
+                        ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(article);
                 }else{
-                    Toast.makeText(getApplicationContext(), "Please select a file to upload.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -199,11 +186,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         }
     }
     public String getPath(Uri uri) {
-       /* String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);*/
+
         String filePath = "";
         // Image pick from recent
         String wholeID = DocumentsContract.getDocumentId(uri);
@@ -256,11 +239,6 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                 connection = (HttpURLConnection) new URL(FILE_UPLOAD_URL).openConnection();
 
                 connection.setRequestMethod("POST");
-                /*connection.setRequestProperty("Connection", "Keep-Alive");
-                connection.setRequestProperty("ENCTYPE", "multipart/form-date");
-                connection.setRequestProperty("Content-type", "multipart/form-data;boundary="+boundary);
-                connection.setRequestProperty("fileToUpload", imagepath );
-                dos = new DataOutputStream(connection)*/
 
                 String boundary = "---------------------------boundary";
                 String tail = "\r\n--" + boundary + "--\r\n";
@@ -330,6 +308,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         protected void onPostExecute(String result) {
             Log.e("Response", "Response from server: " + result);
             super.onPostExecute(result);
+            finish();
         }
 
     }

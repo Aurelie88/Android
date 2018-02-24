@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,7 +150,7 @@ public class BoutiqueActivity extends AppCompatActivity
 
         if (id==0){
             // Ajouter catégorie
-            Intent appelActivite = new Intent(this, AjouterCategorieActivity.class);
+            Intent appelActivite = new Intent(getFragment(0).getContext(), AjouterCategorieActivity.class);
             startActivityForResult(appelActivite, AJOUT_CATEGORIE);
 
         } else if (id==1) {
@@ -159,7 +159,7 @@ public class BoutiqueActivity extends AppCompatActivity
             startActivityForResult(appelActivite, AJOUT_ARTICLE);
         } else if (id==2) {
             // Ajouter promotion
-            Intent appelActivite = new Intent(this, AjouterPromotionActivity.class);
+            Intent appelActivite = new Intent(getFragment(2).getContext(), AjouterPromotionActivity.class);
             startActivityForResult(appelActivite, AJOUT_PROMOTION);
         }
     }
@@ -239,6 +239,18 @@ public class BoutiqueActivity extends AppCompatActivity
         outState.putStringArray("titles", adapter.getPageTitles().toArray(new String[0]));
     }
 
+    public void setCurrentFragment(){
+
+        // on affiche la fragment par défaut
+        if (getCurrentScreen() == R.id.nav_categ){
+            this.viewPager.setCurrentItem(getCurrentScreen());
+            // Même principe pour article et promotion
+        } else if (getCurrentScreen() == R.id.nav_article) {
+            this.viewPager.setCurrentItem(getCurrentScreen());
+        } else if (getCurrentScreen() == R.id.nav_promo) {
+            this.viewPager.setCurrentItem(getCurrentScreen());
+        }
+    }
 
 }
 
