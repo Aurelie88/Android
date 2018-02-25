@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
@@ -50,6 +52,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
     LinearLayout progress_area;
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
+    private Categorie categorie = null;
 
     private ActiviteEnAttenteAvecResultat activite;
 
@@ -81,6 +84,19 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
 
         }
 
+        // On teste si extra est non null
+        if (this.getIntent().getExtras() != null) {
+            // S'il n'est pas null, on récupère l'objet à modifier...
+            categorie = (Categorie) this.getIntent().getSerializableExtra("categorie");
+
+            // ...et on set les éléments de l'activité
+            et_nomCategorie.setText(categorie.getNomCateg());
+            // TODO : A faire visuel
+            // Il faudrait pouvoir récupérer l'image présente sur le serveur car elle n'existe
+            // pas forcément sur l'appareil.
+        }
+
+
         select_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,10 +115,24 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                         // On upload le fichier image sur le serveur
                         new UploadFileToServer().execute();
 
+                    if (categorie == null) {
                         // On crée la référence dans la base de données
-                        Categorie categorie = new Categorie(et_nomCategorie.getText().toString(), sourceFile.getName());
-                        //TODO A changer suivant type (Categorie/Article/Promotion)
+                        Categorie categorie = new Categorie(
+                                -1,
+                                et_nomCategorie.getText().toString(),
+                                sourceFile.getName());
+                        Log.i("_aca", "Création d'une catégorie");
                         CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(categorie);
+                    } else {
+                        categorie = new Categorie(
+                                // On récupère l'id courant pour modifier le bon article en base
+                                categorie.getIdCateg(),
+                                et_nomCategorie.getText().toString(),
+                                sourceFile.getName()
+                        );
+                        Log.i("_aca", "Modification d'une catégorie");
+                        CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(categorie);
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }

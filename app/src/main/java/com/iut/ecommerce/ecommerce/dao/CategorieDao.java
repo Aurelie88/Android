@@ -44,6 +44,7 @@ public class CategorieDao implements Dao<Categorie> {
     @Override
     public void findAll() {
         RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
+        Log.i("_cd", URL+"find.php");
         req.execute(URL + "find.php");
     }
 
@@ -51,28 +52,31 @@ public class CategorieDao implements Dao<Categorie> {
     @Override
     public void create(Categorie categorie) {
         RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
-        Log.i("create", "Création d'une nouvelle entrée en base");
+        Log.i("_create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
         String params = "?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
+        Log.i("_cd", url+params);
         req.execute(url+params);
     }
 
     @Override
     public void update(Categorie categorie) {
         RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
-        Log.i("update", "Modification d'une entrée en base");
+        Log.i("_update", "Modification d'une entrée en base");
         String url = URL + "update.php";
-        String params = "?id_categorie="+categorie.getNomCateg()+"?nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
+        String params = "?id_categorie="+categorie.getIdCateg()+"&nom="+categorie.getNomCateg()+"&visuel="+categorie.getVisuelCateg();
+        Log.i("_cd", url+params);
         req.execute(url+params);
     }
 
     @Override
     public void delete(Categorie categorie) {
         RequeteSQLCategorie req = new RequeteSQLCategorie(activite, this);
-        Log.i("delete", "Suppression d'une entrée en base");
+        Log.i("_delete", "Suppression d'une entrée en base");
         String url = URL + "delete.php";
         Log.i("iD", String.valueOf(categorie.getIdCateg()));
         String params = "?id_categorie="+categorie.getIdCateg();
+        Log.i("_cd", url+params);
         req.execute(url+params);
     }
 

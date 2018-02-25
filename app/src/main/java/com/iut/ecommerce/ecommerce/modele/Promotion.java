@@ -1,12 +1,13 @@
 package com.iut.ecommerce.ecommerce.modele;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Miljold on 09/01/2018.
  */
 
-public class Promotion extends Generique{
+public class Promotion implements Serializable{
     private int idArticle;
     private Date dateDebut;
     private Date dateFin;

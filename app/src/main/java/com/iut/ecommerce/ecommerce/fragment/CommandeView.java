@@ -15,12 +15,18 @@ import com.iut.ecommerce.ecommerce.R;
 
 public class CommandeView extends Fragment {
 
-    public CommandeView() {
-        super();
+    private static CommandeView commandeView;
+
+    public static CommandeView getInstance(){
+        if (commandeView==null){
+            commandeView = new CommandeView();
+        }
+        return commandeView;
     }
 
+    public CommandeView() {
 
-
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

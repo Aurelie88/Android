@@ -48,6 +48,7 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public void findAll() {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
+        Log.i("_ad", URL+"find.php");
         req.execute(URL + "find.php");
     }
 
@@ -55,7 +56,7 @@ public class ArticleDao implements Dao<Article> {
     @Override
     public void create(Article article) {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
-        Log.i("create", "Création d'une nouvelle entrée en base");
+        Log.i("_create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
 
         String params = "?reference="+article.getReference()
@@ -63,30 +64,33 @@ public class ArticleDao implements Dao<Article> {
                 +"&tarif="+article.getTarif()
                 +"&visuel="+article.getVisuelArticle()
                 +"&id_categorie="+article.getIdCategorie();
+        Log.i("_ad", url+params);
         req.execute(url+params);
     }
 
     @Override
     public void update(Article article) {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
-        Log.i("update", "Modification d'une entrée en base");
+        Log.i("_update", "Modification d'une entrée en base");
         String url = URL + "update.php";
         String params = "?reference="+article.getReference()
                 +"&nom="+article.getNomArticle()
                 +"&tarif="+article.getTarif()
                 +"&visuel="+article.getVisuelArticle()
-                +"&id_categorie="+article.getIdCategorie();
-        Log.i("_artDao", url+params);
+                +"&id_categorie="+article.getIdCategorie()
+                +"&id_article="+article.getIdArticle();
+        Log.i("_ad", url+params);
         req.execute(url+params);
     }
 
     @Override
     public void delete(Article article) {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
-        Log.i("delete", "Suppression d'une entrée en base");
+        Log.i("_delete", "Suppression d'une entrée en base");
         String url = URL + "delete.php";
-        Log.i("iD", String.valueOf(article.getIdArticle()));
+        Log.i("_ad", String.valueOf(article.getIdArticle()));
         String params = "?id_article="+article.getIdArticle();
+        Log.i("_ad", url+params);
         req.execute(url+params);
     }
 
@@ -96,8 +100,7 @@ public class ArticleDao implements Dao<Article> {
         ArrayList<Article> liste = new ArrayList<Article>();
 
         try{
-
-            Log.i("_ta", "Traitement du JSON article");
+            Log.i("_ad", "Traitement du JSON article");
 
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -114,7 +117,7 @@ public class ArticleDao implements Dao<Article> {
             this.activite.notifyRetourRequeteFindAll(liste);
 
         } catch (JSONException je) {
-            Log.i("_ta", "ERREUR - Traitement du JSON article");
+            Log.i("_ad", "ERREUR - Traitement du JSON article");
             System.out.println("Pb json : " + je);
         }
 

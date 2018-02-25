@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -44,7 +45,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AjouterArticleActivity extends AppCompatActivity /*implements ActiviteEnAttente*/{
+public class AjouterArticleActivity extends AppCompatActivity /*implements ActiviteEnAttente*/ {
 
 
     EditText et_nomArticle;
@@ -60,6 +61,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
     LinearLayout progress_area;
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
+    private Article article = null;
 
     private ActiviteEnAttenteAvecResultat activite;
 
@@ -83,15 +85,10 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
 
         // Récupération de la liste de catégorie
         ArrayList<Categorie> temp = CategorieView.getInstance().liste;
-        //Initialization du spinner
-        // On remplie la liste avec les différentes catégories
-        List <Categorie> list = new ArrayList<Categorie>();
-        for (Categorie i : temp) {
-            list.add(i);
-        }
 
         // Definition de l'arrayAdapter pour le spinner
-        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,list);
+        // Initialization du spinner
+        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
@@ -104,9 +101,37 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             ActivityCompat.requestPermissions(AjouterArticleActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_WRITE_STORAGE);
-        }else {
+        } else {
 
         }
+
+
+        // On teste si extra est non null
+        if (this.getIntent().getExtras() != null) {
+            // S'il n'est pas null, on récupère l'objet à modifier...
+            article = (Article) this.getIntent().getSerializableExtra("article");
+
+            // ...et on set les éléments de l'activité
+            et_nomArticle.setText(article.getNomArticle());
+            et_reference.setText(article.getReference());
+            et_prixArticle.setText(String.valueOf(article.getTarif())); // A revoir -> Doit être Float
+
+            // Initialisation du spinner à la valeur de l'article à modifier
+            int count = 0;
+            int index = 0;
+            for (Categorie i : temp) {
+                if (i.getIdCateg()==article.getIdCategorie()){
+                    index = count;
+                    break;
+                }
+                count++;
+            }
+            spinner.setSelection(index);
+            // TODO : A faire visuel
+            // Il faudrait pouvoir récupérer l'image présente sur le serveur car elle n'existe
+            // pas forcément sur l'appareil.
+        }
+
 
         select_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,23 +148,38 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             @Override
             public void onClick(View view) {
                 if (imagepath != null) {
-                        // On upload le fichier image sur le serveur
-                        new UploadFileToServer().execute();
+                    // On upload le fichier image sur le serveur
+                    new UploadFileToServer().execute();
 
-                        Categorie temp = (Categorie) spinner.getSelectedItem();
-
-                        Article article = new Article(
+                    Categorie temp = (Categorie) spinner.getSelectedItem();
+                    // Si l'article vaut null, c'est que l'on n'a pas récupéré d'objet article
+                    // lors de l'ouverture de l'activité
+                    if (article == null) {
+                        // C'est une création, nous ne connaissons pas l'id, il vaudra -1
+                        article = new Article(
                                 -1,
                                 et_nomArticle.getText().toString(),
                                 et_reference.getText().toString(),
                                 Float.parseFloat(et_prixArticle.getText().toString()),
                                 sourceFile.getName(),
                                 temp.getIdCateg()
-                                );
-                        //TODO A changer suivant type (Categorie/Article/Promotion)
-                        Log.i("_artAjout", article.toString());
+                        );
+                        Log.i("_aaa", "Création d'un aricle");
                         ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(article);
-                }else{
+                    } else {
+                        article = new Article(
+                                // On récupère l'id courant pour modifier le bon article en base
+                                article.getIdArticle(),
+                                et_nomArticle.getText().toString(),
+                                et_reference.getText().toString(),
+                                Float.parseFloat(et_prixArticle.getText().toString()),
+                                sourceFile.getName(),
+                                temp.getIdCateg()
+                        );
+                        Log.i("_aaa", "Modification d'un aricle");
+                        ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(article);
+                    }
+                } else {
                     Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -151,21 +191,17 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //reload my activity with permission granted or use the features what required the permission
-                } else
-                {
+                } else {
                     Toast.makeText(AjouterArticleActivity.this, "You must give access to storage.", Toast.LENGTH_LONG).show();
                 }
             }
         }
 
     }
-
 
 
     @Override
@@ -185,6 +221,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
 
         }
     }
+
     public String getPath(Uri uri) {
 
         String filePath = "";
@@ -219,7 +256,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             uploader_area.setVisibility(View.GONE); // Making the uploader area screen invisible
             progress_area.setVisibility(View.VISIBLE); // Showing the stylish material progressbar
             sourceFile = new File(imagepath);
-            totalSize = (int)sourceFile.length();
+            totalSize = (int) sourceFile.length();
             super.onPreExecute();
         }
 
@@ -279,7 +316,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                     out.flush();
                     progress += bytesRead; // Here progress is total uploaded bytes
 
-                    publishProgress(""+(int)((progress*100)/totalSize)); // sending progress percent to publishProgress
+                    publishProgress("" + (int) ((progress * 100) / totalSize)); // sending progress percent to publishProgress
                 }
 
                 // Write closing boundary and close stream
@@ -291,7 +328,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 StringBuilder builder = new StringBuilder();
-                while((line = reader.readLine()) != null) {
+                while ((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
                 return String.valueOf(builder);

@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity;
+import com.iut.ecommerce.ecommerce.activity.AjouterArticleActivity;
 import com.iut.ecommerce.ecommerce.modele.Article;
-import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 /**
  * Created by Damien on 23/02/2018.
@@ -28,9 +27,8 @@ public class ModifyArticleListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this.context, ModifierCategorieActivity.class);
-        intent.putExtra("nom", this.article.getNomArticle());
-        intent.putExtra("visuel", this.article.getVisuelArticle());
+        Intent intent = new Intent(this.context, AjouterArticleActivity.class);
+        intent.putExtra("article", this.article);
         // Le cast permet d'accéder à la méthode startActivityForResult
         ((Activity) this.context).startActivityForResult(intent, MODIFICATION_ARTICLE);
     }

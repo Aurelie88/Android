@@ -15,11 +15,18 @@ import com.iut.ecommerce.ecommerce.R;
 
 public class ClientView extends Fragment {
 
-    public ClientView() {
-        super();
+    private static ClientView clientView;
+
+    public static ClientView getInstance(){
+        if (clientView==null){
+            clientView = new ClientView();
+        }
+        return clientView;
     }
 
+    public ClientView() {
 
+    }
 
     @Nullable
     @Override

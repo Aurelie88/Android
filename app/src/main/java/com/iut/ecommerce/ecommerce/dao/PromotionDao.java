@@ -52,6 +52,7 @@ public class PromotionDao implements Dao<Promotion> {
     @Override
     public void findAll() {
         RequeteSQLPromotion req = new RequeteSQLPromotion(activite, this);
+        Log.i("_pd", URL+"find.php");
         req.execute(URL + "find.php");
     }
 
@@ -62,7 +63,7 @@ public class PromotionDao implements Dao<Promotion> {
         Log.i("create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
         String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + promotion.getDateDebut() + "&date_fin=" + promotion.getDateFin();
-        Log.i("_adCreate", params);
+        Log.i("_pd", url+params);
         req.execute(url + params);
     }
 
@@ -72,6 +73,7 @@ public class PromotionDao implements Dao<Promotion> {
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
         String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + promotion.getDateDebut() + "&date_fin=" + promotion.getDateFin();
+        Log.i("_pd", url+params);
         req.execute(url + params);
     }
 
@@ -82,6 +84,7 @@ public class PromotionDao implements Dao<Promotion> {
         String url = URL + "delete.php";
         Log.i("iD", String.valueOf(promotion.getIdArticle()));
         String params = "?id_article_fk=" + promotion.getIdArticle();
+        Log.i("_pd", url+params);
         req.execute(url + params);
     }
 

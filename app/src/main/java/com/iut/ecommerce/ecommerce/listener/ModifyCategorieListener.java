@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.iut.ecommerce.ecommerce.activity.ModifierCategorieActivity;
+import com.iut.ecommerce.ecommerce.activity.AjouterArticleActivity;
+import com.iut.ecommerce.ecommerce.activity.AjouterCategorieActivity;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 
 /**
@@ -19,7 +20,7 @@ public class ModifyCategorieListener extends AppCompatActivity implements View.O
     private Categorie categorie;
     private Context context;
 
-    private static final int MODIFICATION_ARTICLE=1;
+    private static final int MODIFICATION_CATEGORIE=3;
 
     public ModifyCategorieListener(Categorie categorie, Context context) {
         // NOTA : Le context est celui de la vue (widget)! D'où le view.getContext() de
@@ -30,10 +31,9 @@ public class ModifyCategorieListener extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this.context, ModifierCategorieActivity.class);
-        intent.putExtra("nom", this.categorie.getNomCateg());
-        intent.putExtra("visuel", this.categorie.getVisuelCateg());
+        Intent intent = new Intent(this.context, AjouterCategorieActivity.class);
+        intent.putExtra("categorie", this.categorie);
         // Le cast permet d'accéder à la méthode startActivityForResult
-        ((Activity) this.context).startActivityForResult(intent, MODIFICATION_ARTICLE);
+        ((Activity) this.context).startActivityForResult(intent, MODIFICATION_CATEGORIE);
     }
 }

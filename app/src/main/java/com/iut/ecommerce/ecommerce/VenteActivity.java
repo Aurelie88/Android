@@ -23,9 +23,13 @@ import com.iut.ecommerce.ecommerce.activity.AjouterPromotionActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ViewPagerAdapter;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.fragment.ClientView;
+import com.iut.ecommerce.ecommerce.fragment.CommandeView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
+import com.iut.ecommerce.ecommerce.modele.Client;
+import com.iut.ecommerce.ecommerce.modele.Commande;
 
-public class BoutiqueActivity extends AppCompatActivity
+public class VenteActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Bundle savedInstanceState;
@@ -38,18 +42,15 @@ public class BoutiqueActivity extends AppCompatActivity
     private ViewPager viewPager;
 
     // Onglets
-    private CategorieView tabCategories;
-    private ArticleView tabArticles;
-    private PromotionView tabPromotions;
-    public static BoutiqueActivity boutiqueActivity;
+    private ClientView tabClient;
+    private CommandeView tabCommande;
+    public static VenteActivity venteActivity;
 
 
-    private static final int MODIFICATION_ARTICLE=1;
-    private static final int AJOUT_CATEGORIE=2;
-    private static final int MODIFICATION_CATEGORIE=3;
-    private static final int AJOUT_ARTICLE=4;
-    private static final int AJOUT_PROMOTION=5;
-    private static final int MODIFICATION_PROMOTION=6;
+    private static final int MODIFICATION_VENTE=1;
+    private static final int AJOUT_VENTE=2;
+    private static final int MODIFICATION_CLIENT=3;
+    private static final int AJOUT_CLIENT=4;
 
     private static Context appContext;
 
@@ -63,18 +64,18 @@ public class BoutiqueActivity extends AppCompatActivity
     public void onStart(){
         super.onStart();
         this.viewPager = findViewById(R.id.viewPager);
-        this.viewPager.setOffscreenPageLimit(2);
+        this.viewPager.setOffscreenPageLimit(1);
         this.viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-        for (int i=0; i<3; i++){
+        for (int i=0; i<2; i++){
             tabLayout.getTabAt(i).select();
         }
         tabLayout.getTabAt(0).select();
 
         appContext = getApplicationContext();
-        boutiqueActivity = this;
+        venteActivity = this;
 
     }
 
@@ -129,18 +130,19 @@ public class BoutiqueActivity extends AppCompatActivity
         // Si l'id en cours et égale à l'id de la catégorie
         // on affiche la fragment catégorie
         if (id == R.id.nav_categ){
-            this.viewPager.setCurrentItem(0);
+            Intent appelActivite = new Intent(this, VenteActivity.class);
+            startActivity(appelActivite);
         // Même principe pour article et promotion
         } else if (id == R.id.nav_article) {
-            this.viewPager.setCurrentItem(1);
+            Intent appelActivite = new Intent(this, VenteActivity.class);
+            startActivity(appelActivite);
         } else if (id == R.id.nav_promo) {
-            this.viewPager.setCurrentItem(2);
+            Intent appelActivite = new Intent(this, VenteActivity.class);
+            startActivity(appelActivite);
         } else if (id == R.id.nav_client) {
-            Intent appelActivite = new Intent(this, VenteActivity.class);
-            //startActivity(appelActivite);
+            this.viewPager.setCurrentItem(0);
         } else {
-            Intent appelActivite = new Intent(this, VenteActivity.class);
-            //startActivity(appelActivite);
+            this.viewPager.setCurrentItem(1);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -156,17 +158,13 @@ public class BoutiqueActivity extends AppCompatActivity
         int id = this.viewPager.getCurrentItem();
 
         if (id==0){
-            // Ajouter catégorie
+            // Ajouter client
             Intent appelActivite = new Intent(getFragment(0).getContext(), AjouterCategorieActivity.class);
-            startActivityForResult(appelActivite, AJOUT_CATEGORIE);
+            startActivityForResult(appelActivite, AJOUT_CLIENT);
         } else if (id==1) {
-            // Ajouter article
+            // Ajouter vente
             Intent appelActivite = new Intent(getFragment(1).getContext(), AjouterArticleActivity.class);
-            startActivityForResult(appelActivite, AJOUT_ARTICLE);
-        } else if (id==2) {
-            // Ajouter promotion
-            Intent appelActivite = new Intent(getFragment(2).getContext(), AjouterPromotionActivity.class);
-            startActivityForResult(appelActivite, AJOUT_PROMOTION);
+            startActivityForResult(appelActivite, AJOUT_VENTE);
         }
     }
 
@@ -193,12 +191,10 @@ public class BoutiqueActivity extends AppCompatActivity
         // Ajout des fragments dans le viewPager
         // Lors du swipe, on bascule d'un fragment à l'autre
         if (savedInstanceState == null) {
-            this.tabCategories = CategorieView.getInstance();
-            this.tabArticles = ArticleView.getInstance();
-            this.tabPromotions = PromotionView.getInstance();
-            adapter.addFragment(this.tabCategories, "Catégories");
-            adapter.addFragment(this.tabArticles, "Articles");
-            adapter.addFragment(this.tabPromotions, "Promotions");
+            this.tabClient = ClientView.getInstance();
+            this.tabCommande = CommandeView.getInstance();
+            adapter.addFragment(this.tabClient, "Clients");
+            adapter.addFragment(this.tabCommande, "Commandes");
             Log.e("_ba", getFragmentTag(2));
         } else {
             Integer count = savedInstanceState.getInt("tabsCount");
@@ -245,12 +241,10 @@ public class BoutiqueActivity extends AppCompatActivity
 
     public void setCurrentFragment(){
         // on affiche la fragment par défaut
-        if (getCurrentScreen() == R.id.nav_categ){
+        if (getCurrentScreen() == R.id.nav_client){
             this.viewPager.setCurrentItem(getCurrentScreen());
             // Même principe pour article et promotion
-        } else if (getCurrentScreen() == R.id.nav_article) {
-            this.viewPager.setCurrentItem(getCurrentScreen());
-        } else if (getCurrentScreen() == R.id.nav_promo) {
+        } else if (getCurrentScreen() == R.id.nav_commmande) {
             this.viewPager.setCurrentItem(getCurrentScreen());
         }
     }

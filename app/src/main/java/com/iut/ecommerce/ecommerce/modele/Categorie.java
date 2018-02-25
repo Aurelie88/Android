@@ -1,10 +1,12 @@
 package com.iut.ecommerce.ecommerce.modele;
 
+import java.io.Serializable;
+
 /**
  * Created by Miljold on 09/01/2018.
  */
 
-public class Categorie extends Generique implements Comparable<Categorie> {
+public class Categorie implements Comparable<Categorie>, Serializable {
     private int idCateg;
     private String nomCateg;
     private String visuelCateg;

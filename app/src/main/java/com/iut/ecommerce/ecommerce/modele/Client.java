@@ -1,10 +1,12 @@
 package com.iut.ecommerce.ecommerce.modele;
 
+import java.io.Serializable;
+
 /**
  * Created by Miljold on 09/01/2018.
  */
 
-public class Client extends Generique {
+public class Client implements Serializable{
     private int idClient;
     private String nom;
     private String prenom;

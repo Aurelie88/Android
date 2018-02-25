@@ -1,10 +1,12 @@
 package com.iut.ecommerce.ecommerce.modele;
 
+import java.io.Serializable;
+
 /**
  * Created by Miljold on 09/01/2018.
  */
 
-public class Article extends Generique {
+public class Article implements Serializable{
     private int idArticle;
     private String reference;
     private String nomArticle;

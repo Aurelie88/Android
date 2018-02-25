@@ -4,7 +4,7 @@ package com.iut.ecommerce.ecommerce.modele;
  * Created by Miljold on 09/01/2018.
  */
 
-public class LigneCommande extends Generique {
+public class LigneCommande {
     private int idCommande;
     private int idLigne;
     private int idArticle;
