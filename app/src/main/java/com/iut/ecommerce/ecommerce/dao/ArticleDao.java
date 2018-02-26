@@ -83,6 +83,16 @@ public class ArticleDao implements Dao<Article> {
         req.execute(url+params);
     }
 
+
+    public void filter(int id) {
+        RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
+        Log.i("_filter", "Filtrage suivant un id de catégorie");
+        String url = URL + "filter.php";
+        String params = "?id_categorie="+id;
+        Log.i("_ad", url+params);
+        req.execute(url+params);
+    }
+
     @Override
     public void delete(Article article) {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);

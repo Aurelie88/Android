@@ -35,7 +35,7 @@ public class BoutiqueActivity extends AppCompatActivity
 
     // ViewPager
     public ViewPagerAdapter adapter;
-    private ViewPager viewPager;
+    public ViewPager viewPager;
 
     // Onglets
     private CategorieView tabCategories;

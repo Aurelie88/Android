@@ -218,7 +218,6 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             // options.inSampleSize = 10;
             final Bitmap bitmap = BitmapFactory.decodeFile(imagepath, options);
             imageview.setImageBitmap(bitmap);
-
         }
     }
 

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.adaptateur.PromotionAdaptateur;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.PromotionDao;
 import com.iut.ecommerce.ecommerce.modele.Promotion;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
@@ -59,6 +60,25 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
         // Récupération des éléments de la liste
         PromotionDao.getInstance(this).findAll();
         Log.i("_L", this.liste.toString());
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // Récupération des éléments de la liste
+            if (ArticleView.getInstance().getFilteredArticle() != null) {
+                //check
+                int id_article = ArticleView.getInstance().getFilteredArticle().getIdArticle();
+                PromotionDao.getInstance(this).filter(id_article);
+                Log.i("_pv", "Filtrage des promotions");
+            } else {
+                PromotionDao.getInstance(this).findAll();
+                Log.i("_pv", "Pas de filtrage suivant l'id article");
+            }
+        } else {
+            // Faire autre chose...
+        }
     }
 
     @Nullable

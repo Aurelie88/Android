@@ -2,9 +2,9 @@ package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +18,12 @@ import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.adaptateur.ArticleAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.modele.Article;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
+
+import static com.iut.ecommerce.ecommerce.BoutiqueActivity.boutiqueActivity;
 
 
 public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener{
@@ -29,6 +32,7 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     private ArticleAdaptateur adaptateur;
     private ListView listView;
     private Article article;
+    private Article filteredArticle;
 
     private static ArticleView articleView;
 
@@ -47,21 +51,40 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     public void onStart() {
         super.onStart();
 
+        setFilteredArticle(null);
+
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
 
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.articleListView);
 
+    }
 
-        // Récupération des éléments de la liste
-        ArticleDao.getInstance(this).findAll();
-        Log.i("_L", this.liste.toString());
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // Récupération des éléments de la liste
+            if (CategorieView.getInstance().getFilteredCategorie() !=null) {
+                //check
+                int id_categorie = CategorieView.getInstance().getFilteredCategorie().getIdCateg();
+                ArticleDao.getInstance(this).filter(id_categorie);
+                Log.i("_av", "Filtrage des catégories");
+            } else {
+                setFilteredArticle(null);
+                ArticleDao.getInstance(this).findAll();
+                Log.i("_av", "Pas de filtrage suivant l'id catégorie");
+            }
+        } else {
+            // Faire autre chose...
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.article_main, container, false);
 
     }
@@ -109,6 +132,11 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // TODO : Action à réaliser lors d'un clique sur la liste ?
+                Article item = (Article) adapterView.getItemAtPosition(i);
+                Log.i("_cv", "Clique sur un article");
+                setFilteredArticle(item);
+                Log.i("_cv", getFilteredArticle().getNomArticle());
+                boutiqueActivity.viewPager.setCurrentItem(2);
             }
         });
 
@@ -134,5 +162,13 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public Article getFilteredArticle() {
+        return filteredArticle;
+    }
+
+    public void setFilteredArticle(Article filteredArticle) {
+        this.filteredArticle = filteredArticle;
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 import com.iut.ecommerce.ecommerce.modele.Promotion;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
+import com.iut.ecommerce.ecommerce.utils.RequeteSQLArticle;
 import com.iut.ecommerce.ecommerce.utils.RequeteSQLPromotion;
 
 import org.json.JSONArray;
@@ -77,6 +78,15 @@ public class PromotionDao implements Dao<Promotion> {
         req.execute(url + params);
     }
 
+    public void filter(int id) {
+        RequeteSQLPromotion req = new RequeteSQLPromotion(activite, this);
+        Log.i("_filter", "Filtrage suivant un id d'article");
+        String url = URL + "filter.php";
+        String params = "?id_article="+id;
+        Log.i("_pd", url+params);
+        req.execute(url+params);
+    }
+
     @Override
     public void delete(Promotion promotion) {
         RequeteSQLPromotion req = new RequeteSQLPromotion(activite, this);
@@ -124,7 +134,6 @@ public class PromotionDao implements Dao<Promotion> {
                 liste.add(c);
 
             }
-            Log.i("_ta", liste.get(0).toString());
             Log.i("_ta", "Fin de traitement du JSON promotion");
             this.activite.notifyRetourRequeteFindAll(liste);
 

@@ -18,24 +18,27 @@ import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.Message;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
 
+import static com.iut.ecommerce.ecommerce.BoutiqueActivity.boutiqueActivity;
 import static com.iut.ecommerce.ecommerce.BoutiqueActivity.getAppContext;
 
 /**
  * Created by Damien on 09/01/2018.
  */
 
-public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener {
+public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat {
 
     public ArrayList<Categorie> liste = new ArrayList<Categorie>();
     private CategorieAdaptateur adaptateur;
     private ListView listView;
     private Categorie categorie;
+    private Categorie filteredCategorie;
 
     private static CategorieView categorieView;
 
@@ -54,18 +57,30 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     public void onStart() {
         super.onStart();
 
+        setFilteredCategorie(null);
+
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
 
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.categListView);
 
-
         // Récupération des éléments de la liste
         CategorieDao.getInstance(this).findAll();
-        //notifyRetourRequeteFindAll(this.liste);
-        Log.i("_L", this.liste.toString());
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // On reset la catégorie sélectionnée
+            setFilteredCategorie(null);
+        } else {
+            // Faire autre chose...
+        }
+    }
+
 
     @Nullable
     @Override
@@ -87,11 +102,11 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         } else if ("modifier".equals(resultat)) {
             Log.i("_M", "modifier");
-            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+            boutiqueActivity.setCurrentFragment();
 
         } else if ("creer".equals(resultat)){
             Log.i("_C", "creer");
-            BoutiqueActivity.boutiqueActivity.setCurrentFragment();
+            boutiqueActivity.setCurrentFragment();
 
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
@@ -99,13 +114,11 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         } else {
             Log.i("_S", "autre erreur");
         }
-
     }
 
 
     @Override
     public void notifyRetourRequeteFindAll(ArrayList liste) {
-
         this.liste.clear();
         this.liste.addAll(liste);
 
@@ -118,24 +131,16 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // TODO : Action à réaliser lors d'un clique sur la liste ?
+                Categorie item = (Categorie) adapterView.getItemAtPosition(i);
+                Log.i("_cv", "Clique sur une catégorie");
+                setFilteredCategorie(item);
+                Log.i("_cv", getFilteredCategorie().getNomCateg());
+                boutiqueActivity.viewPager.setCurrentItem(1);
             }
         });
-
         ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
-
-    }
-     //this.terminePatience();
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("adapter", String.valueOf(id));
-        setCategorie(this.liste.get(position));
-    }
 
     public Categorie getCategorie() {
         return categorie;
@@ -143,5 +148,13 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
+    }
+
+    public Categorie getFilteredCategorie() {
+        return filteredCategorie;
+    }
+
+    public void setFilteredCategorie(Categorie filteredCategorie) {
+        this.filteredCategorie = filteredCategorie;
     }
 }
