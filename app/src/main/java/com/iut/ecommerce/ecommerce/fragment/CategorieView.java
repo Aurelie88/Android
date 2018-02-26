@@ -2,6 +2,7 @@ package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.Message;
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.activity.InfosCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.CategorieAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
@@ -126,7 +128,7 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         this.adaptateur = new CategorieAdaptateur(getContext(), liste);
         // Lien entre adaptateur et listview (remplissage de la liste
         listView.setAdapter(adaptateur);
-        // Définition de l'action sur click sur un élément de la liste (texte ou bitmapArrayList catégorie)
+        // Définition de l'action sur click sur un élément de la liste
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -138,6 +140,22 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
                 boutiqueActivity.viewPager.setCurrentItem(1);
             }
         });
+
+
+        // Définition de l'action sur click long sur un élément de la liste
+        this.listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO : Action à réaliser lors d'un clique sur la liste ?
+                Categorie item = (Categorie) adapterView.getItemAtPosition(i);
+                Log.i("_cv", "Clique sur une catégorie");
+                Intent intent = new Intent(getContext(), InfosCategorieActivity.class);
+                intent.putExtra("categorie", item);
+                startActivity(intent);
+                return false;
+            }
+        });
+
         ((BaseAdapter) this.listView.getAdapter()).notifyDataSetChanged();
     }
 

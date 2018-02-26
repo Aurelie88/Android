@@ -30,6 +30,7 @@ import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -91,9 +92,13 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
 
             // ...et on set les éléments de l'activité
             et_nomCategorie.setText(categorie.getNomCateg());
-            // TODO : A faire visuel
-            // Il faudrait pouvoir récupérer l'image présente sur le serveur car elle n'existe
-            // pas forcément sur l'appareil.
+            // On set l'image
+            Picasso
+                    .with(this)
+                    .load("https://infodb.iutmetz.univ-lorraine.fr/~gaiga4u/ecommerce/" + categorie.getVisuelCateg())
+                    .placeholder(R.drawable.ic_close) // can also be a drawable
+                    .error(R.drawable.ic_close) // will be displayed if the image cannot be loaded
+                    .into(imageview);
         }
 
 

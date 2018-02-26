@@ -49,7 +49,9 @@
         </activity>
         <activity android:name=".activity.AjouterCategorieActivity" />
         <activity android:name=".activity.AjouterArticleActivity" />
-        <activity android:name=".activity.AjouterPromotionActivity"/>
+        <activity android:name=".activity.AjouterPromotionActivity" />
+        <activity android:name=".activity.InfosCategorieActivity" />
+        <activity android:name=".activity.InfosArticleActivity"></activity>
     </application>
 
 </manifest>

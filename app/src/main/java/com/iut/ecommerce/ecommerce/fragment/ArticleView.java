@@ -2,6 +2,7 @@ package com.iut.ecommerce.ecommerce.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.activity.InfosArticleActivity;
+import com.iut.ecommerce.ecommerce.activity.InfosCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ArticleAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.modele.Article;
@@ -137,6 +140,20 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
                 setFilteredArticle(item);
                 Log.i("_cv", getFilteredArticle().getNomArticle());
                 boutiqueActivity.viewPager.setCurrentItem(2);
+            }
+        });
+
+        // Définition de l'action sur click long sur un élément de la liste
+        this.listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO : Action à réaliser lors d'un clique sur la liste ?
+                Article item = (Article) adapterView.getItemAtPosition(i);
+                Log.i("_cv", "Clique sur un article");
+                Intent intent = new Intent(getContext(), InfosArticleActivity.class);
+                intent.putExtra("article", item);
+                startActivity(intent);
+                return false;
             }
         });
 
