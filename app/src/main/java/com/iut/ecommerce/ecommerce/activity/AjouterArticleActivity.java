@@ -152,6 +152,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (imagepath != null) {
                     // On upload le fichier image sur le serveur
                     new UploadFileToServer().execute();

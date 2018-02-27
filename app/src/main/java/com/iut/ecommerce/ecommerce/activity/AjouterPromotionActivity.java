@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,6 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.fragment.ArticleView;
+import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.modele.Article;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
+import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,18 +33,20 @@ import static java.lang.String.valueOf;
 
 public class AjouterPromotionActivity extends AppCompatActivity {
 
-    TextView tv_pourcentage;
-    EditText et_pourcentage;
-    Button boutonValider;
-    Spinner listeProduit;
-    TextView dateDebut;
-    DatePickerDialog datePickerDialogDebut;
-    DatePickerDialog datePickerDialogFin;
-    TextView dateFin;
-    TextView tv_dateFin;
-    TextView tv_dateDebut;
-    //private Button datePickerDebut;
-    //private Button datePickerFin;
+    private TextView tv_pourcentage;
+    private EditText et_pourcentage;
+    private Button boutonValider;
+    private Spinner listeCategorie;
+    private Spinner listeProduit;
+    private TextView dateDebut;
+    private DatePickerDialog datePickerDialogDebut;
+    private DatePickerDialog datePickerDialogFin;
+    private TextView dateFin;
+    private TextView tv_dateFin;
+    private TextView tv_dateDebut;
+    private ActiviteEnAttenteAvecResultat activite;
+    private ArrayList<String> produits= new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +55,67 @@ public class AjouterPromotionActivity extends AppCompatActivity {
         tv_pourcentage = (TextView) findViewById(R.id.tv_pourcentage);
         et_pourcentage = (EditText) findViewById(R.id.et_pourcentage);
         boutonValider = (Button) findViewById(R.id.buttonValider);
+        listeCategorie = (Spinner) findViewById(R.id.list_categorie);
         listeProduit = (Spinner) findViewById(R.id.list_produit);
         dateDebut = (TextView) findViewById(R.id.dateDebut);
         dateFin = (TextView) findViewById(R.id.dateFin);
         tv_dateDebut = (TextView) findViewById(R.id.tv_dateDebut);
         tv_dateFin = (TextView) findViewById(R.id.tv_dateFin);
 
-        //Initialization du spinner
-        List<String> list = new ArrayList<String>();
-        list.add("chaussette");
-        list.add("t-shirt");
 
-        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,list);
 
+        // Récupération de la liste de catégorie
+        ArrayList<Categorie> temp = CategorieView.getInstance().liste;
+
+        // Definition de l'arrayAdapter pour le spinner
+        // Initialization du spinner
+
+
+        produits.add("choissir une categorie d'abord");
+        final ArrayAdapter spinnerProduitArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, produits);
+        spinnerProduitArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        listeProduit.setAdapter(spinnerProduitArrayAdapter);
+
+        listeProduit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("produit select", "ici");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        listeProduit.setAdapter(spinnerArrayAdapter);
+        listeCategorie.setAdapter(spinnerArrayAdapter);
+
+        listeCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                produits.clear();
+                Log.i("categorie select", valueOf(parent.getItemAtPosition(position)));
+                produits.add("dzeq");
+                for(int i=0; i<ArticleView.getInstance().liste.size();i++){
+                    produits.add(ArticleView.getInstance().liste.get(i).toString());
+                }
+                spinnerProduitArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        // Modifier suivant l'activité appelante
+        activite = (ActiviteEnAttenteAvecResultat) ArticleView.getInstance();
+
 
         dateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,4 +226,6 @@ public class AjouterPromotionActivity extends AppCompatActivity {
         //boutonValider.setText(Integer.toString(daysdiff));
 
     }
+
+
 }
