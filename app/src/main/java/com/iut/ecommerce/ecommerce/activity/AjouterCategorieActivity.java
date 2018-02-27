@@ -6,6 +6,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,8 +28,10 @@ import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
+import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 import com.squareup.picasso.Picasso;
@@ -52,6 +58,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
     private Categorie categorie = null;
+
     private ActiviteEnAttenteAvecResultat activite;
 
     @Override
@@ -113,11 +120,26 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imagepath != null) {
+
+                // On vérifie dans un premier temps que le formulaire est bien rempli
+                if (et_nomCategorie.getText().toString().isEmpty()) {
+                    // On défini une bordure
+                    ShapeDrawable shape = new ShapeDrawable(new RectShape());
+                    shape.getPaint().setColor(Color.RED);
+                    shape.getPaint().setStyle(Paint.Style.STROKE);
+                    shape.getPaint().setStrokeWidth(3);
+
+                    Toast.makeText(getApplicationContext(), "Merci de remplir toutes les informations", Toast.LENGTH_SHORT).show();
+                    // On applique la bordure
+                    et_nomCategorie.setBackground(shape);
+                // Si c'est bon, on peut tenter d'ajouter les infos à la BDD
+                } else {
+                    Log.i("_aca", "Valeur de la catégorie : "+categorie.toString());
+                    if (imagepath != null && categorie == null) {
+                        Log.i("_aca", "Cas 1 : imagepath non null et categorie null");
                         // On upload le fichier image sur le serveur
                         new UploadFileToServer().execute();
 
-                    if (categorie == null) {
                         // On crée la référence dans la base de données
                         Categorie categorie = new Categorie(
                                 -1,
@@ -125,18 +147,35 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                                 sourceFile.getName());
                         Log.i("_aca", "Création d'une catégorie");
                         CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(categorie);
-                    } else {
-                        categorie = new Categorie(
-                                // On récupère l'id courant pour modifier le bon article en base
-                                categorie.getIdCateg(),
-                                et_nomCategorie.getText().toString(),
-                                sourceFile.getName()
-                        );
+
+                    }else if ((imagepath == null && categorie != null)  || (imagepath != null && categorie != null)){
+                        Log.i("_aca", "Cas 2 : imagepath null ou non null et categorie non null");
+
+                        if(imagepath!=null){
+                            // On upload le fichier image sur le serveur
+                            new UploadFileToServer().execute();
+
+                            categorie = new Categorie(
+                                    // On récupère l'id courant pour modifier le bon article en base
+                                    categorie.getIdCateg(),
+                                    et_nomCategorie.getText().toString(),
+                                    sourceFile.getName()
+                            );
+                        } else {
+                            categorie = new Categorie(
+                                    // On récupère l'id courant pour modifier le bon article en base
+                                    categorie.getIdCateg(),
+                                    et_nomCategorie.getText().toString(),
+                                    categorie.getVisuelCateg());
+                            finish();
+                        }
+
                         Log.i("_aca", "Modification d'une catégorie");
                         CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(categorie);
+                    } else {
+                        Log.i("_aca", "Cas 3 : imagepath null et categorie null");
+                        Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
         });

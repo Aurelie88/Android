@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iut.ecommerce.ecommerce.R;
+import com.iut.ecommerce.ecommerce.fragment.ArticleView;
+import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.listener.DeleteArticleListener;
 import com.iut.ecommerce.ecommerce.listener.DeletePromotionListener;
 import com.iut.ecommerce.ecommerce.listener.ModifyArticleListener;
 import com.iut.ecommerce.ecommerce.listener.ModifyPromotionListener;
 import com.iut.ecommerce.ecommerce.modele.Article;
+import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.modele.Promotion;
 import com.squareup.picasso.Picasso;
 
@@ -97,6 +100,17 @@ public class PromotionAdaptateur extends ArrayAdapter<Promotion> {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         tvdateDebut.setText(df.format(promotion.getDateDebut()));
         tvdateFin.setText(df.format(promotion.getDateFin()));
+
+        // Evitons des problèmes d'affichage :p
+        /*
+        // Pour retrouver la catégorie parente, on récupère la liste des catégories
+        ArrayList<Article> temp = ArticleView.getInstance().liste;
+        for (Article i: temp){
+            if(i.getIdArticle()==promotion.getIdArticle()){
+                tvArticle.setText(i.getNomArticle());
+            }
+        }
+        */
 
         return convertView;
     }

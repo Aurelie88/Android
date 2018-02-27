@@ -6,6 +6,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +32,7 @@ import android.widget.Toast;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.modele.Article;
@@ -153,14 +158,36 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             @Override
             public void onClick(View view) {
 
-                if (imagepath != null) {
-                    // On upload le fichier image sur le serveur
-                    new UploadFileToServer().execute();
+                Log.i("_aaa", "Ajout/Modification d'un article");
+                Categorie temp = (Categorie) spinner.getSelectedItem();
 
-                    Categorie temp = (Categorie) spinner.getSelectedItem();
-                    // Si l'article vaut null, c'est que l'on n'a pas récupéré d'objet article
-                    // lors de l'ouverture de l'activité
-                    if (article == null) {
+                // On défini une bordure en cas d'erreur
+                ShapeDrawable shape = new ShapeDrawable(new RectShape());
+                shape.getPaint().setColor(Color.RED);
+                shape.getPaint().setStyle(Paint.Style.STROKE);
+                shape.getPaint().setStrokeWidth(3);
+
+                // On vérifie dans un premier temps que le formulaire est bien rempli
+                if (et_nomArticle.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Merci de remplir toutes les informations", Toast.LENGTH_SHORT).show();
+                    // On applique la bordure
+                    et_nomArticle.setBackground(shape);
+                } else if (et_reference.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Merci de remplir toutes les informations", Toast.LENGTH_SHORT).show();
+                    // On applique la bordure
+                    et_reference.setBackground(shape);
+                } else if (et_prixArticle.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Merci de remplir toutes les informations", Toast.LENGTH_SHORT).show();
+                    // On applique la bordure
+                    et_prixArticle.setBackground(shape);
+                } // Si c'est bon, on peut tenter d'ajouter les infos à la BDD
+                 else {
+
+                    if (imagepath != null && article == null) {
+                        Log.i("_aca", "Cas 1 : imagepath non null et article null");
+                        // On upload le fichier image sur le serveur
+                        new UploadFileToServer().execute();
+
                         // C'est une création, nous ne connaissons pas l'id, il vaudra -1
                         article = new Article(
                                 -1,
@@ -172,21 +199,42 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                         );
                         Log.i("_aaa", "Création d'un aricle");
                         ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).create(article);
-                    } else {
-                        article = new Article(
-                                // On récupère l'id courant pour modifier le bon article en base
-                                article.getIdArticle(),
-                                et_reference.getText().toString(),
-                                et_nomArticle.getText().toString(),
-                                Float.parseFloat(et_prixArticle.getText().toString()),
-                                sourceFile.getName(),
-                                temp.getIdCateg()
-                        );
-                        Log.i("_aaa", "Modification d'un aricle");
+                    } else if ((imagepath == null && article != null) || (imagepath != null && article != null)) {
+                        Log.i("_aaa", "Cas 2 : imagepath null ou non null et article non null");
+
+                        if (imagepath != null) {
+                            Log.i("_aaa", "On modifie l'image");
+                            // On upload le fichier image sur le serveur
+                            new UploadFileToServer().execute();
+
+                            article = new Article(
+                                    // On récupère l'id courant pour modifier le bon article en base
+                                    article.getIdArticle(),
+                                    et_reference.getText().toString(),
+                                    et_nomArticle.getText().toString(),
+                                    Float.parseFloat(et_prixArticle.getText().toString()),
+                                    sourceFile.getName(),
+                                    temp.getIdCateg()
+                            );
+                        } else {
+                            Log.i("_aaa", "On conserve l'image actuelle");
+                            article = new Article(
+                                    // On récupère l'id courant pour modifier le bon article en base
+                                    article.getIdArticle(),
+                                    et_reference.getText().toString(),
+                                    et_nomArticle.getText().toString(),
+                                    Float.parseFloat(et_prixArticle.getText().toString()),
+                                    article.getVisuelArticle(),
+                                    temp.getIdCateg());
+                            finish();
+                        }
+                        Log.i("_aca", "Modification d'une catégorie");
                         ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(article);
+
+                    } else {
+                        Log.i("_aca", "Cas 3 : imagepath null et article null");
+                        Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
         });

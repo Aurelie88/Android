@@ -24,6 +24,8 @@ import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 
 import java.util.ArrayList;
 
+import static com.iut.ecommerce.ecommerce.BoutiqueActivity.boutiqueActivity;
+
 
 public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener{
 
@@ -49,7 +51,6 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
     @Override
     public void onStart() {
         super.onStart();
-
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
 

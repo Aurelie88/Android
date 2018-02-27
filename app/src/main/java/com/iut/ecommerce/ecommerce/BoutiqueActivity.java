@@ -193,6 +193,7 @@ public class BoutiqueActivity extends AppCompatActivity
         // Ajout des fragments dans le viewPager
         // Lors du swipe, on bascule d'un fragment à l'autre
         if (savedInstanceState == null) {
+            setCurrentScreen(0);
             this.tabCategories = CategorieView.getInstance();
             this.tabArticles = ArticleView.getInstance();
             this.tabPromotions = PromotionView.getInstance();
@@ -202,6 +203,7 @@ public class BoutiqueActivity extends AppCompatActivity
             Log.e("_ba", getFragmentTag(2));
         } else {
             Integer count = savedInstanceState.getInt("tabsCount");
+            setCurrentScreen(savedInstanceState.getInt("currentScreen"));
             String[] titles = savedInstanceState.getStringArray("titles");
             for (int i = 0; i < count; i++) {
                 adapter.addFragment(getFragment(i), titles[i]);
@@ -240,6 +242,7 @@ public class BoutiqueActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("tabsCount",      adapter.getCount());
+        outState.putInt("currentScreen",      getCurrentScreen());
         outState.putStringArray("titles", adapter.getPageTitles().toArray(new String[0]));
     }
 

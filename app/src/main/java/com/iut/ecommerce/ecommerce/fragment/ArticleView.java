@@ -55,7 +55,6 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     @Override
     public void onStart() {
         super.onStart();
-
         setFilteredArticle(null);
 
         // Définition du nom de l'activité
@@ -201,4 +200,5 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     public void setPosition(int position) {
         this.position = position;
     }
+
 }
