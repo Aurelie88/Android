@@ -78,7 +78,7 @@ public class ArticleAdaptateur extends ArrayAdapter<Article> {
             // Définition d'un écouteur sur l'bitmapArrayList de suppression
             // On appelle le DeleteArticleListener qui appellera la boite de dialogue pour la suppression
             // IMPORTANT : On obtient le bon context grâce à getContext()
-            supprimer.setOnClickListener(new DeleteArticleListener(getArticle(), supprimer.getContext(), this));
+            supprimer.setOnClickListener(new DeleteArticleListener(getArticle(), supprimer.getContext()));
 
             // Définition d'un écouteur sur l'bitmapArrayList de modification
             // On appelle le ModifyArticleListener qui appellera l'activité pour la modification

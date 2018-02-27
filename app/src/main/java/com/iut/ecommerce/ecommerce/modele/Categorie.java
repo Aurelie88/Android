@@ -35,7 +35,7 @@ public class Categorie implements Comparable<Categorie>, Serializable {
     }
 
     public void setNomCateg(String nomCateg) {
-        this.nomCateg = nomCateg;
+        this.nomCateg = nomCateg.trim().toUpperCase();
     }
 
     public String getVisuelCateg() {

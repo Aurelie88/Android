@@ -37,7 +37,7 @@ public class Article implements Serializable{
     }
 
     public void setReference(String reference) {
-        this.reference = reference;
+        this.reference = reference.trim().toUpperCase();
     }
 
     public String getNomArticle() {
@@ -45,7 +45,7 @@ public class Article implements Serializable{
     }
 
     public void setNomArticle(String nomArticle) {
-        this.nomArticle = nomArticle;
+        this.nomArticle = nomArticle.trim().toUpperCase();
     }
 
     public float getTarif() {

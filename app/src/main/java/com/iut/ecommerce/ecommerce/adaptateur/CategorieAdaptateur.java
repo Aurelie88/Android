@@ -82,7 +82,7 @@ public class CategorieAdaptateur extends ArrayAdapter<Categorie> {
             // Définition d'un écouteur sur l'bitmapArrayList de suppression
             // On appelle le DeleteCategorieListener qui appellera la boite de dialogue pour la suppression
             // IMPORTANT : On obtient le bon context grâce à la vue view.getContext()
-            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext(), this));
+            supprimer.setOnClickListener(new DeleteCategorieListener(getCategorie(), supprimer.getContext()));
 
             // Définition d'un écouteur sur l'bitmapArrayList de modification
             // On appelle le ModifyCategorieListener qui appellera l'activité pour la modification

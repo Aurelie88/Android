@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
@@ -36,6 +37,7 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     private ListView listView;
     private Article article;
     private Article filteredArticle;
+    private int position;
 
     private static ArticleView articleView;
 
@@ -102,20 +104,23 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
         // Après création/modification/suppression, ajout d'éventuel message
         if ("supprimer".equals(resultat)) {
             Log.i("_S", "supprimer");
-
+            adaptateur.liste.remove(position);
+            adaptateur.notifyDataSetChanged();
+            Toast.makeText(getContext(), "Suppression effectuée", Toast.LENGTH_LONG).show();
         } else if ("modifier".equals(resultat)) {
             Log.i("_M", "modifier");
             BoutiqueActivity.boutiqueActivity.setCurrentFragment();
-
+            Toast.makeText(getContext(), "Modification effectuée", Toast.LENGTH_LONG).show();
         } else if ("creer".equals(resultat)){
             Log.i("_C", "creer");
             BoutiqueActivity.boutiqueActivity.setCurrentFragment();
-
+            Toast.makeText(getContext(), "Element crée", Toast.LENGTH_LONG).show();
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
-
+            Toast.makeText(getContext(), "Erreur lors de la suppression de l'article", Toast.LENGTH_LONG).show();
         } else {
             Log.i("_S", "autre erreur");
+            Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -187,5 +192,13 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
     public void setFilteredArticle(Article filteredArticle) {
         this.filteredArticle = filteredArticle;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

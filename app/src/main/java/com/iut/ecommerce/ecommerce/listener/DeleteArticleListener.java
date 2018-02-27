@@ -24,18 +24,15 @@ public class DeleteArticleListener implements DialogInterface.OnClickListener, V
 
     private Article article;
     private Context context;
-    private int position;
-    private ArticleAdaptateur articleAdaptateur;
 
-    public DeleteArticleListener(Article article, Context context, ArticleAdaptateur articleAdaptateur) {
+    public DeleteArticleListener(Article article, Context context) {
         this.article = article;
         this.context = context;
-        this.articleAdaptateur = articleAdaptateur;
     }
 
     @Override
     public void onClick(View view) {
-        this.position = (int) view.getTag();
+        ArticleView.getInstance().setPosition((int) view.getTag());
         // On affiche la noite de dialogue pour la suppression du message
         supprimerAlertDialog(this.context,"Supprimer", "Voulez-vous réellement supprimer l'élément sélectionné : ", this.article, this);
 
@@ -49,26 +46,5 @@ public class DeleteArticleListener implements DialogInterface.OnClickListener, V
         ArticleView articleView = ArticleView.getInstance();
         // On fait ici un appel à la base de données pour supprimer la catégorie
         ArticleDao.getInstance(articleView).delete(article);
-        // On passe en paramètre la catégorie à supprimer pour la categorieView
-        // On fait ici une suppression dans l'adpateur;
-        Log.i("_cat", article.getNomArticle());
-
-
-
-
-        Log.i("_cat", String.valueOf(position));
-        //CategorieAdaptateur.liste.remove(2);
-        //CategorieAdaptateur.getInstance(context).remove(categorie);
-
-        Log.i("adapDCL", this.articleAdaptateur+"");
-        Log.i("listeDCL_avantRemove", this.articleAdaptateur.liste.size() + "");
-
-        this.articleAdaptateur.liste.remove(position);
-
-        Log.i("listeDCL_apresRemove", this.articleAdaptateur.liste.size() + "");
-        this.articleAdaptateur.notifyDataSetChanged();
-        // On renvoie l'information que la suppression est terminée
-        CategorieView.getInstance().notifyRetourRequete("Supprimer");
-
     }
 }

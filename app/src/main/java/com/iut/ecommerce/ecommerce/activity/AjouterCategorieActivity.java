@@ -138,7 +138,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                         Log.i("_aca", "Modification d'une catégorie");
                         CategorieDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(categorie);
                     }
-                }else{
+                }else {
                     Toast.makeText(getApplicationContext(), "Merci de sélectionner un fichier image", Toast.LENGTH_SHORT).show();
                 }
             }
