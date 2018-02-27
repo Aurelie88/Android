@@ -71,4 +71,9 @@ public class Article implements Serializable{
     public void setIdCategorie(int idCategorie) {
         this.idCategorie = idCategorie;
     }
+
+    @Override
+    public String toString() {
+        return this.getNomArticle();
+    }
 }
