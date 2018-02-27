@@ -117,10 +117,10 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
             Toast.makeText(getContext(), "Element crée", Toast.LENGTH_LONG).show();
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
-            Toast.makeText(getContext(), "Erreur lors de la suppression de l'article", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Erreur lors de la suppression de l'article", Toast.LENGTH_LONG).show();
         } else {
             Log.i("_S", "autre erreur");
-            Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -39,7 +39,6 @@ public class DeletePromotionListener implements DialogInterface.OnClickListener,
         this.position = (int) view.getTag();
         // On affiche la noite de dialogue pour la suppression du message
         supprimerAlertDialog(this.context,"Supprimer", "Voulez-vous réellement supprimer l'élément sélectionné : ", this.promotion, this);
-
     }
 
 
@@ -50,26 +49,5 @@ public class DeletePromotionListener implements DialogInterface.OnClickListener,
         PromotionView promotionView = PromotionView.getInstance();
         // On fait ici un appel à la base de données pour supprimer la catégorie
         PromotionDao.getInstance(promotionView).delete(promotion);
-        // On passe en paramètre la catégorie à supprimer pour la categorieView
-        // On fait ici une suppression dans l'adpateur;
-        Log.i("_cat", promotion.toString());
-
-
-
-
-        Log.i("_cat", String.valueOf(position));
-        //CategorieAdaptateur.liste.remove(2);
-        //CategorieAdaptateur.getInstance(context).remove(categorie);
-
-        Log.i("adapDCL", this.promotionAdaptateur+"");
-        Log.i("listeDCL_avantRemove", this.promotionAdaptateur.liste.size() + "");
-
-        this.promotionAdaptateur.liste.remove(position);
-
-        Log.i("listeDCL_apresRemove", this.promotionAdaptateur.liste.size() + "");
-        this.promotionAdaptateur.notifyDataSetChanged();
-        // On renvoie l'information que la suppression est terminée
-        CategorieView.getInstance().notifyRetourRequete("Supprimer");
-
     }
 }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.BoutiqueActivity;
 import com.iut.ecommerce.ecommerce.R;
@@ -30,6 +31,7 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
     private PromotionAdaptateur adaptateur;
     private ListView listView;
     private Promotion promotion;
+    private int position;
 
     private static PromotionView promotionView;
 
@@ -55,6 +57,7 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
         this.listView = getActivity().findViewById(R.id.promoListView);
 
         // On supprime les promos éventuellement dépassées
+        // Cette suppression se fait en base de données
         PromotionDao.getInstance(this).check();
 
         // Récupération des éléments de la liste
@@ -98,20 +101,24 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
         // Après création/modification/suppression, ajout d'éventuel message
         if ("supprimer".equals(resultat)) {
             Log.i("_S", "supprimer");
-
+            // On fait ici une suppression dans l'adpateur;
+            adaptateur.liste.remove(getPosition());
+            adaptateur.notifyDataSetChanged();
+            Toast.makeText(getContext(), "Suppression effectuée", Toast.LENGTH_LONG).show();
         } else if ("modifier".equals(resultat)) {
             Log.i("_M", "modifier");
             BoutiqueActivity.boutiqueActivity.setCurrentFragment();
-
+            Toast.makeText(getContext(), "Modification effectuée", Toast.LENGTH_LONG).show();
         } else if ("creer".equals(resultat)){
             Log.i("_C", "creer");
             BoutiqueActivity.boutiqueActivity.setCurrentFragment();
-
+            Toast.makeText(getContext(), "Element crée", Toast.LENGTH_LONG).show();
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
-
+            //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
         } else {
             Log.i("_S", "autre erreur");
+            //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -156,5 +163,13 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
 
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

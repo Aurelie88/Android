@@ -42,8 +42,6 @@ public class ArticleAdaptateur extends ArrayAdapter<Article> {
         super(context, R.layout.item_list_article, liste);
         this.context = context;
         this.liste = liste;
-        Log.i("liste", liste + "");
-        Log.i("adap", this+"");
     }
 
     public Article getArticle() {

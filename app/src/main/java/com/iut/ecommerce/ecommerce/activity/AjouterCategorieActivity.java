@@ -24,10 +24,8 @@ import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
-import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
 import com.squareup.picasso.Picasso;
@@ -54,7 +52,6 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
     public DonutProgress donut_progress;
     private static final int REQUEST_WRITE_STORAGE = 112;
     private Categorie categorie = null;
-
     private ActiviteEnAttenteAvecResultat activite;
 
     @Override

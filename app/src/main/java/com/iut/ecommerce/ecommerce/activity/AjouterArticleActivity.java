@@ -164,8 +164,8 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                         // C'est une création, nous ne connaissons pas l'id, il vaudra -1
                         article = new Article(
                                 -1,
-                                et_nomArticle.getText().toString(),
                                 et_reference.getText().toString(),
+                                et_nomArticle.getText().toString(),
                                 Float.parseFloat(et_prixArticle.getText().toString()),
                                 sourceFile.getName(),
                                 temp.getIdCateg()
@@ -176,8 +176,8 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
                         article = new Article(
                                 // On récupère l'id courant pour modifier le bon article en base
                                 article.getIdArticle(),
-                                et_nomArticle.getText().toString(),
                                 et_reference.getText().toString(),
+                                et_nomArticle.getText().toString(),
                                 Float.parseFloat(et_prixArticle.getText().toString()),
                                 sourceFile.getName(),
                                 temp.getIdCateg()

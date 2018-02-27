@@ -6,17 +6,76 @@
     >
 
     <TextView
-
         android:id="@+id/cl_nom"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="100dp"
+        android:layout_height="32dp"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@id/cl_modifier"
-        android:text="This is a text"
-        android:layout_marginLeft="15dp"
+        android:text="100%"
         android:gravity="center_vertical"
+        android:textAlignment="center"
         android:textColor="#000"
         android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/cl_article"
+        android:layout_width="100dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:text="ARTICLE"
+        android:layout_below="@id/cl_nom"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20dp" />
+
+    <TextView
+
+        android:id="@+id/cl_debut"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_toEndOf="@id/cl_nom"
+        android:text="Debut : "
+        android:gravity="center_vertical"
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+    <TextView
+
+        android:id="@+id/cl_fin"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/cl_nom"
+        android:gravity="center_vertical"
+        android:text="Fin : "
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+
+    <TextView
+
+        android:id="@+id/cl_date_debut"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_toLeftOf="@id/cl_modifier"
+        android:layout_toRightOf="@id/cl_debut"
+        android:text="date_debut"
+        android:gravity="center_vertical"
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+    <TextView
+
+        android:id="@+id/cl_date_fin"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/cl_fin"
+        android:layout_toStartOf="@+id/cl_modifier"
+        android:gravity="center_vertical"
+        android:text="date_fin"
+        android:textColor="#000"
+        android:textSize="15dp" />
 
     <ImageView
 

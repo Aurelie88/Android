@@ -20,6 +20,8 @@ import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Promotion;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +36,9 @@ public class PromotionAdaptateur extends ArrayAdapter<Promotion> {
 
     //private ImageView icone;
     private TextView tvNom;
+    private TextView tvArticle;
+    private TextView tvdateDebut;
+    private TextView tvdateFin;
     private ImageView modifier;
     private ImageView supprimer;
 
@@ -42,8 +47,6 @@ public class PromotionAdaptateur extends ArrayAdapter<Promotion> {
         super(context, R.layout.item_list_promotion, liste);
         this.context = context;
         this.liste = liste;
-        Log.i("liste", liste + "");
-        Log.i("adap", this+"");
     }
 
     public Promotion getPromotion() {
@@ -69,6 +72,9 @@ public class PromotionAdaptateur extends ArrayAdapter<Promotion> {
             // On enregitre les éléments dans le ViewHolder pour un accès ultérieur
             modifier = convertView.findViewById(R.id.cl_modifier);
             tvNom = convertView.findViewById(R.id.cl_nom);
+            tvArticle = convertView.findViewById(R.id.cl_article);
+            tvdateDebut = convertView.findViewById(R.id.cl_date_debut);
+            tvdateFin = convertView.findViewById(R.id.cl_date_fin);
             //icone = convertView.findViewById(R.id.cl_visuel);
             supprimer = convertView.findViewById(R.id.cl_supprimer);
             supprimer.setTag(position);
@@ -87,6 +93,10 @@ public class PromotionAdaptateur extends ArrayAdapter<Promotion> {
 
         // On set le texte
         tvNom.setText(promotion.toString());
+        tvArticle.setText("");
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        tvdateDebut.setText(df.format(promotion.getDateDebut()));
+        tvdateFin.setText(df.format(promotion.getDateFin()));
 
         return convertView;
     }

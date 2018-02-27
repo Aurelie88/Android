@@ -103,7 +103,6 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
         // Après création/modification/suppression, ajout d'éventuel message
         if ("supprimer".equals(resultat)) {
             Log.i("_S", "supprimer");
-            // On passe en paramètre la catégorie à supprimer pour la categorieView
             // On fait ici une suppression dans l'adpateur;
             adaptateur.liste.remove(getPosition());
             adaptateur.notifyDataSetChanged();
@@ -121,11 +120,11 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
-            Toast.makeText(getContext(), "La catégorie contient encore des articles", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "La catégorie contient encore des articles", Toast.LENGTH_LONG).show();
 
         } else {
             Log.i("_S", "autre erreur");
-            Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
         }
     }
 

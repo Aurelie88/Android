@@ -115,6 +115,8 @@ public class PromotionDao implements Dao<Promotion> {
 
             Log.i("_ta", "Traitement du JSON promotion");
 
+            // Promotion attend une date, on est obligé de parser la chaîne de
+            // caractère, sinon on doit modifier l'objet promotion
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             //df.parse(row.getString("date_debut");
 

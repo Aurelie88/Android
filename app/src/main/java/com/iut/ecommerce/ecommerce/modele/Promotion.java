@@ -1,6 +1,8 @@
 package com.iut.ecommerce.ecommerce.modele;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -23,7 +25,7 @@ public class Promotion implements Serializable{
 
     @Override
     public String toString() {
-        return String.valueOf(pourcentage)+"%";
+        return "-"+String.valueOf(pourcentage)+"%";
     }
 
     public int getIdArticle() {
@@ -39,8 +41,8 @@ public class Promotion implements Serializable{
     }
 
     public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
-    }
+            this.dateDebut = dateDebut;
+        }
 
     public Date getDateFin() {
         return dateFin;
