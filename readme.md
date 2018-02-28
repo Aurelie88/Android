@@ -82,7 +82,8 @@ Le floating action button permet la création d'une nouvelle promotion. Lors de l
 
 Revoir le passage d'un écran à l'autre (ex: retour de modification d'un article renvoie sur l'écran des catégories)
 Améliorer le formatage des prix.
-Meilleur gestion de la rotation d'écran (perte de la fonction filtre aprés rotation, on doit pouvoir conserver le fragment ou l'état du fragment)
+Meilleur gestion de la rotation d'écran (perte de la fonction filtre aprés rotation, on doit pouvoir conserver le fragment ou l'état du fragment).
+Ecrans en mode paysage à faire
 Améliorer les performances (par exemple, en chargeant les images sur l'écran de démarrage (pour le moment uniquement esthétique)
 Partie Clients/Ventes à faire
 Refactoring
