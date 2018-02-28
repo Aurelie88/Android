@@ -25,6 +25,8 @@ import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
 import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 
+import java.util.List;
+
 public class BoutiqueActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -157,15 +159,15 @@ public class BoutiqueActivity extends AppCompatActivity
 
         if (id==0){
             // Ajouter catégorie
-            Intent appelActivite = new Intent(getFragment(0).getContext(), AjouterCategorieActivity.class);
+            Intent appelActivite = new Intent(this.adapter.getItem(0).getContext(), AjouterCategorieActivity.class);
             startActivityForResult(appelActivite, AJOUT_CATEGORIE);
         } else if (id==1) {
             // Ajouter article
-            Intent appelActivite = new Intent(getFragment(1).getContext(), AjouterArticleActivity.class);
+            Intent appelActivite = new Intent(this.adapter.getItem(1).getContext(), AjouterArticleActivity.class);
             startActivityForResult(appelActivite, AJOUT_ARTICLE);
         } else if (id==2) {
             // Ajouter promotion
-            Intent appelActivite = new Intent(getFragment(2).getContext(), AjouterPromotionActivity.class);
+            Intent appelActivite = new Intent(this.adapter.getItem(2).getContext(), AjouterPromotionActivity.class);
             startActivityForResult(appelActivite, AJOUT_PROMOTION);
         }
     }
@@ -186,6 +188,7 @@ public class BoutiqueActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         this.savedInstanceState = savedInstanceState;
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -200,50 +203,34 @@ public class BoutiqueActivity extends AppCompatActivity
             adapter.addFragment(this.tabCategories, "Catégories");
             adapter.addFragment(this.tabArticles, "Articles");
             adapter.addFragment(this.tabPromotions, "Promotions");
-            Log.e("_ba", getFragmentTag(2));
         } else {
-            Integer count = savedInstanceState.getInt("tabsCount");
-            setCurrentScreen(savedInstanceState.getInt("currentScreen"));
-            String[] titles = savedInstanceState.getStringArray("titles");
-            for (int i = 0; i < count; i++) {
-                adapter.addFragment(getFragment(i), titles[i]);
-            }
+            //Restaurer les instance de fragments
+            tabCategories = (CategorieView) getSupportFragmentManager().getFragment(savedInstanceState, "Catégories");
+            tabArticles = (ArticleView) getSupportFragmentManager().getFragment(savedInstanceState, "Articles");
+            tabPromotions = (PromotionView) getSupportFragmentManager().getFragment(savedInstanceState, "Promotions");
+            adapter.addFragment(this.tabCategories, "Catégories");
+            adapter.addFragment(this.tabArticles, "Articles");
+            adapter.addFragment(this.tabPromotions, "Promotions");
         }
+
         // Mise en place du menu dans le tiroir latéral
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         // Mise en place des onglets
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    public Fragment getFragment(int position){
-
-        if (this.savedInstanceState == null) {
-            Log.e("_ba" , adapter.getItem(position)+"");
-            return adapter.getItem(position);
-        } else {
-            Log.e("_ba" , getSupportFragmentManager().findFragmentByTag(getFragmentTag(position))+"");
-            if (getSupportFragmentManager().findFragmentByTag(getFragmentTag(position))==null) {
-                Log.e("_ba" , adapter.getItem(position)+"");
-                return adapter.getItem(position);
-            } else
-                return getSupportFragmentManager().findFragmentByTag(getFragmentTag(position));
-        }
-    }
-
-    private String getFragmentTag(int position) {
-        return "android:switcher:" + R.id.viewPager + ":" + position;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("tabsCount",      adapter.getCount());
-        outState.putInt("currentScreen",      getCurrentScreen());
-        outState.putStringArray("titles", adapter.getPageTitles().toArray(new String[0]));
+
+        //Sauvegarde des instances de fragments
+        getSupportFragmentManager().putFragment(outState, "Catégories", this.adapter.getItem(0));
+        getSupportFragmentManager().putFragment(outState, "Articles", this.adapter.getItem(1));
+        getSupportFragmentManager().putFragment(outState, "Promotions", this.adapter.getItem(2));
     }
 
     public void setCurrentFragment(){

@@ -32,6 +32,7 @@ import static com.iut.ecommerce.ecommerce.BoutiqueActivity.boutiqueActivity;
 
 public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResultat,  AdapterView.OnItemClickListener, Dialog.OnClickListener{
 
+    private Bundle savedInstanceState;
     public ArrayList<Article> liste = new ArrayList<Article>();
     private ArticleAdaptateur adaptateur;
     private ListView listView;
@@ -55,7 +56,13 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     @Override
     public void onStart() {
         super.onStart();
-        setFilteredArticle(null);
+
+        // On récupère la catégorie qui filtre la liste article si nécessaire
+        if (savedInstanceState != null) {
+            setFilteredArticle((Article) savedInstanceState.getSerializable("filteredArticle"));
+        } else {
+            setFilteredArticle(null);
+        }
 
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
@@ -74,7 +81,7 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
                 //check
                 int id_categorie = CategorieView.getInstance().getFilteredCategorie().getIdCateg();
                 ArticleDao.getInstance(this).filter(id_categorie);
-                Log.i("_av", "Filtrage des catégories");
+                Log.i("_av", "Filtrage des articles");
             } else {
                 setFilteredArticle(null);
                 ArticleDao.getInstance(this).findAll();
@@ -96,6 +103,8 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.savedInstanceState = savedInstanceState;
     }
 
     @Override
@@ -199,6 +208,13 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // On enregistre l'article qui sert de filtre
+        outState.putSerializable("filteredArticle",      getFilteredArticle());
     }
 
 }
