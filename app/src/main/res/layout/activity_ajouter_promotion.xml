@@ -11,7 +11,7 @@
         android:id="@+id/tv_dateDebut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date de début :"
+        android:text="@string/date_de_debut"
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/dateDebut"
-        android:hint="DD/MM/YYYY"
+        android:hint="@string/dd_mm_yyyy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/tv_dateDebut"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tv_dateFin"
-        android:hint="Date de fin :"
+        android:hint="@string/date_de_fin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_dateDebut"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/dateFin"
-        android:hint="DD/MM/YYYY"
+        android:hint="@string/dd_mm_yyyy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/dateDebut"
@@ -84,7 +84,7 @@
         android:id="@+id/tv_pourcentage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Poucentage de réduction :"
+        android:text="@string/poucentage_de_reduction"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -110,7 +110,7 @@
         android:id="@+id/buttonValider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enregistrer"
+        android:text="@string/enregistrer"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"

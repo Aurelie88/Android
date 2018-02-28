@@ -32,7 +32,7 @@ import java.util.Date;
 import static android.widget.Toast.LENGTH_LONG;
 import static java.lang.String.valueOf;
 
-public class AjouterPromotionActivity extends AppCompatActivity {
+public class AjouterPromotionActivity extends AppCompatActivity implements ActiviteEnAttenteAvecResultat {
 
     private TextView tv_pourcentage;
     private EditText et_pourcentage;
@@ -46,6 +46,10 @@ public class AjouterPromotionActivity extends AppCompatActivity {
     private TextView tv_dateFin;
     private TextView tv_dateDebut;
     private ActiviteEnAttenteAvecResultat activite;
+    private ArrayList<Categorie> temp_categorie;
+
+    private ArrayAdapter spinnerProduitArrayAdapter;
+    private ArrayAdapter spinnerArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,32 +67,41 @@ public class AjouterPromotionActivity extends AppCompatActivity {
 
         // Dans un premier temps, on désactive le spinner des articles
         // il sera réactivé lors du clique sur le spinner de catégorie
-        listeArticle.setEnabled(false);
+        //listeArticle.setEnabled(false);
 
         // Récupération de la liste de catégorie
-        final ArrayList<Categorie> temp_categorie = CategorieView.getInstance().liste;
+        temp_categorie = CategorieView.getInstance().liste;
+
 
         // Définition de la liste de catégorie
-        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp_categorie);
+        spinnerArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp_categorie);
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         listeCategorie.setAdapter(spinnerArrayAdapter);
 
+        // Indique l'activité appelante en attente d'un retour
+        activite = (ActiviteEnAttenteAvecResultat) ArticleView.getInstance();
+
+        //selection d'un element de la liste Categorie
         listeCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                listeArticle.setAdapter(null);
 
-                listeArticle.setEnabled(true);
+                //listeArticle.setEnabled(true);
                 Categorie currentCategorie = (Categorie) parent.getItemAtPosition(position);
-
+                Log.i("itemSelect", currentCategorie.getNomCateg());
                 // On appelle la base de données pour remplir la liste d'articles
                 ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).filter(currentCategorie.getIdCateg());
                 // Récupération de la liste des articles filtrées
-                final ArrayList<Article> temp_article = ArticleView.getInstance().liste;
+                ArrayList<Article> temp_article= ArticleView.getInstance().liste;
 
+                Log.i("temp_article", valueOf(temp_article));
                 // Quand c'est fini, on set notre spinner listeArtcle
-                ArrayAdapter spinnerProduitArrayAdapter = new ArrayAdapter(PromotionView.getInstance().getContext(), R.layout.support_simple_spinner_dropdown_item, temp_article);
+                spinnerProduitArrayAdapter = new ArrayAdapter(PromotionView.getInstance().getContext(), R.layout.support_simple_spinner_dropdown_item, temp_article);
                 spinnerProduitArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                 listeArticle.setAdapter(spinnerProduitArrayAdapter);
+
+
             }
 
             @Override
@@ -196,6 +209,17 @@ public class AjouterPromotionActivity extends AppCompatActivity {
         //boutonValider.setText(Integer.toString(daysdiff));
 
     }
+    @Override
+    public void notifyRetourRequeteFindAll(ArrayList liste) {
+        Log.i("retour requete", "ici");
+       /* this.temp_article.clear();
+        this.temp_article.addAll(liste);
+        Log.i("produits",valueOf(temp_article));
+        this.spinnerProduitArrayAdapter.notifyDataSetChanged();*/
+    }
 
-
+    @Override
+    public void notifyRetourRequete(String resultat) {
+        Log.i("retour requete", "ici");
+    }
 }

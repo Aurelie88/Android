@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="designation">Désignation</string>
-    <string name="reference">Référence</string>
-    <string name="prix">Prix</string>
-    <string name="valider">Valider</string>
+    <string name="designation">Désignation :</string>
+    <string name="reference">Référence :</string>
+    <string name="prix">Prix :</string>
+    <string name="valider">Valider </string>
     <string name="todo">TODO</string>
+    <string name="prix_de_l_article">Prix de l\'article :</string>
+    <string name="choisir_une_image">Choisir une Image</string>
+    <string name="choisir_la_categorie">Choisir la catégorie:</string>
+    <string name="enregistrer">Enregistrer</string>
+    <string name="nom_de_la_categorie">Nom de la catégorie</string>
+    <string name="visuel_de_la_categorie">Visuel de la catégorie :</string>
+    <string name="date_de_debut">Date de début :</string>
+    <string name="dd_mm_yyyy">DD/MM/YYYY</string>
+    <string name="date_de_fin">Date de fin :</string>
+    <string name="nom_de_l_article">Nom de l\'article :</string>
+    <string name="categorie">Catégorie:</string>
+    <string name="retour">Retour</string>
 </resources>

@@ -158,6 +158,7 @@ public class AjouterArticleActivity extends AppCompatActivity /*implements Activ
             @Override
             public void onClick(View view) {
 
+
                 Log.i("_aaa", "Ajout/Modification d'un article");
                 Categorie temp = (Categorie) spinner.getSelectedItem();
 
