@@ -21,6 +21,7 @@ import com.iut.ecommerce.ecommerce.activity.InfosArticleActivity;
 import com.iut.ecommerce.ecommerce.activity.InfosCategorieActivity;
 import com.iut.ecommerce.ecommerce.adaptateur.ArticleAdaptateur;
 import com.iut.ecommerce.ecommerce.dao.ArticleDao;
+import com.iut.ecommerce.ecommerce.dao.CategorieDao;
 import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
@@ -69,6 +70,9 @@ public class ArticleView extends Fragment implements ActiviteEnAttenteAvecResult
 
         // Définition de la listView
         this.listView = getActivity().findViewById(R.id.articleListView);
+
+        // Récupération des éléments de la liste
+        ArticleDao.getInstance(this).findAll();
 
     }
 
