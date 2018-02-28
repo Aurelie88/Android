@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.iut.ecommerce.ecommerce.listener.DeleteCategorieListener;
 import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.modele.Promotion;

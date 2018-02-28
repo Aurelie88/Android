@@ -15,10 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iut.ecommerce.ecommerce.R;
-import com.iut.ecommerce.ecommerce.dao.ArticleDao;
 import com.iut.ecommerce.ecommerce.fragment.ArticleView;
 import com.iut.ecommerce.ecommerce.fragment.CategorieView;
-import com.iut.ecommerce.ecommerce.fragment.PromotionView;
 import com.iut.ecommerce.ecommerce.modele.Article;
 import com.iut.ecommerce.ecommerce.modele.Categorie;
 import com.iut.ecommerce.ecommerce.utils.ActiviteEnAttenteAvecResultat;
@@ -32,7 +30,7 @@ import java.util.Date;
 import static android.widget.Toast.LENGTH_LONG;
 import static java.lang.String.valueOf;
 
-public class AjouterPromotionActivity extends AppCompatActivity implements ActiviteEnAttenteAvecResultat {
+public class AjouterPromotionActivity extends AppCompatActivity {
 
     private TextView tv_pourcentage;
     private EditText et_pourcentage;
@@ -47,9 +45,10 @@ public class AjouterPromotionActivity extends AppCompatActivity implements Activ
     private TextView tv_dateDebut;
     private ActiviteEnAttenteAvecResultat activite;
     private ArrayList<Categorie> temp_categorie;
-
-    private ArrayAdapter spinnerProduitArrayAdapter;
-    private ArrayAdapter spinnerArrayAdapter;
+    private ArrayList<Article> temp_article;
+    private ArrayList<Article> filtred_article;
+    private ArrayAdapter spinnerCategorieAdapter;
+    private ArrayAdapter spinnerArticleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,49 +64,32 @@ public class AjouterPromotionActivity extends AppCompatActivity implements Activ
         tv_dateDebut = (TextView) findViewById(R.id.tv_dateDebut);
         tv_dateFin = (TextView) findViewById(R.id.tv_dateFin);
 
+
+
         // Dans un premier temps, on désactive le spinner des articles
         // il sera réactivé lors du clique sur le spinner de catégorie
-        //listeArticle.setEnabled(false);
+        // listeArticle.setEnabled(false);
+
 
         // Récupération de la liste de catégorie
         temp_categorie = CategorieView.getInstance().liste;
-
-
         // Définition de la liste de catégorie
-        spinnerArrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp_categorie);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        listeCategorie.setAdapter(spinnerArrayAdapter);
+        spinnerCategorieAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, temp_categorie);
+        spinnerCategorieAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        listeCategorie.setAdapter(spinnerCategorieAdapter);
 
-        // Indique l'activité appelante en attente d'un retour
-        activite = (ActiviteEnAttenteAvecResultat) ArticleView.getInstance();
+        // On appelle la base de données pour remplir la liste d'articles
+        // ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) ArticleView.getInstance()).findAll();
+        // Récupération de la liste des articles non filtrés
+        temp_article = ArticleView.getInstance().liste;
+        filtred_article = new ArrayList<>();
+        spinnerArticleAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, filtred_article);
+        spinnerArticleAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        listeArticle.setAdapter(spinnerArticleAdapter);
+        listeArticle.setSelection(0 ,true);
 
-        //selection d'un element de la liste Categorie
-        listeCategorie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listeArticle.setAdapter(null);
-
-                //listeArticle.setEnabled(true);
-                Categorie currentCategorie = (Categorie) parent.getItemAtPosition(position);
-                Log.i("itemSelect", currentCategorie.getNomCateg());
-                // On appelle la base de données pour remplir la liste d'articles
-                ArticleDao.getInstance((ActiviteEnAttenteAvecResultat) activite).filter(currentCategorie.getIdCateg());
-                // Récupération de la liste des articles filtrées
-                ArrayList<Article> temp_article= ArticleView.getInstance().liste;
-
-                Log.i("temp_article", valueOf(temp_article));
-                // Quand c'est fini, on set notre spinner listeArtcle
-                spinnerProduitArrayAdapter = new ArrayAdapter(PromotionView.getInstance().getContext(), R.layout.support_simple_spinner_dropdown_item, temp_article);
-                spinnerProduitArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                listeArticle.setAdapter(spinnerProduitArrayAdapter);
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+        listeCategorie.setOnItemSelectedListener(new CategorieSpinnerClass());
+        listeArticle.setOnItemSelectedListener(new ArticleSpinnerClass());
 
         // Indique l'activité appelante en attente d'un retour
         activite = (ActiviteEnAttenteAvecResultat) ArticleView.getInstance();
@@ -209,17 +191,42 @@ public class AjouterPromotionActivity extends AppCompatActivity implements Activ
         //boutonValider.setText(Integer.toString(daysdiff));
 
     }
-    @Override
-    public void notifyRetourRequeteFindAll(ArrayList liste) {
-        Log.i("retour requete", "ici");
-       /* this.temp_article.clear();
-        this.temp_article.addAll(liste);
-        Log.i("produits",valueOf(temp_article));
-        this.spinnerProduitArrayAdapter.notifyDataSetChanged();*/
-    }
 
-    @Override
-    public void notifyRetourRequete(String resultat) {
-        Log.i("retour requete", "ici");
-    }
+        class CategorieSpinnerClass implements AdapterView.OnItemSelectedListener
+        {
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
+            {
+                listeArticle.setSelection(0);
+                Categorie temp = (Categorie) parent.getSelectedItem();
+                //Toast.makeText(v.getContext(), "Your choose : " + temp_categorie.get(position),Toast.LENGTH_SHORT).show();
+
+                filtred_article.clear();
+                for (Article i: temp_article) {
+                    if(i.getIdCategorie()==temp.getIdCateg()){
+                        filtred_article.add(i);
+                    }
+                }
+                spinnerArticleAdapter.notifyDataSetChanged();
+                listeArticle.setSelection(0);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        }
+
+        class ArticleSpinnerClass implements AdapterView.OnItemSelectedListener
+        {
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
+            {
+                //Toast.makeText(v.getContext(), "Your choose : " + temp_article.get(position),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        }
 }

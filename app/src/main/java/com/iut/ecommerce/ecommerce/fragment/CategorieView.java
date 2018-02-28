@@ -37,6 +37,7 @@ import static com.iut.ecommerce.ecommerce.BoutiqueActivity.getAppContext;
 
 public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResultat {
 
+    private Bundle savedInstanceState;
     public ArrayList<Categorie> liste = new ArrayList<Categorie>();
     private CategorieAdaptateur adaptateur;
     private ListView listView;
@@ -61,7 +62,13 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     public void onStart() {
         super.onStart();
 
-        setFilteredCategorie(null);
+        // On récupère la catégorie qui filtre la liste article si nécessaire
+        if (savedInstanceState != null) {
+            this.filteredCategorie = (Categorie) savedInstanceState.getSerializable("filteredCategorie");
+        } else {
+            setFilteredCategorie(null);
+        }
+
 
         // Définition du nom de l'activité
         getActivity().setTitle("Boutique");
@@ -96,6 +103,9 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.savedInstanceState = savedInstanceState;
+
     }
 
     @Override
@@ -192,5 +202,12 @@ public class CategorieView extends Fragment implements ActiviteEnAttenteAvecResu
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // On enregistre la catégorie qui sert de filtre
+        outState.putSerializable("filteredCategorie",      getFilteredCategorie());
     }
 }
