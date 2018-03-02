@@ -117,6 +117,9 @@ public class PromotionView extends Fragment implements ActiviteEnAttenteAvecResu
         } else if ("nok".equals("nok")) {
             Log.i("_S", "erreur surpression");
             //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();
+        } else if ("vide".equals("vide")) {
+            Log.i("_S", "article déjà en promotion");
+            Toast.makeText(getContext(), "L'article est déjà lié à une promotion", Toast.LENGTH_LONG).show();
         } else {
             Log.i("_S", "autre erreur");
             //Toast.makeText(getContext(), "Une erreur s'est produite", Toast.LENGTH_LONG).show();

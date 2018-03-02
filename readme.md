@@ -1,43 +1,43 @@
 eCommerce
 
-Damien GAIGA et Aurélie CUNY
+Damien GAIGA et AurÃ©lie CUNY
 
 ***************************
-/ Répartition des tâches  /
+/ RÃ©partition des tÃ¢ches  /
 ***************************
 
-Répartition globale des tâches à 50/50
+RÃ©partition globale des tÃ¢ches Ã  50/50
 
 
-Fonctionnalités du programme:
+FonctionnalitÃ©s du programme:
 
 
 ***************************
 / Navigation		  /
 ***************************
 
-Passer d'un onglet à l'autre:
+Passer d'un onglet Ã  l'autre:
 
-- Swipe sur les listView pour passer d'un onglet à l'autre
-- Clic sur le titre de l'onglet (pas de filtrage des données)
-- Clic sur l'icone Burger et puis sur le nom de l'onglet voulu (pas de filtrage des données)
+- Swipe sur les listView pour passer d'un onglet Ã  l'autre
+- Clic sur le titre de l'onglet (pas de filtrage des donnÃ©es)
+- Clic sur l'icone Burger et puis sur le nom de l'onglet voulu (pas de filtrage des donnÃ©es)
 
 
 
 ***************************
-/ Gestion des catégories. /
+/ Gestion des catÃ©gories. /
 ***************************
 
-La listView affiche l'îcone associée ainsi que le nom de la catégorie.
+La listView affiche l'Ã®cone associÃ©e ainsi que le nom de la catÃ©gorie.
 
-Un simple clic sur une catégorie bascule vers l'onglet des articles en appliquant un filtre par rapport à la catégorie choisie.
+Un simple clic sur une catÃ©gorie bascule vers l'onglet des articles en appliquant un filtre par rapport Ã  la catÃ©gorie choisie.
 
-Un clic long sur une catégorie permet d'afficher les détails de la catégorie.
-L'icone crayon permet de modifier la catégorie. Il est possible de choisir une image sur l'appareil et de l'uploader sur le seveur. L'image sera récupéré par l'application lorsque nécessaire.
+Un clic long sur une catÃ©gorie permet d'afficher les dÃ©tails de la catÃ©gorie.
+L'icone crayon permet de modifier la catÃ©gorie. Il est possible de choisir une image sur l'appareil et de l'uploader sur le seveur. L'image sera rÃ©cupÃ©rÃ© par l'application lorsque nÃ©cessaire.
 
-L'icone corbeille permet de supprimer une catégorie (affiche un avertissement au préalable).
+L'icone corbeille permet de supprimer une catÃ©gorie (affiche un avertissement au prÃ©alable).
 
-Le floating action button permet la création d'une nouvelle catégorie. Lors de la création, un contrôle des données est effectué avant validation (le nom de la catégorie ne peut-être vide).C'est aussi le cas pour la modification.
+Le floating action button permet la crÃ©ation d'une nouvelle catÃ©gorie. Lors de la crÃ©ation, un contrÃ´le des donnÃ©es est effectuÃ© avant validation (le nom de la catÃ©gorie ne peut-Ãªtre vide).C'est aussi le cas pour la modification.
 
 
 
@@ -45,45 +45,46 @@ Le floating action button permet la création d'une nouvelle catégorie. Lors de l
 / Gestion des articles /
 ************************
 
-La listView affiche l'îcone associée ainsi que le nom de l'article.
+La listView affiche l'Ã®cone associÃ©e ainsi que le nom de l'article.
 
-Un simple clic sur un article bascule vers l'onglet des promotions en appliquant un filtre par rapport à l'article choisi. Il n'y qu'une promotion possible par article.
+Un simple clic sur un article bascule vers l'onglet des promotions en appliquant un filtre par rapport Ã  l'article choisi. Il n'y qu'une promotion possible par article.
 
-Un clic long sur un article permet d'afficher les détails de l'article.
+Un clic long sur un article permet d'afficher les dÃ©tails de l'article.
 
-L'icone crayon permet de modifier l'article. Il est possible de choisir une image sur l'appareil et de l'uploader sur le seveur. L'image sera récupéré par l'application lorsque nécessaire.
+L'icone crayon permet de modifier l'article. Il est possible de choisir une image sur l'appareil et de l'uploader sur le seveur. L'image sera rÃ©cupÃ©rÃ© par l'application lorsque nÃ©cessaire.
 
-L'icone corbeille permet de supprimer un article (affiche un avertissement au préalable).
+L'icone corbeille permet de supprimer un article (affiche un avertissement au prÃ©alable).
 
-Le floating action button permet la création d'un nouvel article. Lors de la création, un contrôle des données est effectué avant validation (le nom de l'article, la référence et le prix ne peuvent-être vides). Le prix impose une valeur numérique supérieure ou égale à 0. Une image doit-être ajouté à la création de l'article. La catégorie doit être choisie par l'utilisateur, dans le cas contraire, c'est le premier élément de la liste qui sera utilisé comme catégorie.C'est aussi le cas pour la modification.
+Le floating action button permet la crÃ©ation d'un nouvel article. Lors de la crÃ©ation, un contrÃ´le des donnÃ©es est effectuÃ© avant validation (le nom de l'article, la rÃ©fÃ©rence et le prix ne peuvent-Ãªtre vides). Le prix impose une valeur numÃ©rique supÃ©rieure ou Ã©gale Ã  0. Une image doit-Ãªtre ajoutÃ© Ã  la crÃ©ation de l'article. La catÃ©gorie doit Ãªtre choisie par l'utilisateur, dans le cas contraire, c'est le premier Ã©lÃ©ment de la liste qui sera utilisÃ© comme catÃ©gorie.C'est aussi le cas pour la modification.
 
 
 **************************
 / Gestion des promotions /
 **************************
 
-La listView affiche la promotion accordée en pourcent ainsi que la date de début et de fin de la promotion.
+La listView affiche la promotion accordÃ©e en pourcent ainsi que la date de dÃ©but et de fin de la promotion.
 
 PAS d'action au simple clic
 
-Un clic long sur une promotion permet d'afficher les détails de la promotion.
-
 L'icone crayon permet de modifier la promotion.
 
-L'icone corbeille permet de supprimer une promtion (affiche un avertissement au préalable).
+L'icone corbeille permet de supprimer une promotion (affiche un avertissement au prÃ©alable).
 
-Le floating action button permet la création d'une nouvelle promotion. Lors de la création, un contrôle des données est effectué avant validation (La date de début ne peut-être postérieure à la date de fin, la remise est une valeur numérique qui ne peut-être supérieur à 100% ou inférieur à 0%). La promotion doit s'appliquer à au moins 1 article. C'est aussi le cas pour la modification.
+Le floating action button permet la crÃ©ation d'une nouvelle promotion. Lors de la crÃ©ation, un contrÃ´le des donnÃ©es est effectuÃ© avant validation (La date de dÃ©but ne peut-Ãªtre postÃ©rieure Ã  la date de fin, la remise est une valeur numÃ©rique qui ne peut-Ãªtre supÃ©rieur Ã  100% ou infÃ©rieur Ã  0%). La promotion doit s'appliquer Ã  au moins 1 article. C'est aussi le cas pour la modification.
 
 
 
 ***************************
-/ Amélioration à apporter /
+/ AmÃ©lioration Ã  apporter /
 ***************************
 
-Revoir le passage d'un écran à l'autre (ex: retour de modification d'un article renvoie sur l'écran des catégories)
-Améliorer le formatage des prix.
-Meilleur gestion de la rotation d'écran (perte de la fonction filtre aprés rotation, on doit pouvoir conserver le fragment ou l'état du fragment).
-Ecrans en mode paysage à faire
-Améliorer les performances (par exemple, en chargeant les images sur l'écran de démarrage (pour le moment uniquement esthétique)
-Partie Clients/Ventes à faire
+Revoir le passage d'un Ã©cran Ã  l'autre (ex: retour de modification d'un article renvoie sur l'Ã©cran des catÃ©gories)
+AmÃ©liorer le formatage des prix.
+Meilleur gestion de la rotation d'Ã©cran (perte de la fonction filtre aprÃ©s rotation, on doit pouvoir conserver le fragment ou l'Ã©tat du fragment).
+Ecrans en mode paysage Ã  faire
+AmÃ©liorer les performances (par exemple, en chargeant les images sur l'Ã©cran de dÃ©marrage (pour le moment uniquement esthÃ©tique)
+Partie Clients/Ventes Ã  faire
 Refactoring
+
+A rajouter : Un clic long sur une promotion permet d'afficher les dÃ©tails de la promotion.
+Quelques bugs Ã  corriger sur la partie promotion

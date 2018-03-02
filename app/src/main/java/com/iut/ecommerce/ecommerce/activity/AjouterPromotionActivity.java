@@ -210,9 +210,11 @@ public class AjouterPromotionActivity extends AppCompatActivity {
                     if (getIntent().getExtras() != null) {
                         Log.i("update","intent");
                         PromotionDao.getInstance((ActiviteEnAttenteAvecResultat) activite).update(promotion);
+                        finish();
                     }
                     else{
                         PromotionDao.getInstance((ActiviteEnAttenteAvecResultat)activite).create(promotion);
+                        finish();
                     }
 
             }

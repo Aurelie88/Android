@@ -134,7 +134,7 @@ public class AjouterCategorieActivity extends AppCompatActivity /*implements Vie
                     et_nomCategorie.setBackground(shape);
                 // Si c'est bon, on peut tenter d'ajouter les infos à la BDD
                 } else {
-                    Log.i("_aca", "Valeur de la catégorie : "+categorie.toString());
+                    // Log.i("_aca", "Valeur de la catégorie : "+categorie.toString());
                     if (imagepath != null && categorie == null) {
                         Log.i("_aca", "Cas 1 : imagepath non null et categorie null");
                         // On upload le fichier image sur le serveur
