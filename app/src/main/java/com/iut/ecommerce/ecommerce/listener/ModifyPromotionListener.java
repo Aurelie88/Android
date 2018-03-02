@@ -28,7 +28,7 @@ public class ModifyPromotionListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this.context, AjouterPromotionActivity.class);
-        intent.putExtra("nom", this.promotion.toString());
+        intent.putExtra("nom", this.promotion);
         // Le cast permet d'accéder à la méthode startActivityForResult
         ((Activity) this.context).startActivityForResult(intent, MODIFICATION_PROMOTION);
     }

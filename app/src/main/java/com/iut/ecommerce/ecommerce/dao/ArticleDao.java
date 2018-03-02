@@ -45,6 +45,10 @@ public class ArticleDao implements Dao<Article> {
         this.activite = activite;
     }
 
+    public void findCategorie(int id){
+        RequeteSQLArticle req = new RequeteSQLArticle(activite, this);
+        req.execute(URL+"idCateg.php?id="+id);
+    }
     @Override
     public void findAll() {
         RequeteSQLArticle req = new RequeteSQLArticle(activite, this);

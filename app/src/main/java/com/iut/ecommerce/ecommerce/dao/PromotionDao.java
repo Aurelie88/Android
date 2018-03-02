@@ -60,20 +60,31 @@ public class PromotionDao implements Dao<Promotion> {
 
     @Override
     public void create(Promotion promotion) {
+        //formatter les dates pour les requetes
+        SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd");
+        String dateDebut = format.format(promotion.getDateDebut());
+        String dateFin =format.format(promotion.getDateFin());
+
+
         RequeteSQLPromotion req = new RequeteSQLPromotion(activite, this);
         Log.i("create", "Création d'une nouvelle entrée en base");
         String url = URL + "create.php";
-        String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + promotion.getDateDebut() + "&date_fin=" + promotion.getDateFin();
+        String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + dateDebut + "&date_fin=" + dateFin;
         Log.i("_pd", url+params);
         req.execute(url + params);
     }
 
     @Override
     public void update(Promotion promotion) {
+        //formatter les dates pour les requetes
+        SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd");
+        String dateDebut = format.format(promotion.getDateDebut());
+        String dateFin =format.format(promotion.getDateFin());
+
         RequeteSQLPromotion req = new RequeteSQLPromotion(activite, this);
         Log.i("update", "Modification d'une entrée en base");
         String url = URL + "update.php";
-        String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + promotion.getDateDebut() + "&date_fin=" + promotion.getDateFin();
+        String params = "?id_article_fk=" + promotion.getIdArticle() + "&pourcentage=" + promotion.getPourcentage() + "&date_debut=" + dateDebut + "&date_fin=" + dateFin;
         Log.i("_pd", url+params);
         req.execute(url + params);
     }
